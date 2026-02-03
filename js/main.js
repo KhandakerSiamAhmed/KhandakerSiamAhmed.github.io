@@ -12,17 +12,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Parallel Fetching for speed
-        const [configRes, expRes, projRes, skillRes, achRes] = await Promise.all([
+        const [configRes, expRes, projRes, skillRes, achRes, eduRes] = await Promise.all([
             supabaseClient.from('config').select('*').eq('key', 'global').single(),
-            supabaseClient.from('experience').select('*').order('date', { ascending: false }), // We'll sort by text properly in UI if needed, or rely on inserted order
+            supabaseClient.from('experience').select('*').order('date', { ascending: false }),
             supabaseClient.from('projects').select('*').order('created_at', { ascending: false }),
             supabaseClient.from('skills').select('*'),
-            supabaseClient.from('achievements').select('*')
+            supabaseClient.from('achievements').select('*'),
+            supabaseClient.from('education').select('*').order('start_year', { ascending: false })
         ]);
 
         renderConfig(configRes.data?.value);
         renderExperience(expRes.data);
         renderProjects(projRes.data);
+        renderEducation(eduRes.data);
         renderSkills(skillRes.data);
         renderAchievements(achRes.data);
 
@@ -182,6 +184,30 @@ function renderSkills(items) {
     const container = document.getElementById('skills-list');
     container.innerHTML = items.map(item => `
         <span class="skill-pill">${item.name}</span>
+    `).join('');
+}
+
+function renderEducation(items) {
+    if (!items || items.length === 0) return;
+    const container = document.getElementById('education-grid');
+    container.innerHTML = items.map(item => `
+        <article class="project-card">
+            ${item.imageurl ? `
+                <div class="project-image">
+                    <img src="${item.imageurl}" alt="${item.school}" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            ` : ''}
+            <div class="project-content" style="padding: 2rem;">
+                <div class="project-header">
+                    <span class="project-status" style="border-color: var(--text-secondary); color: var(--text-secondary);">
+                        ${item.start_year} - ${item.end_year || 'Present'}
+                    </span>
+                </div>
+                <h3 class="project-title" style="margin-top: 0.5rem;">${item.school}</h3>
+                <span class="project-category" style="display: block; margin-bottom: 0.5rem;">${item.major}</span>
+                ${item.cgpa ? `<p class="project-description">CGPA: <strong>${item.cgpa}</strong></p>` : ''}
+            </div>
+        </article>
     `).join('');
 }
 
