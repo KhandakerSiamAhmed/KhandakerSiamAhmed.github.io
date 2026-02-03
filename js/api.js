@@ -27,3 +27,14 @@ export async function fetchPortfolioData() {
         throw err;
     }
 }
+
+export async function submitMessage(payload) {
+    if (typeof supabaseClient === 'undefined') throw new Error('Supabase client not initialized');
+
+    const { error } = await supabaseClient
+        .from('messages')
+        .insert([payload]);
+
+    if (error) throw error;
+    return true;
+}
