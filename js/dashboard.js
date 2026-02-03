@@ -248,6 +248,26 @@ function renderAchievementItem(item) {
     </div>`;
 }
 
+function renderEducationItem(item) {
+    return `
+    <div class="list-item">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            ${item.imageurl
+            ? `<img src="${item.imageurl}" alt="Education Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">`
+            : `<div style="width: 50px; height: 50px; background: #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.8rem;">No Img</div>`
+        }
+            <div>
+                <strong>${item.school}</strong><br>
+                <small>${item.major}</small>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="btn-edit" onclick="editItem('education', '${item.id}')">Edit</button>
+            <button class="btn-delete" onclick="deleteItem('education', '${item.id}')">Delete</button>
+        </div>
+    </div>`;
+}
+
 /* 3. Skills */
 async function loadSkills() {
     const { data } = await supabaseClient.from('skills').select('*');
@@ -306,6 +326,14 @@ const schemas = {
         { name: 'category', label: 'Category', type: 'text' },
         { name: 'icon', label: 'Icon (SVG String)', type: 'textarea' },
         { name: 'imageurl', label: 'Achievement Image', type: 'file' }
+    ],
+    education: [
+        { name: 'school', label: 'School / University', type: 'text' },
+        { name: 'major', label: 'Major / Degree', type: 'text' },
+        { name: 'start_year', label: 'Starting Year', type: 'text' },
+        { name: 'end_year', label: 'Completion / Expected Year', type: 'text' },
+        { name: 'cgpa', label: 'CGPA (Optional)', type: 'text' },
+        { name: 'imageurl', label: 'Institution Logo/Image', type: 'file' }
     ]
 };
 
@@ -415,6 +443,7 @@ function loadAllData() {
     loadGeneral();
     loadCollection('experience', 'experience-list', renderExperienceItem);
     loadCollection('projects', 'projects-list', renderProjectItem);
+    loadCollection('education', 'education-list', renderEducationItem);
     loadCollection('achievements', 'achievements-list', renderAchievementItem);
     loadSkills();
 }
