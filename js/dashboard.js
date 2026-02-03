@@ -357,12 +357,14 @@ const schemas = {
         { name: 'status', label: 'Status', type: 'text' },
         { name: 'techstack', label: 'Tech Stack (comma separated)', type: 'text' },
         { name: 'link', label: 'Project Link', type: 'text' },
+        { name: 'youtubeurl', label: 'YouTube Video URL (Optional)', type: 'text' },
         { name: 'imageurl', label: 'Thumbnail (Square Logo)', type: 'file' },
         { name: 'bannerurl', label: 'Detail Banner (Free Size)', type: 'file' }
     ],
     achievements: [
         { name: 'title', label: 'Title', type: 'text' },
         { name: 'category', label: 'Category', type: 'text' },
+        { name: 'youtubeurl', label: 'YouTube Video URL (Optional)', type: 'text' },
         { name: 'icon', label: 'Icon (SVG String)', type: 'textarea' },
         { name: 'imageurl', label: 'Thumbnail (Square)', type: 'file' },
         { name: 'bannerurl', label: 'Detail Banner (Free Size)', type: 'file' }
@@ -373,6 +375,7 @@ const schemas = {
         { name: 'start_year', label: 'Starting Year', type: 'text' },
         { name: 'end_year', label: 'Completion / Expected Year', type: 'text' },
         { name: 'cgpa', label: 'CGPA (Optional)', type: 'text' },
+        { name: 'youtubeurl', label: 'YouTube Video URL (Optional)', type: 'text' },
         { name: 'imageurl', label: 'Logo (Square)', type: 'file' },
         { name: 'bannerurl', label: 'Campus/Detail Image (Free Size)', type: 'file' }
     ]

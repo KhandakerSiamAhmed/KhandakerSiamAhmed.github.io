@@ -249,15 +249,32 @@ window.openDetails = (item) => {
     // Choose Banner (Priority) or Thumbnail or Placeholder
     const bannerImg = item.bannerurl || item.imageurl;
 
+    // YouTube Helper
+    const getYouTubeEmbedUrl = (url) => {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+    };
+    const embedUrl = getYouTubeEmbedUrl(item.youtubeurl);
+
+
     // Determine Type (Project, Edu, Achievement) based on fields
     // Projects have 'techstack', Edu has 'school', Achievement has 'icon' or 'category'
     const isEdu = item.school !== undefined;
 
     let contentHTML = '';
 
-    if (bannerImg) {
+    if (embedUrl) {
+        contentHTML += `
+            <div class="video-container">
+                <iframe src="${embedUrl}" allowfullscreen></iframe>
+            </div>
+        `;
+    } else if (bannerImg) {
         contentHTML += `<img src="${bannerImg}" class="modal-banner" alt="Banner">`;
     }
+
 
     contentHTML += `<div class="modal-header">`;
 
