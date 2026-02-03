@@ -154,14 +154,13 @@ svg {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 8rem 2rem 4rem;
+    padding: 6rem 2rem 4rem;
     position: relative;
 }
 
 .hero-image-container {
-    width: 300px;
-    /* Adjusted size */
-    margin-bottom: 2.5rem;
+    width: 260px;
+    margin-bottom: 1.5rem;
     position: relative;
     /* Optional: subtle glow behind the head */
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.05));
