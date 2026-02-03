@@ -619,19 +619,19 @@ svg {
     }
 }
 
-/* Details Modal */
+/* Details Modal (Full Window) */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(5px);
+    background: var(--bg-primary);
+    /* Full solid background */
     z-index: 10000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
+    display: none;
+    /* Controlled by JS flex */
+    padding: 0;
     opacity: 0;
-    animation: fadeIn 0.3s forwards;
+    animation: fadeIn 0.4s forwards;
+    overflow-y: auto;
 }
 
 @keyframes fadeIn {
@@ -641,39 +641,76 @@ svg {
 }
 
 .modal-content {
-    background: var(--bg-card);
+    background: var(--bg-primary);
     width: 100%;
-    max-width: 900px;
-    max-height: 90vh;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
+    min-height: 100vh;
+    border: none;
     position: relative;
-    overflow-y: auto;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: none;
+    padding-bottom: 5rem;
 }
 
 .modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    background: none;
+    position: fixed;
+    top: 2rem;
+    right: 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--text-primary);
-    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
     cursor: pointer;
-    z-index: 10;
-    line-height: 1;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
 }
 
 .modal-body {
     padding: 0;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .modal-banner {
     width: 100%;
-    height: 300px;
+    height: 60vh;
     object-fit: cover;
     display: block;
+    mask-image: linear-gradient(to bottom, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent);
+}
+
+/* YouTube Embed Container */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 .modal-header {
