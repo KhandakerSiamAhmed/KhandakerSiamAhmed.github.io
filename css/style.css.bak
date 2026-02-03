@@ -160,11 +160,10 @@ svg {
 
 .hero-image-container {
     width: 260px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     position: relative;
-    /* Soften edges to blend into background */
-    mask-image: radial-gradient(circle at center, black 30%, transparent 95%);
-    -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 95%);
+    /* Optional: subtle glow behind the head */
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.05));
 }
 
 .hero-image-container svg,
@@ -172,16 +171,15 @@ svg {
     width: 100%;
     height: auto;
     object-fit: contain;
+    /* Ensuring the SVG matches the 'monochrome' vibe */
+    filter: grayscale(100%);
     transition: var(--transition);
-}
-
-.hero-image-container:hover {
-    transform: scale(1.02);
 }
 
 .hero-image-container:hover svg,
 .hero-image-container:hover img {
-    filter: brightness(1.1);
+    filter: grayscale(0%);
+    transform: scale(1.02);
 }
 
 .hero-title {
