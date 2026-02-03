@@ -58,10 +58,10 @@ if (contactForm) {
         const originalBtnText = submitBtn.innerText;
 
         // Reset status
-        contactStatus.innerText = 'Sending...';
-        contactStatus.className = '';
+        contactStatus.innerText = 'Sending message...';
+        contactStatus.className = 'status-msg';
+        contactStatus.style.display = 'block';
         submitBtn.disabled = true;
-        submitBtn.innerText = 'Sending...';
 
         try {
             const formData = new FormData(contactForm);
@@ -73,16 +73,15 @@ if (contactForm) {
 
             await submitMessage(payload);
 
-            contactStatus.innerText = 'Message sent successfully! I will get back to you soon.';
-            contactStatus.className = 'success';
+            contactStatus.innerText = 'Success! Your message has been sent.';
+            contactStatus.className = 'status-msg success';
             contactForm.reset();
         } catch (err) {
             console.error("Form error:", err);
-            contactStatus.innerText = 'Failed to send message. Please try again or email me directly.';
-            contactStatus.className = 'error';
+            contactStatus.innerText = 'Oops! Failed to send. Please try again or email me.';
+            contactStatus.className = 'status-msg error';
         } finally {
             submitBtn.disabled = false;
-            submitBtn.innerText = originalBtnText;
         }
     });
 }
