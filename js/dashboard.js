@@ -80,6 +80,7 @@ async function loadGeneral() {
         const val = data.value;
         document.getElementById('heroName').value = val.heroName || '';
         document.getElementById('heroSubtitle').value = val.heroSubtitle || '';
+        document.getElementById('themeSelect').value = val.theme || 'default'; // Load theme
         document.getElementById('aboutText').value = val.aboutText || '';
         document.getElementById('resumeUrl').value = val.resumeUrl || '';
         document.getElementById('linkedinUrl').value = val.socials?.linkedin || '';
@@ -108,6 +109,7 @@ document.getElementById('general-form').addEventListener('submit', async (e) => 
     const payload = {
         heroName: document.getElementById('heroName').value,
         heroSubtitle: document.getElementById('heroSubtitle').value,
+        theme: document.getElementById('themeSelect').value, // Save theme
         aboutText: document.getElementById('aboutText').value,
         resumeUrl: document.getElementById('resumeUrl').value,
         profileImage: imageUrl,
@@ -169,7 +171,11 @@ function renderExperienceItem(item) {
 function renderProjectItem(item) {
     return `
     <div class="list-item">
-        <div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            ${item.imageurl
+            ? `<img src="${item.imageurl}" alt="Project Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">`
+            : `<div style="width: 50px; height: 50px; background: #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.8rem;">No Img</div>`
+        }
             <strong>${item.title}</strong>
         </div>
         <div class="actions">
