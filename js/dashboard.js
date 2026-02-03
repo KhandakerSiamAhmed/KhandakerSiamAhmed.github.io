@@ -131,6 +131,15 @@ document.getElementById('general-form').addEventListener('submit', async (e) => 
 });
 
 
+window.resetProfileImage = () => {
+    const defaultPath = 'assets/Khandaker%20Siam%20Ahmed.svg';
+    document.getElementById('profileImageUrl').value = defaultPath;
+    document.getElementById('profilePreview').src = defaultPath;
+    document.getElementById('profileImageInput').value = ''; // Clear file selection
+    alert("Profile image set to default. Remember to click 'Save Changes' to apply!");
+};
+
+
 /* Theme Logic */
 const availableThemes = [
     { id: 'default', name: 'Dark Minimalist', bg: '#050505', sec: '#111111', txt: '#ffffff' },
