@@ -462,6 +462,22 @@ svg {
     flex-grow: 1;
 }
 
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.tech-tag {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
 /* About / Experience / Skills - Cleaned Up */
 .about-content {
     display: grid;

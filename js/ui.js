@@ -146,7 +146,7 @@ function renderProjects(items) {
                 <h3 class="project-title">${item.title}</h3>
                 <p class="project-description">${item.description ? item.description.substring(0, 100) + '...' : ''}</p>
                 <div class="project-tech">
-                    ${(item.techstack || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                    ${(Array.isArray(item.techstack) ? item.techstack : (item.techstack ? item.techstack.split(',').map(s => s.trim()) : [])).map(t => `<span class="tech-tag">${t}</span>`).join('')}
                 </div>
             </div>
         </article>
