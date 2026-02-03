@@ -234,7 +234,11 @@ function renderProjectItem(item) {
 function renderAchievementItem(item) {
     return `
     <div class="list-item">
-        <div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            ${item.imageurl
+            ? `<img src="${item.imageurl}" alt="Achievement Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">`
+            : `<div style="width: 50px; height: 50px; background: #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.8rem;">No Img</div>`
+        }
             <strong>${item.title}</strong>
         </div>
         <div class="actions">
@@ -300,7 +304,8 @@ const schemas = {
     achievements: [
         { name: 'title', label: 'Title', type: 'text' },
         { name: 'category', label: 'Category', type: 'text' },
-        { name: 'icon', label: 'Icon (SVG String)', type: 'textarea' }
+        { name: 'icon', label: 'Icon (SVG String)', type: 'textarea' },
+        { name: 'imageurl', label: 'Achievement Image', type: 'file' }
     ]
 };
 
