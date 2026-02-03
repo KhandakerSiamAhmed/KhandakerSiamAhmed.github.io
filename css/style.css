@@ -212,8 +212,8 @@ svg {
 }
 
 .hero-title {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    /* Responsive font size */
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    /* Reduced to fit on one line */
     font-weight: 800;
     letter-spacing: -0.03em;
     margin-bottom: 1rem;
