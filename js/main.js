@@ -189,11 +189,18 @@ function renderAchievements(items) {
     if (!items || items.length === 0) return;
     const container = document.getElementById('achievements-grid');
     container.innerHTML = items.map(item => `
-        <div class="project-card" style="padding: 2rem;">
-            ${item.icon ? `<div style="margin-bottom: 1rem;">${item.icon}</div>` : ''}
-            <span class="project-category">${item.category}</span>
-            <h3 class="project-title">${item.title}</h3>
-            ${item.date ? `<span style="font-size:0.8rem; opacity:0.7">${item.date}</span>` : ''}
+        <div class="project-card">
+            ${item.imageurl ? `
+                <div class="project-image">
+                    <img src="${item.imageurl}" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            ` : ''}
+            <div class="project-content" style="padding: 2rem;">
+                ${item.icon && !item.imageurl ? `<div style="margin-bottom: 1rem;">${item.icon}</div>` : ''}
+                <span class="project-category">${item.category}</span>
+                <h3 class="project-title">${item.title}</h3>
+                ${item.date ? `<span style="font-size:0.8rem; opacity:0.7">${item.date}</span>` : ''}
+            </div>
         </div>
     `).join('');
 }
