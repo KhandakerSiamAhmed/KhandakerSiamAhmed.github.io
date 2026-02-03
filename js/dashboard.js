@@ -257,8 +257,11 @@ function renderEducationItem(item) {
             : `<div style="width: 50px; height: 50px; background: #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #555; font-size: 0.8rem;">No Img</div>`
         }
             <div>
-                <strong>${item.school}</strong><br>
-                <small>${item.major}</small>
+                <strong>${item.school}</strong>
+                <div style="font-size: 0.85rem; color: #666;">
+                    ${item.major} • ${item.start_year || ''}-${item.end_year || 'Present'}
+                    ${item.cgpa ? ` • CGPA: ${item.cgpa}` : ''}
+                </div>
             </div>
         </div>
         <div class="actions">
