@@ -136,11 +136,13 @@ async function loadGeneral() {
         if (val.profileImage) {
             document.getElementById('profileImageUrl').value = val.profileImage;
             document.getElementById('profilePreview').src = val.profileImage;
+            document.getElementById('crop-controls').classList.remove('hidden');
         }
 
         renderPhotoStyles(val.heroPhotoStyle);
     }
 }
+
 
 document.getElementById('general-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -152,7 +154,13 @@ document.getElementById('general-form').addEventListener('submit', async (e) => 
 
     if (fileInput.files[0]) {
         imageUrl = await uploadFile(fileInput.files[0], 'profile');
+        document.getElementById('profileImageUrl').value = imageUrl;
+        document.getElementById('profilePreview').src = imageUrl;
+        document.getElementById('crop-controls').classList.remove('hidden');
+        // Auto-open cropper for new uploads
+        openCropModal();
     }
+
 
     // Update global config object
     globalConfig.heroName = document.getElementById('heroName').value;
@@ -160,6 +168,8 @@ document.getElementById('general-form').addEventListener('submit', async (e) => 
     globalConfig.aboutText = document.getElementById('aboutText').value;
     globalConfig.resumeUrl = document.getElementById('resumeUrl').value;
     globalConfig.profileImage = imageUrl;
+    // Crop data is saved separately when "Apply Crop" is clicked or already in globalConfig
+
     globalConfig.heroPhotoStyle = document.getElementById('heroPhotoStyle').value;
     globalConfig.socials = {
         linkedin: document.getElementById('linkedinUrl').value,
@@ -271,6 +281,73 @@ window.saveThemeConfig = async () => {
     if (error) alert('Error: ' + error.message);
     else alert('Theme Applied!');
 }
+
+/* Cropper Instance */
+let cropper = null;
+
+window.openCropModal = () => {
+    const imageUrl = document.getElementById('profileImageUrl').value;
+    if (!imageUrl) return;
+
+    const modal = document.getElementById('crop-modal');
+    const image = document.getElementById('cropper-image');
+
+    modal.classList.remove('hidden');
+    image.src = imageUrl;
+
+    if (cropper) {
+        cropper.destroy();
+    }
+
+    cropper = new Cropper(image, {
+        aspectRatio: 1, // Profile pictures usually 1:1
+        viewMode: 1,
+        dragMode: 'move',
+        guides: true,
+        center: true,
+        highlight: false,
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        toggleDragModeOnDblclick: false,
+        data: globalConfig.profileCrop || null // Load existing crop if available
+    });
+};
+
+window.closeCropModal = () => {
+    if (cropper) {
+        cropper.destroy();
+        cropper = null;
+    }
+    document.getElementById('crop-modal').classList.add('hidden');
+};
+
+window.saveCrop = async () => {
+    if (!cropper) return;
+
+    const cropData = cropper.getData();
+    globalConfig.profileCrop = {
+        x: cropData.x,
+        y: cropData.y,
+        width: cropData.width,
+        height: cropData.height,
+        rotate: cropData.rotate,
+        scaleX: cropData.scaleX,
+        scaleY: cropData.scaleY
+    };
+
+    // Auto-save the config with crop data
+    toggleLoader(true);
+    const { error } = await supabaseClient.from('config').upsert({ key: 'global', value: globalConfig });
+    toggleLoader(false);
+
+    if (error) {
+        alert('Error saving crop: ' + error.message);
+    } else {
+        closeCropModal();
+        alert('Crop settings applied!');
+    }
+};
+
 
 /* Helper: Upload File to Supabase Storage */
 async function uploadFile(file, folder) {

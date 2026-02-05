@@ -53,8 +53,15 @@ function renderConfig(data) {
 
     if (imgObj && imgObj.complete) {
         imgObj.style.opacity = '1';
+        // Apply crop if available and not yet applied
+        if (data.profileCrop && !imgObj.dataset.cropped && imgObj.naturalWidth) {
+            applyProfileCrop(imgObj, data.profileCrop);
+        }
     } else if (imgObj) {
-        imgObj.onload = () => imgObj.style.opacity = '1';
+        imgObj.onload = () => {
+            imgObj.style.opacity = '1';
+            if (data.profileCrop) applyProfileCrop(imgObj, data.profileCrop);
+        };
     }
 
     // About
@@ -274,3 +281,24 @@ window.openDetails = (item) => {
 window.closeDetails = () => {
     document.getElementById('details-modal').style.display = 'none';
 };
+
+function applyProfileCrop(img, crop) {
+    if (!img || !crop || !img.naturalWidth) return;
+
+    // Calculate scale to fill container width/height (100%)
+    const scale = 100 / (crop.width / img.naturalWidth * 100);
+
+    img.style.width = '100%';
+    img.style.height = 'auto';
+    img.style.transformOrigin = '0 0';
+
+    // Calculate translation percentages
+    const transX = -(crop.x / img.naturalWidth * 100) * scale;
+    const transY = -(crop.y / img.naturalHeight * 100) * (img.naturalHeight / img.naturalWidth) * scale;
+
+    img.style.transform = `scale(${scale}) translate(${transX}%, ${transY}%)`;
+    img.style.position = 'absolute';
+    img.style.top = '0';
+    img.style.left = '0';
+    img.dataset.cropped = 'true';
+}

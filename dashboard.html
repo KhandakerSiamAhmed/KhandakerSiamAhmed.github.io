@@ -8,9 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/admin_responsive.css">
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+
 
     <!-- Supabase SDK -->
     <script src="js/supabase.js"></script>
+    <!-- Cropper.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
     <script>
         // Placeholder for navigation functions to avoid early click errors
         window.toggleSidebar = () => console.log('Sidebar script loading...');
@@ -104,7 +110,12 @@
                         <input type="file" id="profileImageInput">
                         <input type="hidden" name="profileImageUrl" id="profileImageUrl">
                         <img id="profilePreview" class="preview-img" src="" alt="">
+                        <div id="crop-controls" class="hidden" style="margin-top: 10px;">
+                            <button type="button" onclick="openCropModal()" class="btn-secondary"
+                                style="font-size: 0.8rem; padding: 8px 16px;">Adjust Crop & Framing</button>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Hero Photo Style</label>
                         <div class="photo-style-grid" id="photo-style-grid">
@@ -215,6 +226,20 @@
                 <button type="button" onclick="closeModal()"
                     style="margin-top: 10px; background: #6c757d; border: none; color: white; padding: 10px; width: 100%; border-radius: 4px; cursor: pointer;">Cancel</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Crop Modal -->
+    <div id="crop-modal" class="loading-overlay hidden" style="background: rgba(0,0,0,0.8); z-index: 11000;">
+        <div class="crop-container-wrapper">
+            <h2>Adjust Profile Framing</h2>
+            <div class="cropper-wrapper">
+                <img id="cropper-image" src="" alt="">
+            </div>
+            <div class="crop-actions">
+                <button type="button" onclick="saveCrop()" class="btn-primary">Apply Crop</button>
+                <button type="button" onclick="closeCropModal()" class="btn-secondary">Cancel</button>
+            </div>
         </div>
     </div>
 
