@@ -89,6 +89,90 @@ body {
     background-position: center;
 }
 
+@keyframes spin-cw {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-ccw {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+/* Preloader */
+#site-loader {
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-primary);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, background-color 0.5s ease;
+}
+
+/* Add grid pattern on loader if titanium theme is active */
+[data-theme="titanium"] #site-loader {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Blueprint pattern on loader */
+[data-theme="blueprint"] #site-loader {
+    background-image: radial-gradient(rgba(100, 255, 218, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-gears {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.loader-gears svg:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spin-cw 3.5s linear infinite;
+    color: var(--primary-color);
+}
+
+.loader-gears svg:last-child {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    animation: spin-ccw 3.5s linear infinite;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.loader-text {
+    font-family: var(--font-heading);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    font-weight: 600;
+}
+
 /* Reset & Base Styles */
 * {
     margin: 0;
@@ -117,6 +201,7 @@ body[data-theme="titanium"] {
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
 }
+
 
 a {
     text-decoration: none;

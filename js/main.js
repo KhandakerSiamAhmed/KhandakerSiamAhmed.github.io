@@ -1,5 +1,12 @@
 import { fetchPortfolioData } from './api.js';
-import { renderAll } from './ui.js';
+import { renderAll, preloadAssets } from './ui.js';
+
+// Apply cached theme immediately for smooth loading
+const cachedTheme = localStorage.getItem('site-theme');
+if (cachedTheme) {
+    document.documentElement.setAttribute('data-theme', cachedTheme);
+    if (cachedTheme === 'titanium') document.body.classList.add('grid-bg');
+}
 
 // Main Frontend Logic
 const loader = document.getElementById('site-loader');
@@ -10,6 +17,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const data = await fetchPortfolioData();
         renderAll(data);
+
+        // Background Asset Preloading
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(() => preloadAssets(data));
+        } else {
+            setTimeout(() => preloadAssets(data), 2000);
+        }
 
         // Hide Loader
         if (loader) {
