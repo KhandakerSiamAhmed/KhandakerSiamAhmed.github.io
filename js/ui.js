@@ -10,12 +10,56 @@ export function renderAll(data) {
     renderAchievements(data.achievements);
 }
 
+/**
+ * Preloads all background assets (images, banners) to ensure instant UI response.
+ * @param {Object} data - The complete portfolio data object.
+ */
+export function preloadAssets(data) {
+    if (!data) return;
+
+    const urls = new Set();
+
+    // 1. Profile Image
+    if (data.config?.profileImage) urls.add(data.config.profileImage);
+
+    // 2. Project Images & Banners
+    if (data.projects) {
+        data.projects.forEach(p => {
+            if (p.imageurl) urls.add(p.imageurl);
+            if (p.bannerurl) urls.add(p.bannerurl);
+        });
+    }
+
+    // 3. Education Images
+    if (data.education) {
+        data.education.forEach(e => {
+            if (e.imageurl) urls.add(e.imageurl);
+        });
+    }
+
+    // 4. Achievement Images
+    if (data.achievements) {
+        data.achievements.forEach(a => {
+            if (a.imageurl) urls.add(a.imageurl);
+        });
+    }
+
+    // Load each unique URL
+    console.log(`[Preloader] Initializing background load for ${urls.size} assets...`);
+    urls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+        // No need to append to DOM, browser cache handles it
+    });
+}
+
 function renderConfig(data) {
     if (!data) return;
 
     // Apply Theme
     if (data.theme) {
         document.documentElement.setAttribute('data-theme', data.theme);
+        localStorage.setItem('site-theme', data.theme);
 
         // Specific class for Titanium Grid
         if (data.theme === 'titanium') {
@@ -25,6 +69,7 @@ function renderConfig(data) {
         }
     } else {
         document.documentElement.removeAttribute('data-theme');
+        localStorage.removeItem('site-theme');
         document.body.classList.remove('grid-bg');
     }
 
