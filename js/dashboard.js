@@ -137,6 +137,7 @@ async function loadGeneral() {
         document.getElementById('linkedinUrl').value = val.socials?.linkedin || '';
         document.getElementById('githubUrl').value = val.socials?.github || '';
         document.getElementById('facebookUrl').value = val.socials?.facebook || '';
+        document.getElementById('grabcadUrl').value = val.socials?.grabcad || '';
         document.getElementById('emailContact').value = val.socials?.email || '';
 
         if (val.profileImage) {
@@ -188,6 +189,7 @@ document.getElementById('general-form').addEventListener('submit', async (e) => 
         linkedin: document.getElementById('linkedinUrl').value,
         github: document.getElementById('githubUrl').value,
         facebook: document.getElementById('facebookUrl').value,
+        grabcad: document.getElementById('grabcadUrl').value,
         email: document.getElementById('emailContact').value
     };
 
@@ -231,6 +233,7 @@ window.saveAllChanges = async () => {
             linkedin: document.getElementById('linkedinUrl').value,
             github: document.getElementById('githubUrl').value,
             facebook: document.getElementById('facebookUrl').value,
+            grabcad: document.getElementById('grabcadUrl').value,
             email: document.getElementById('emailContact').value
         };
 
