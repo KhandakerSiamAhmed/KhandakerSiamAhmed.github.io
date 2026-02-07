@@ -1,0 +1,37 @@
+name: Generate CV PDF
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'assets/updated_cv.tex'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Compile LaTeX to PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: assets/updated_cv.tex
+          latexmk_use_xelatex: false
+          
+      - name: Move PDF to assets folder
+        run: |
+          mv updated_cv.pdf assets/updated_cv.pdf
+          
+      - name: Commit and push PDF
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add assets/updated_cv.pdf
+          git diff --staged --quiet || git commit -m "Auto-generate updated_cv.pdf from LaTeX"
+          git push

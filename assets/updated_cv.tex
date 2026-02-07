@@ -1,0 +1,146 @@
+%-------------------------
+% CV Template - Based on Original CV Format
+% Uses article class with geometry for A4 layout
+% hyperref for clickable links
+%-------------------------
+
+\documentclass[a4paper,11pt]{article}
+
+%-------------------------
+% Packages
+%-------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % Latin Modern font (similar to Computer Modern)
+\usepackage[margin=0.5in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+%-------------------------
+% Hyperref Setup
+%-------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue!70!black,
+    pdftitle={Khandaker Siam Ahmed - CV},
+    pdfauthor={Khandaker Siam Ahmed}
+}
+
+%-------------------------
+% Custom Formatting
+%-------------------------
+\pagestyle{empty} % No page numbers
+
+% Section formatting
+\titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{12pt}{6pt}
+
+% Remove paragraph indentation
+\setlength{\parindent}{0pt}
+
+% Custom list settings
+\setlist[itemize]{left=0pt, labelsep=0.5em, itemsep=2pt, topsep=4pt}
+
+%-------------------------
+% Document
+%-------------------------
+\begin{document}
+
+%-------------------------
+% Header
+%-------------------------
+\begin{center}
+    {\LARGE\textbf{Khandaker Siam Ahmed}} \\[6pt]
+    +880 130 304 8942 \quad | \quad \href{mailto:siam.ahmed.mahin@gmail.com}{siam.ahmed.mahin@gmail.com} \quad | \quad Dhaka, Bangladesh \\[4pt]
+    \href{https://www.linkedin.com/in/khandakersiamahmed/}{LinkedIn} \quad | \quad 
+    \href{https://github.com/KhandakerSiamAhmed}{GitHub} \quad | \quad 
+    \href{https://grabcad.com/khandaker.siam.ahmed-2}{GrabCAD} \quad | \quad 
+    \href{https://wa.me/8801303048942}{WhatsApp}
+\end{center}
+
+%-------------------------
+% Education
+%-------------------------
+\section{Education}
+
+\textbf{Islamic University of Technology (IUT)} \hfill Jan 2023 -- 2027 Expected \\
+\textit{B.Sc. in Mechanical Engineering} \hfill CGPA: 3.53 / 4.00 \quad | \quad Gazipur, Bangladesh
+\begin{itemize}
+    \item Awarded OIC Partial Scholarship: Merit-based grant valued at USD 14,000.
+\end{itemize}
+
+\textbf{Government Science College} \hfill 2022 \\
+\textit{Higher Secondary Certificate (HSC), Science} \hfill GPA: 5.00 / 5.00 \quad | \quad Dhaka, Bangladesh
+
+%-------------------------
+% Experience
+%-------------------------
+\section{Experience}
+
+\textbf{Short Circuit} \hfill May 2025 -- Present \\
+\textit{Co-Founder} \hfill Dhaka, Bangladesh
+\begin{itemize}
+    \item Established an online electronics platform serving 100+ engineering students, generating over BDT 200,000 in revenue within the first quarter.
+    \item Managed supply chain logistics by establishing direct relationships with local wholesale vendors, achieving a 15\% profit margin on components.
+\end{itemize}
+
+\textbf{Project Altair (IUT Mars Rover Team)} \hfill Nov 2024 -- Present \\
+\textit{Junior Executive, Mechanical \& Manufacturing Subteam} \hfill Gazipur, Bangladesh
+\begin{itemize}
+    \item Spearheaded mechanical design of the rover's chassis and suspension systems, selecting materials to optimize strength-to-weight ratio.
+    \item Validated structural integrity by conducting FEA static stress analysis using SolidWorks Simulation, contributing to the team securing 18th position globally at the University Rover Challenge (URC).
+    \item Collaborated on design submissions for the International Rover Design Challenge (IRDC) 2025 and European Rover Challenge (ERC) 2024.
+\end{itemize}
+
+\textbf{Project Aqua (IUT Underwater Rover Team)} \hfill Nov 2024 -- Present \\
+\textit{Junior Executive, Mechanical Team} \hfill Gazipur, Bangladesh
+\begin{itemize}
+    \item Executed detailed CAD modeling of underwater vehicle prototypes using SolidWorks to ensure precise assembly fitment.
+    \item Created photorealistic renders and mechanism animations using Blender for technical presentations and design visualization.
+    \item Played a pivotal role in achieving 2nd Place at the Underwater Vehicle Design Challenge, IIT Guwahati.
+\end{itemize}
+
+%-------------------------
+% Technical Projects
+%-------------------------
+\section{Technical Projects}
+
+\textbf{Automatic Garbage Sorter System} \quad | \quad \textit{Mechatronics \& ML Integration (Academic Project)}
+\begin{itemize}
+    \item Designed a custom mechanical actuation system using herringbone gears and stepper motors to ensure precise torque transmission for waste sorting.
+    \item Integrated an ESP32 microcontroller to drive the mechanical sorter based on classification data from a YOLO-based computer vision model.
+\end{itemize}
+
+\textbf{Advanced Line Following Robot} \quad | \quad \textit{Embedded Systems (Hobbyist Project)}
+\begin{itemize}
+    \item Developed an autonomous robot featuring an OLED display interface, rotary encoder inputs, and an EEPROM-based menu system.
+    \item Implemented PID control algorithms and integrated ultrasonic sensors for high-speed navigation and obstacle avoidance.
+\end{itemize}
+
+%-------------------------
+% Technical Skills
+%-------------------------
+\section{Technical Skills}
+
+\textbf{Software \& Design:} SolidWorks (CSWA Certified), SolidWorks Simulation, Blender, Proteus, Arduino IDE \\[4pt]
+\textbf{Programming:} C, Embedded C, Python \\[4pt]
+\textbf{Core Competencies:} CAD/CAM, FEA Analysis, Mechatronics, Control Systems, Embedded Systems
+
+%-------------------------
+% Achievements & Certifications
+%-------------------------
+\section{Achievements \& Certifications}
+
+\begin{itemize}
+    \item \textbf{Certified SolidWorks Associate (CSWA):} Certification by Dassault Syst\`{e}mes.
+    \item \textbf{Champion:} Cezeri Lab Annual Project Competition 2025.
+    \item \textbf{2nd Place:} Underwater Vehicle Design Competition, IIT Guwahati, India.
+    \item \textbf{2nd Runners-up:} Auto Sculpt Season 2, organized by IUT Automobile Society.
+    \item \textbf{Member:} International Association of Engineers (IAENG).
+\end{itemize}
+
+\end{document}
