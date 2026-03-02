@@ -1,0 +1,330 @@
+/* Admin Dashboard Styles */
+
+.admin-login-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #0a0a0a;
+}
+
+.admin-login-box {
+    background: #1a1a1a;
+    padding: 2.5rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #333;
+}
+
+.admin-login-box h2 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.admin-login-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.admin-error {
+    color: white;
+    background: #dc3545;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.admin-dashboard {
+    display: flex;
+    min-height: 100vh;
+    background: #0a0a0a;
+    color: #e0e0e0;
+}
+
+.admin-loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.admin-spinner {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.admin-mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #1a1a1a;
+    border-bottom: 1px solid #333;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 1rem;
+    z-index: 100;
+}
+
+.admin-mobile-header h2 {
+    font-size: 1rem;
+    color: #fff;
+}
+
+.admin-menu-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.admin-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+}
+
+.admin-sidebar {
+    width: 260px;
+    background: #111;
+    border-right: 1px solid #222;
+    padding: 2rem 1.5rem;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.admin-sidebar h2 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 2rem;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-nav button {
+    background: none;
+    border: none;
+    color: #888;
+    padding: 10px 15px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.admin-nav button:hover {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.admin-nav button.active {
+    background: #1a1a1a;
+    color: #fff;
+    font-weight: 600;
+}
+
+.admin-btn-save-all {
+    margin-top: 2rem !important;
+    background: #198754 !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+}
+
+.admin-btn-logout {
+    margin-top: 0.5rem !important;
+    background: transparent !important;
+    color: #dc3545 !important;
+    border: 1px solid #dc3545 !important;
+}
+
+.admin-main {
+    flex: 1;
+    padding: 2rem 3rem;
+    max-width: 900px;
+}
+
+.admin-main h1 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.admin-main h3 {
+    color: #fff;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.admin-form-group {
+    margin-bottom: 1.2rem;
+}
+
+.admin-form-group label {
+    display: block;
+    color: #aaa;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.admin-form-group input,
+.admin-form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+
+.admin-form-group textarea {
+    resize: vertical;
+}
+
+.admin-btn-primary {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.admin-btn-primary:hover {
+    background: #ddd;
+}
+
+.admin-btn-secondary {
+    background: transparent;
+    border: 1px solid #555;
+    color: #888;
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.admin-item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #1a1a1a;
+    border: 1px solid #222;
+    border-radius: 6px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-btn-edit {
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.admin-btn-delete {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+/* Edit Modal */
+.admin-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.admin-modal-box {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.admin-modal-box h2 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-mobile-header {
+        display: flex;
+    }
+
+    .admin-sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        height: 100vh;
+        z-index: 300;
+        transition: left 0.3s ease;
+    }
+
+    .admin-sidebar.active {
+        left: 0;
+    }
+
+    .admin-main {
+        padding: 80px 1rem 2rem;
+        max-width: 100%;
+    }
+
+    .admin-list-item {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
