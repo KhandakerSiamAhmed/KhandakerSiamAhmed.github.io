@@ -2,39 +2,40 @@
 
 export default function Preloader() {
     return (
-        <div className="site-loader">
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div className="loader-gears">
-                    {/* Gear 1 (Clockwise) */}
-                    <svg
-                        width="34"
-                        height="34"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <circle cx="12" cy="12" r="3" />
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                    </svg>
-                    {/* Gear 2 (Counter-Clockwise) */}
-                    <svg
-                        width="34"
-                        height="34"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <circle cx="12" cy="12" r="3" />
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                    </svg>
+        <div className="site-loader" style={{ display: "block", paddingTop: "0" }}>
+            {/* Navbar Skeleton */}
+            <div style={{ padding: "2rem 0", borderBottom: "1px solid var(--border-color)" }}>
+                <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    {/* Logo */}
+                    <div className="skeleton" style={{ width: "150px", height: "32px" }}></div>
+                    {/* Links - Hidden on smaller screens but okay for general skeleton */}
+                    <div className="hidden md:flex" style={{ gap: "3rem" }}>
+                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
+                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
+                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
+                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
+                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
+                    </div>
                 </div>
-                <p className="loader-text">INITIALIZING</p>
+            </div>
+
+            {/* Hero Skeleton */}
+            <div className="container" style={{ display: "flex", flexWrap: "wrap", marginTop: "8rem", gap: "4rem", alignItems: "center" }}>
+                <div style={{ flex: "1.2", minWidth: "300px" }}>
+                    <div className="skeleton" style={{ width: "80%", height: "3.5rem", marginBottom: "1rem" }}></div>
+                    <div className="skeleton" style={{ width: "60%", height: "3.5rem", marginBottom: "2.5rem" }}></div>
+                    <div className="skeleton" style={{ width: "90%", height: "1.2rem", marginBottom: "0.8rem" }}></div>
+                    <div className="skeleton" style={{ width: "70%", height: "1.2rem", marginBottom: "2rem" }}></div>
+
+                    <div style={{ display: "flex", gap: "1.5rem" }}>
+                        <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "100px" }}></div>
+                        <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "100px" }}></div>
+                    </div>
+                </div>
+
+                <div style={{ flex: "0.8", display: "flex", justifyContent: "flex-end", minWidth: "250px" }}>
+                    <div className="skeleton" style={{ width: "100%", maxWidth: "400px", aspectRatio: "1/1", borderRadius: "50%" }}></div>
+                </div>
             </div>
         </div>
     );
