@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, Variants } from "framer-motion";
 import type { Achievement } from "@/types/portfolio";
 
 interface Props {
@@ -7,18 +8,55 @@ interface Props {
     onItemClick?: (item: Achievement) => void;
 }
 
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+        },
+    },
+};
+
+const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: "spring",
+            stiffness: 100,
+            damping: 12,
+        },
+    },
+};
+
 export default function Achievements({ items, onItemClick }: Props) {
     if (!items || items.length === 0) return null;
 
     return (
         <div className="container">
-            <div className="section-header">
+            <motion.div
+                className="section-header"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+            >
                 <h2 className="section-title">Achievements</h2>
-            </div>
-            <div className="projects-grid">
+            </motion.div>
+            <motion.div
+                className="projects-grid"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+            >
                 {items.map((item) => (
-                    <div
+                    <motion.div
                         key={item.id}
+                        variants={cardVariants}
+                        whileHover={{ y: -8, scale: 1.01 }}
                         className="project-card"
                         tabIndex={0}
                         role="button"
@@ -51,9 +89,9 @@ export default function Achievements({ items, onItemClick }: Props) {
                                 <span style={{ fontSize: "0.8rem", opacity: 0.7 }}>{item.date}</span>
                             )}
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </div>
     );
 }

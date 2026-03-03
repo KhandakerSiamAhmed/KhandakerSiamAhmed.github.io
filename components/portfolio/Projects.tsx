@@ -1,12 +1,36 @@
 "use client";
 
 import { useState } from "react";
+import { motion, Variants } from "framer-motion";
 import type { Project } from "@/types/portfolio";
 
 interface Props {
     items: Project[];
     onItemClick?: (item: Project) => void;
 }
+
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: "spring",
+            stiffness: 100,
+            damping: 12,
+        },
+    },
+};
 
 export default function Projects({ items, onItemClick }: Props) {
     const [activeFilter, setActiveFilter] = useState("All");
@@ -17,14 +41,25 @@ export default function Projects({ items, onItemClick }: Props) {
     const filtered = activeFilter === "All" ? items : items.filter((i) => i.category === activeFilter);
 
     return (
-        <div className="container">
-            <div className="section-header">
+        <div className="container" id="projects">
+            <motion.div
+                className="section-header"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5 }}
+            >
                 <h2 className="section-title">Featured Projects</h2>
                 <p className="section-subtitle">Spanning robotics, CAD design, embedded systems, and more.</p>
-            </div>
+            </motion.div>
 
             {categories.length > 2 && (
-                <div className="section-tabs">
+                <motion.div
+                    className="section-tabs"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                >
                     {categories.map((cat) => (
                         <button
                             key={cat}
@@ -34,10 +69,16 @@ export default function Projects({ items, onItemClick }: Props) {
                             {cat}
                         </button>
                     ))}
-                </div>
+                </motion.div>
             )}
 
-            <div className="projects-grid">
+            <motion.div
+                className="projects-grid"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+            >
                 {filtered.map((item) => {
                     const techstack = Array.isArray(item.techstack)
                         ? item.techstack
@@ -46,8 +87,10 @@ export default function Projects({ items, onItemClick }: Props) {
                             : [];
 
                     return (
-                        <article
+                        <motion.article
                             key={item.id}
+                            variants={cardVariants}
+                            whileHover={{ y: -8, scale: 1.01 }}
                             className="project-card"
                             tabIndex={0}
                             role="button"
@@ -91,10 +134,10 @@ export default function Projects({ items, onItemClick }: Props) {
                                     ))}
                                 </div>
                             </div>
-                        </article>
+                        </motion.article>
                     );
                 })}
-            </div>
+            </motion.div>
         </div>
     );
 }

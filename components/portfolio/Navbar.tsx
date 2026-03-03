@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import type { PortfolioConfig } from "@/types/portfolio";
 import ThemeSwitcher from "./ThemeSwitcher";
 
@@ -21,6 +22,15 @@ interface Props {
 export default function Navbar({ config }: Props) {
     const [activeSection, setActiveSection] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     useEffect(() => {
         const sections = document.querySelectorAll("section");
@@ -51,7 +61,13 @@ export default function Navbar({ config }: Props) {
     const profileImage = config?.profileImage;
 
     return (
-        <nav className="navbar" id="navbar">
+        <motion.nav
+            className={`navbar ${scrolled ? "scrolled" : ""}`}
+            id="navbar"
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+        >
             <div className="nav-container">
                 <a
                     href="#hero"
@@ -71,8 +87,13 @@ export default function Navbar({ config }: Props) {
                 </a>
 
                 <ul className={`nav-menu ${menuOpen ? "active" : ""}`}>
-                    {navItems.map((item) => (
-                        <li key={item.id}>
+                    {navItems.map((item, index) => (
+                        <motion.li
+                            key={item.id}
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 + index * 0.05 }}
+                        >
                             <button
                                 className={`nav-link ${activeSection === item.id ? "active" : ""}`}
                                 onClick={() => scrollTo(item.id)}
@@ -80,22 +101,24 @@ export default function Navbar({ config }: Props) {
                             >
                                 {item.label}
                             </button>
-                        </li>
+                        </motion.li>
                     ))}
                 </ul>
 
-                <ThemeSwitcher />
+                <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <ThemeSwitcher />
 
-                <button
-                    className={`nav-toggle ${menuOpen ? "active" : ""}`}
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    aria-label="Toggle navigation"
-                >
-                    <span />
-                    <span />
-                    <span />
-                </button>
+                    <button
+                        className={`nav-toggle ${menuOpen ? "active" : ""}`}
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        aria-label="Toggle navigation"
+                    >
+                        <span />
+                        <span />
+                        <span />
+                    </button>
+                </div>
             </div>
-        </nav>
+        </motion.nav>
     );
 }

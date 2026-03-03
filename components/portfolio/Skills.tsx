@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, Variants } from "framer-motion";
 import type { Skill } from "@/types/portfolio";
 
 interface Props {
@@ -11,6 +12,30 @@ interface ParsedSkill {
     id: string;
     name: string;
 }
+
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.05,
+        },
+    },
+};
+
+const itemVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.8, y: 10 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+            type: "spring",
+            stiffness: 100,
+            damping: 10,
+        },
+    },
+};
 
 export default function Skills({ items }: Props) {
     const [activeTab, setActiveTab] = useState("All");
@@ -37,12 +62,23 @@ export default function Skills({ items }: Props) {
 
     return (
         <div className="container">
-            <div className="section-header">
+            <motion.div
+                className="section-header"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+            >
                 <h2 className="section-title">Technical Skills</h2>
-            </div>
+            </motion.div>
 
             {hasCategories && (
-                <div className="section-tabs">
+                <motion.div
+                    className="section-tabs"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                >
                     {categories.map((cat) => (
                         <button
                             key={cat}
@@ -52,16 +88,28 @@ export default function Skills({ items }: Props) {
                             {cat}
                         </button>
                     ))}
-                </div>
+                </motion.div>
             )}
 
-            <div className="skill-items" style={{ justifyContent: "center", gap: "1rem" }}>
+            <motion.div
+                className="skill-items"
+                style={{ justifyContent: "center", gap: "1rem" }}
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+            >
                 {visibleSkills.map((item) => (
-                    <span key={item.id} className="skill-pill">
+                    <motion.span
+                        key={item.id}
+                        className="skill-pill"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.1, backgroundColor: "var(--primary-color)", color: "var(--bg-primary)" }}
+                    >
                         {item.name}
-                    </span>
+                    </motion.span>
                 ))}
-            </div>
+            </motion.div>
         </div>
     );
 }

@@ -104,41 +104,29 @@ export default function PortfolioClient({ data }: Props) {
                 <Hero config={data.config} />
             </section>
 
-            <ScrollReveal>
-                <section className="section about" id="about">
-                    <About config={data.config} />
-                </section>
-            </ScrollReveal>
+            <section className="section about" id="about">
+                <About config={data.config} />
+            </section>
 
-            <ScrollReveal>
-                <section className="section projects" id="projects">
-                    <Projects items={data.projects} onItemClick={(item) => openDetail(item, "project")} />
-                </section>
-            </ScrollReveal>
+            <section className="section projects" id="projects">
+                <Projects items={data.projects} onItemClick={(item) => openDetail(item, "project")} />
+            </section>
 
-            <ScrollReveal>
-                <section className="section education" id="education">
-                    <Education items={data.education} onItemClick={(item) => openDetail(item, "education")} />
-                </section>
-            </ScrollReveal>
+            <section className="section education" id="education">
+                <Education items={data.education} onItemClick={(item) => openDetail(item, "education")} />
+            </section>
 
-            <ScrollReveal>
-                <section className="section experience" id="experience">
-                    <Experience items={data.experience} />
-                </section>
-            </ScrollReveal>
+            <section className="section experience" id="experience">
+                <Experience items={data.experience} />
+            </section>
 
-            <ScrollReveal>
-                <section className="section skills" id="skills">
-                    <Skills items={data.skills} />
-                </section>
-            </ScrollReveal>
+            <section className="section skills" id="skills">
+                <Skills items={data.skills} />
+            </section>
 
-            <ScrollReveal>
-                <section className="section achievements" id="achievements">
-                    <Achievements items={data.achievements} onItemClick={(item) => openDetail(item, "achievement")} />
-                </section>
-            </ScrollReveal>
+            <section className="section achievements" id="achievements">
+                <Achievements items={data.achievements} onItemClick={(item) => openDetail(item, "achievement")} />
+            </section>
 
             <Footer config={data.config} />
 
