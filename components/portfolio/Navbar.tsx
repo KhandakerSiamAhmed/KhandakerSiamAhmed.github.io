@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { PortfolioConfig } from "@/types/portfolio";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const navItems = [
     { id: "about", label: "About" },
@@ -31,7 +32,7 @@ export default function Navbar({ config }: Props) {
                     }
                 });
             },
-            { threshold: 0.3 }
+            { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
         );
 
         sections.forEach((section) => observer.observe(section));
@@ -63,21 +64,11 @@ export default function Navbar({ config }: Props) {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={profileImage || "/assets/Khandaker Siam Ahmed.svg"}
-                        alt="Logo"
+                        alt={config?.heroName || "Profile"}
                         className="logo-img"
                     />
                     <span>{logoText}</span>
                 </a>
-
-                <button
-                    className={`nav-toggle ${menuOpen ? "active" : ""}`}
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    aria-label="Toggle navigation"
-                >
-                    <span />
-                    <span />
-                    <span />
-                </button>
 
                 <ul className={`nav-menu ${menuOpen ? "active" : ""}`}>
                     {navItems.map((item) => (
@@ -92,6 +83,18 @@ export default function Navbar({ config }: Props) {
                         </li>
                     ))}
                 </ul>
+
+                <ThemeSwitcher />
+
+                <button
+                    className={`nav-toggle ${menuOpen ? "active" : ""}`}
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    aria-label="Toggle navigation"
+                >
+                    <span />
+                    <span />
+                    <span />
+                </button>
             </div>
         </nav>
     );

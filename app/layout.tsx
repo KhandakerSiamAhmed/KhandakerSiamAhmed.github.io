@@ -94,7 +94,10 @@ export default function RootLayout({
                     }}
                 />
             </head>
-            <body>{children}</body>
+            <body>
+                <a href="#about" className="skip-link">Skip to content</a>
+                {children}
+            </body>
         </html>
     );
 }

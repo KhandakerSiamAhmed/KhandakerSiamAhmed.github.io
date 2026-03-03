@@ -22,6 +22,14 @@ export default function Hero({ config }: Props) {
                 <p className="hero-subtitle">{heroSubtitle}</p>
 
                 <div className="hero-cta">
+                    <button
+                        className="btn btn-primary"
+                        onClick={() =>
+                            document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+                        }
+                    >
+                        View My Work
+                    </button>
                     <a
                         href={resumeUrl}
                         className="btn btn-secondary"
@@ -41,7 +49,7 @@ export default function Hero({ config }: Props) {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={profileImage}
-                        alt="Portrait"
+                        alt={heroName}
                         style={{ opacity: 1, transition: "opacity 0.5s" }}
                     />
                 </div>

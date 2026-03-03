@@ -49,6 +49,10 @@ const availableThemes = [
     { id: "titanium", name: "Titanium Industrial", bg: "#0e0e0e", sec: "#141414", txt: "#e0e0e0" },
     { id: "blueprint", name: "Blueprint Technical", bg: "#0a192f", sec: "#112240", txt: "#e6f1ff" },
     { id: "light", name: "Professional Light", bg: "#ffffff", sec: "#f8f9fa", txt: "#333333" },
+    { id: "forest", name: "Forest", bg: "#0d1a0f", sec: "#0f1f12", txt: "#e0f2e9" },
+    { id: "sunset", name: "Sunset", bg: "#1a0a08", sec: "#1f0e0b", txt: "#f5e6e4" },
+    { id: "aurora", name: "Aurora", bg: "#0d0a1f", sec: "#130e2a", txt: "#e9e0f5" },
+    { id: "ocean", name: "Ocean", bg: "#020e1a", sec: "#051525", txt: "#d0eaf5" },
 ];
 
 const heroPhotoStyles = [

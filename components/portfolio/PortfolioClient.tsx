@@ -12,7 +12,6 @@ import Experience from "./Experience";
 import Skills from "./Skills";
 import Achievements from "./Achievements";
 import Footer from "./Footer";
-import DetailModal from "./DetailModal";
 import BackToTop from "./BackToTop";
 import ScrollReveal from "./ScrollReveal";
 
@@ -22,9 +21,8 @@ interface Props {
 
 export default function PortfolioClient({ data }: Props) {
     const [loading, setLoading] = useState(true);
-    const [modalItem, setModalItem] = useState<Record<string, unknown> | null>(null);
 
-    // Apply theme
+    // Apply theme from config
     useEffect(() => {
         const theme = data.config?.theme;
         if (theme) {
@@ -42,7 +40,7 @@ export default function PortfolioClient({ data }: Props) {
         }
     }, [data.config?.theme]);
 
-    // Apply cached theme immediately
+    // Apply cached theme immediately on mount
     useEffect(() => {
         const cachedTheme = localStorage.getItem("site-theme");
         if (cachedTheme) {
@@ -56,14 +54,6 @@ export default function PortfolioClient({ data }: Props) {
         const timer = setTimeout(() => setLoading(false), 800);
         return () => clearTimeout(timer);
     }, []);
-
-    const openDetails = (item: Record<string, unknown>) => {
-        setModalItem(item);
-    };
-
-    const closeDetails = () => {
-        setModalItem(null);
-    };
 
     return (
         <>
@@ -82,13 +72,13 @@ export default function PortfolioClient({ data }: Props) {
 
             <ScrollReveal>
                 <section className="section projects" id="projects">
-                    <Projects items={data.projects} onItemClick={openDetails} />
+                    <Projects items={data.projects} />
                 </section>
             </ScrollReveal>
 
             <ScrollReveal>
                 <section className="section education" id="education">
-                    <Education items={data.education} onItemClick={openDetails} />
+                    <Education items={data.education} />
                 </section>
             </ScrollReveal>
 
@@ -106,15 +96,11 @@ export default function PortfolioClient({ data }: Props) {
 
             <ScrollReveal>
                 <section className="section achievements" id="achievements">
-                    <Achievements items={data.achievements} onItemClick={openDetails} />
+                    <Achievements items={data.achievements} />
                 </section>
             </ScrollReveal>
 
             <Footer config={data.config} />
-
-            {modalItem && (
-                <DetailModal item={modalItem} onClose={closeDetails} />
-            )}
 
             <BackToTop />
         </>

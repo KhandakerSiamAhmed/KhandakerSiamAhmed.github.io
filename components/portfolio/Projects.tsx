@@ -1,21 +1,45 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Project } from "@/types/portfolio";
 
 interface Props {
     items: Project[];
-    onItemClick: (item: Record<string, unknown>) => void;
 }
 
-export default function Projects({ items, onItemClick }: Props) {
+export default function Projects({ items }: Props) {
+    const [activeFilter, setActiveFilter] = useState("All");
+    const router = useRouter();
+
     if (!items || items.length === 0) return null;
+
+    const categories = ["All", ...Array.from(new Set(items.map((i) => i.category).filter(Boolean) as string[]))];
+    const filtered = activeFilter === "All" ? items : items.filter((i) => i.category === activeFilter);
 
     return (
         <div className="container">
             <div className="section-header">
                 <h2 className="section-title">Featured Projects</h2>
-                <p className="section-subtitle">A selection of my recent works.</p>
+                <p className="section-subtitle">Spanning robotics, CAD design, embedded systems, and more.</p>
             </div>
+
+            {categories.length > 2 && (
+                <div className="section-tabs">
+                    {categories.map((cat) => (
+                        <button
+                            key={cat}
+                            className={`section-tab ${activeFilter === cat ? "active" : ""}`}
+                            onClick={() => setActiveFilter(cat)}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            )}
+
             <div className="projects-grid">
-                {items.map((item) => {
+                {filtered.map((item) => {
                     const techstack = Array.isArray(item.techstack)
                         ? item.techstack
                         : item.techstack
@@ -26,7 +50,7 @@ export default function Projects({ items, onItemClick }: Props) {
                         <article
                             key={item.id}
                             className="project-card"
-                            onClick={() => onItemClick(item as unknown as Record<string, unknown>)}
+                            onClick={() => router.push(`/projects?id=${item.id}`)}
                         >
                             <div className="project-image">
                                 {item.imageurl ? (
@@ -40,7 +64,7 @@ export default function Projects({ items, onItemClick }: Props) {
                                 ) : (
                                     <div className="project-placeholder">
                                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                            <circle cx="12" cy="12" r="10" />
+                                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                                         </svg>
                                     </div>
                                 )}
@@ -52,7 +76,7 @@ export default function Projects({ items, onItemClick }: Props) {
                                 <span className="project-category">{item.category || "Development"}</span>
                                 <h3 className="project-title">{item.title}</h3>
                                 <p className="project-description">
-                                    {item.description ? item.description.substring(0, 100) + "..." : ""}
+                                    {item.description || ""}
                                 </p>
                                 <div className="project-tech">
                                     {techstack.map((t, i) => (

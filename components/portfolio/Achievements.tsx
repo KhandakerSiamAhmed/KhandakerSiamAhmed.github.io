@@ -1,11 +1,15 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import type { Achievement } from "@/types/portfolio";
 
 interface Props {
     items: Achievement[];
-    onItemClick: (item: Record<string, unknown>) => void;
 }
 
-export default function Achievements({ items, onItemClick }: Props) {
+export default function Achievements({ items }: Props) {
+    const router = useRouter();
+
     if (!items || items.length === 0) return null;
 
     return (
@@ -18,7 +22,7 @@ export default function Achievements({ items, onItemClick }: Props) {
                     <div
                         key={item.id}
                         className="project-card"
-                        onClick={() => onItemClick(item as unknown as Record<string, unknown>)}
+                        onClick={() => router.push(`/achievements?id=${item.id}`)}
                     >
                         {item.imageurl && (
                             <div className="project-image">
