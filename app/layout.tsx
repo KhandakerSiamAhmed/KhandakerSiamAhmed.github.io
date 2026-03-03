@@ -136,10 +136,14 @@ export default function RootLayout({
                                 url: "https://khandakersiamahmed.github.io/",
                                 image: "https://khandakersiamahmed.github.io/assets/Khandaker%20Siam%20Ahmed.svg",
                                 sameAs: [
-                                    "https://linkedin.com/in/khandakersiamahmed",
+                                    "https://www.linkedin.com/in/khandakersiamahmed/",
                                     "https://github.com/KhandakerSiamAhmed",
-                                    "https://www.facebook.com/khandaker.siam.ahmed.mahin",
+                                    "https://www.researchgate.net/profile/Khandaker-Ahmed-9",
+                                    "https://orcid.org/0009-0002-6427-2956",
+                                    "https://www.instructables.com/member/khandakersiamahmed/",
+                                    "https://hackaday.io/khandakersiamahmed",
                                     "https://grabcad.com/khandaker.siam.ahmed-2",
+                                    "https://www.facebook.com/khandaker.siam.ahmed.mahin",
                                 ],
                                 jobTitle: "Mechanical Engineer & Robotics Enthusiast",
                                 worksFor: {

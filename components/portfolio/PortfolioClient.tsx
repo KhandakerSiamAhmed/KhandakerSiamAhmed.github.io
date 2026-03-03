@@ -12,6 +12,7 @@ import Experience from "./Experience";
 import Skills from "./Skills";
 import Achievements from "./Achievements";
 import Footer from "./Footer";
+import SocialSection from "./SocialSection";
 import BackToTop from "./BackToTop";
 import ScrollReveal from "./ScrollReveal";
 import DetailModal from "./DetailModal";
@@ -126,6 +127,10 @@ export default function PortfolioClient({ data }: Props) {
 
             <section className="section achievements" id="achievements">
                 <Achievements items={data.achievements} onItemClick={(item) => openDetail(item, "achievement")} />
+            </section>
+
+            <section className="section social" id="social-links">
+                <SocialSection />
             </section>
 
             <Footer config={data.config} />
