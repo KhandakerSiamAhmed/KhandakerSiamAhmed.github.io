@@ -394,6 +394,20 @@ svg {
     background: var(--text-primary);
     margin: 5px 0;
     transition: var(--transition);
+    transform-origin: center;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ===== SCROLL REVEAL ===== */
@@ -638,7 +652,7 @@ svg {
 /* ===== PROJECTS GRID ===== */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 2rem;
 }
 
@@ -652,11 +666,18 @@ svg {
     flex-direction: column;
     height: 100%;
     cursor: pointer;
+    max-width: 500px;
 }
 
 .project-card:hover {
     border-color: var(--card-hover-border);
     transform: translateY(-8px);
+}
+
+.project-card:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-color: var(--card-hover-border);
 }
 
 .project-image {
@@ -1112,6 +1133,8 @@ svg {
     font-family: var(--font-body);
     font-size: 0.9rem;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
 }
 
 .detail-back-btn:hover {
@@ -1120,6 +1143,44 @@ svg {
 }
 
 .detail-body {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+
+/* ===== DETAIL OVERLAY (IN-PAGE MODAL) ===== */
+@keyframes overlaySlideIn {
+    from {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.detail-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary);
+    z-index: 10000;
+    overflow-y: auto;
+    animation: overlaySlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.detail-overlay-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0.85rem 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.detail-overlay-body {
     max-width: 1000px;
     margin: 0 auto;
     padding-bottom: 5rem;

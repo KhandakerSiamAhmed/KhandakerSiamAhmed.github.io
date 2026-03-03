@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import type { Project } from "@/types/portfolio";
 
 interface Props {
     items: Project[];
+    onItemClick?: (item: Project) => void;
 }
 
-export default function Projects({ items }: Props) {
+export default function Projects({ items, onItemClick }: Props) {
     const [activeFilter, setActiveFilter] = useState("All");
-    const router = useRouter();
 
     if (!items || items.length === 0) return null;
 
@@ -50,7 +49,15 @@ export default function Projects({ items }: Props) {
                         <article
                             key={item.id}
                             className="project-card"
-                            onClick={() => router.push(`/projects?id=${item.id}`)}
+                            tabIndex={0}
+                            role="button"
+                            onClick={() => onItemClick?.(item)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    onItemClick?.(item);
+                                }
+                            }}
                         >
                             <div className="project-image">
                                 {item.imageurl ? (

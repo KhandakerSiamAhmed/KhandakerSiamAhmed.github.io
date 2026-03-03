@@ -1,15 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import type { Achievement } from "@/types/portfolio";
 
 interface Props {
     items: Achievement[];
+    onItemClick?: (item: Achievement) => void;
 }
 
-export default function Achievements({ items }: Props) {
-    const router = useRouter();
-
+export default function Achievements({ items, onItemClick }: Props) {
     if (!items || items.length === 0) return null;
 
     return (
@@ -22,7 +20,15 @@ export default function Achievements({ items }: Props) {
                     <div
                         key={item.id}
                         className="project-card"
-                        onClick={() => router.push(`/achievements?id=${item.id}`)}
+                        tabIndex={0}
+                        role="button"
+                        onClick={() => onItemClick?.(item)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                onItemClick?.(item);
+                            }
+                        }}
                     >
                         {item.imageurl && (
                             <div className="project-image">

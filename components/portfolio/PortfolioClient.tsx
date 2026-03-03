@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { PortfolioData } from "@/types/portfolio";
+import { useEffect, useState, useCallback } from "react";
+import type { PortfolioData, Project, Education as EducationType, Achievement } from "@/types/portfolio";
 import Preloader from "./Preloader";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
@@ -14,13 +14,20 @@ import Achievements from "./Achievements";
 import Footer from "./Footer";
 import BackToTop from "./BackToTop";
 import ScrollReveal from "./ScrollReveal";
+import DetailModal from "./DetailModal";
 
 interface Props {
     data: PortfolioData;
 }
 
+type DetailItem = {
+    item: Project | EducationType | Achievement;
+    type: "project" | "education" | "achievement";
+};
+
 export default function PortfolioClient({ data }: Props) {
     const [loading, setLoading] = useState(true);
+    const [detail, setDetail] = useState<DetailItem | null>(null);
 
     // Apply theme from config
     useEffect(() => {
@@ -55,6 +62,39 @@ export default function PortfolioClient({ data }: Props) {
         return () => clearTimeout(timer);
     }, []);
 
+    // Handle browser back button to close overlay
+    useEffect(() => {
+        const onPopState = () => {
+            setDetail(null);
+        };
+        window.addEventListener("popstate", onPopState);
+        return () => window.removeEventListener("popstate", onPopState);
+    }, []);
+
+    // Lock body scroll when detail overlay is open
+    useEffect(() => {
+        if (detail) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => { document.body.style.overflow = ""; };
+    }, [detail]);
+
+    const openDetail = useCallback((item: Project | EducationType | Achievement, type: "project" | "education" | "achievement") => {
+        setDetail({ item, type });
+        history.pushState({ detail: true }, "");
+    }, []);
+
+    const closeDetail = useCallback(() => {
+        if (detail) {
+            setDetail(null);
+            if (history.state?.detail) {
+                history.back();
+            }
+        }
+    }, [detail]);
+
     return (
         <>
             {loading && <Preloader />}
@@ -72,13 +112,13 @@ export default function PortfolioClient({ data }: Props) {
 
             <ScrollReveal>
                 <section className="section projects" id="projects">
-                    <Projects items={data.projects} />
+                    <Projects items={data.projects} onItemClick={(item) => openDetail(item, "project")} />
                 </section>
             </ScrollReveal>
 
             <ScrollReveal>
                 <section className="section education" id="education">
-                    <Education items={data.education} />
+                    <Education items={data.education} onItemClick={(item) => openDetail(item, "education")} />
                 </section>
             </ScrollReveal>
 
@@ -96,13 +136,21 @@ export default function PortfolioClient({ data }: Props) {
 
             <ScrollReveal>
                 <section className="section achievements" id="achievements">
-                    <Achievements items={data.achievements} />
+                    <Achievements items={data.achievements} onItemClick={(item) => openDetail(item, "achievement")} />
                 </section>
             </ScrollReveal>
 
             <Footer config={data.config} />
 
             <BackToTop />
+
+            {detail && (
+                <DetailModal
+                    item={detail.item as unknown as Record<string, unknown>}
+                    type={detail.type}
+                    onClose={closeDetail}
+                />
+            )}
         </>
     );
 }
