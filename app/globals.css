@@ -1301,39 +1301,6 @@ svg {
         width: 40px;
         height: 40px;
     }
-}@ k e y f r a m e s   s k e l e t o n - s h i m m e r   {   0 %   {   b a c k g r o u n d - p o s i t i o n :   - 2 0 0 %   0 ;   }   1 0 0 %   {   b a c k g r o u n d - p o s i t i o n :   2 0 0 %   0 ;   }   }   . s k e l e t o n   {   b a c k g r o u n d :   l i n e a r - g r a d i e n t ( 9 0 d e g ,   r g b a ( 2 5 5 ,   2 5 5 ,   2 5 5 ,   0 . 0 5 )   2 5 % ,   r g b a ( 2 5 5 ,   2 5 5 ,   2 5 5 ,   0 . 1 )   5 0 % ,   r g b a ( 2 5 5 ,   2 5 5 ,   2 5 5 ,   0 . 0 5 )   7 5 % ) ;   b a c k g r o u n d - s i z e :   2 0 0 %   1 0 0 % ;   a n i m a t i o n :   s k e l e t o n - s h i m m e r   1 . 5 s   i n f i n i t e   l i n e a r ;   b o r d e r - r a d i u s :   v a r ( - - r a d i u s - m d ) ;   }  
- 
-
-@keyframes skeleton-shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-.skeleton {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
-    background-size: 200% 100%;
-    animation: skeleton-shimmer 1.5s infinite linear;
-    border-radius: var(--radius-md);
-}
-
-@keyframes skeleton-shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-.skeleton {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
-    background-size: 200% 100%;
-    animation: skeleton-shimmer 1.5s infinite linear;
-    border-radius: var(--radius-md);
 }
 
 @keyframes skeleton-shimmer {
