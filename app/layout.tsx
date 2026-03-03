@@ -1,45 +1,98 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+export const viewport: Viewport = {
+    themeColor: "#0a192f",
+    colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
-    title: "Khandaker Siam Ahmed | Portfolio",
+    metadataBase: new URL("https://khandakersiamahmed.github.io"),
+    title: {
+        default: "Khandaker Siam Ahmed | Mechanical Engineer & Robotics Portfolio",
+        template: "%s | Khandaker Siam Ahmed",
+    },
     description:
-        "Portfolio of Khandaker Siam Ahmed - Mechanical Engineer & Robotics Enthusiast",
+        "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+    applicationName: "Khandaker Siam Ahmed Portfolio",
+    authors: [{ name: "Khandaker Siam Ahmed", url: "https://khandakersiamahmed.github.io" }],
+    generator: "Next.js",
     keywords: [
         "Khandaker Siam Ahmed",
-        "Portfolio",
+        "Khandaker Siam Ahmed Portfolio",
         "Mechanical Engineer",
         "Robotics Enthusiast",
-        "Robotics",
-        "Engineering",
+        "Robotics Engineer",
+        "Mechatronics",
+        "CAD Designer",
+        "SolidWorks Expert",
+        "Arduino Projects",
+        "Engineering Portfolio",
+        "Bangladesh Engineer",
+        "Mechanical Design",
+        "IoT Developer",
+        "Hardware Interfacing",
+        "LFR",
+        "Line Follower Robot"
     ],
-    authors: [{ name: "Khandaker Siam Ahmed" }],
+    referrer: "origin-when-cross-origin",
+    creator: "Khandaker Siam Ahmed",
+    publisher: "Khandaker Siam Ahmed",
+    formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+    },
+    alternates: {
+        canonical: "/",
+    },
     verification: {
         google: "DQvo7WOvqO52Tp9gVPZLT7YcOadgT5V5DZ0YAyhPQQk",
     },
     openGraph: {
-        type: "website",
-        url: "https://khandakersiamahmed.github.io/",
-        title: "Khandaker Siam Ahmed | Portfolio",
+        title: "Khandaker Siam Ahmed | Mechanical Engineer & Robotics Portfolio",
         description:
-            "Portfolio of Khandaker Siam Ahmed - Mechanical Engineer & Robotics Enthusiast",
+            "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+        url: "https://khandakersiamahmed.github.io/",
+        siteName: "Khandaker Siam Ahmed Portfolio",
         images: [
             {
-                url: "https://khandakersiamahmed.github.io/assets/social-preview.svg",
+                url: "/assets/social-preview.svg",
+                width: 1200,
+                height: 630,
+                alt: "Khandaker Siam Ahmed Portfolio Preview",
             },
         ],
+        locale: "en_US",
+        type: "website",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Khandaker Siam Ahmed | Portfolio",
+        title: "Khandaker Siam Ahmed | Mechanical Engineer & Robotics Portfolio",
         description:
-            "Portfolio of Khandaker Siam Ahmed - Mechanical Engineer & Robotics Enthusiast",
-        images: [
-            "https://khandakersiamahmed.github.io/assets/social-preview.svg",
-        ],
+            "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+        images: ["/assets/social-preview.svg"],
+    },
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+        },
     },
     icons: {
         icon: "/assets/Khandaker Siam Ahmed.svg",
+        shortcut: "/assets/Khandaker Siam Ahmed.svg",
+        apple: "/assets/Khandaker Siam Ahmed.svg",
+        other: {
+            rel: "apple-touch-icon-precomposed",
+            url: "/assets/Khandaker Siam Ahmed.svg",
+        },
     },
 };
 
@@ -64,33 +117,52 @@ export default function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "Person",
-                            name: "Khandaker Siam Ahmed",
-                            url: "https://khandakersiamahmed.github.io/",
-                            image:
-                                "https://khandakersiamahmed.github.io/assets/Khandaker%20Siam%20Ahmed.svg",
-                            sameAs: [
-                                "https://linkedin.com/in/khandakersiamahmed",
-                                "https://github.com/KhandakerSiamAhmed",
-                                "https://www.facebook.com/khandaker.siam.ahmed.mahin",
-                                "https://grabcad.com/khandaker.siam.ahmed-2",
-                            ],
-                            jobTitle: "Mechanical Engineer & Robotics Enthusiast",
-                            worksFor: {
-                                "@type": "Organization",
-                                name: "Freelance",
+                        __html: JSON.stringify([
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "WebSite",
+                                name: "Khandaker Siam Ahmed Portfolio",
+                                url: "https://khandakersiamahmed.github.io/",
+                                description: "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast.",
+                                publisher: {
+                                    "@type": "Person",
+                                    name: "Khandaker Siam Ahmed"
+                                }
                             },
-                            description:
-                                "Portfolio of Khandaker Siam Ahmed - Mechanical Engineer & Robotics Enthusiast.",
-                            knowsAbout: [
-                                "Mechanical Engineering",
-                                "Robotics",
-                                "CAD Design",
-                                "Mechatronics",
-                            ],
-                        }),
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "Person",
+                                name: "Khandaker Siam Ahmed",
+                                url: "https://khandakersiamahmed.github.io/",
+                                image: "https://khandakersiamahmed.github.io/assets/Khandaker%20Siam%20Ahmed.svg",
+                                sameAs: [
+                                    "https://linkedin.com/in/khandakersiamahmed",
+                                    "https://github.com/KhandakerSiamAhmed",
+                                    "https://www.facebook.com/khandaker.siam.ahmed.mahin",
+                                    "https://grabcad.com/khandaker.siam.ahmed-2",
+                                ],
+                                jobTitle: "Mechanical Engineer & Robotics Enthusiast",
+                                worksFor: {
+                                    "@type": "Organization",
+                                    name: "Freelance",
+                                },
+                                description: "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+                                knowsAbout: [
+                                    "Mechanical Engineering",
+                                    "Robotics",
+                                    "CAD Design",
+                                    "Mechatronics",
+                                    "SolidWorks",
+                                    "Arduino",
+                                    "Hardware Interfacing",
+                                    "IoT"
+                                ],
+                                alumniOf: {
+                                    "@type": "CollegeOrUniversity",
+                                    name: "Rajshahi University of Engineering & Technology (RUET)"
+                                }
+                            }
+                        ]),
                     }}
                 />
             </head>

@@ -1,0 +1,16 @@
+{
+    "name": "Khandaker Siam Ahmed | Portfolio",
+    "short_name": "Siam Ahmed",
+    "description": "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a192f",
+    "theme_color": "#0a192f",
+    "icons": [
+        {
+            "src": "/assets/Khandaker Siam Ahmed.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}

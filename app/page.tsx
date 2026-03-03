@@ -1,19 +1,10 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { fetchPortfolioData } from "@/lib/api";
 import PortfolioClient from "@/components/portfolio/PortfolioClient";
-import Preloader from "@/components/portfolio/Preloader";
-import type { PortfolioData } from "@/types/portfolio";
 
-export default function Home() {
-    const [data, setData] = useState<PortfolioData | null>(null);
+export default async function Home() {
+    // Fetch data during build time (or server-side in dev)
+    const data = await fetchPortfolioData();
 
-    useEffect(() => {
-        fetchPortfolioData().then(setData).catch(console.error);
-    }, []);
-
-    if (!data) return <Preloader />;
-
+    // PortfolioClient continues to handle interactivity on the client side
     return <PortfolioClient data={data} />;
 }

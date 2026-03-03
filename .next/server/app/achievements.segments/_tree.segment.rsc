@@ -1,3 +1,0 @@
-:HL["/_next/static/chunks/4f54928fa1f0239e.css","style"]
-:HL["https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;700;800&family=Rajdhani:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap","style"]
-0:{"buildId":"dg7270_iZKI9F_uF3xH-t","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"achievements","paramType":null,"paramKey":"achievements","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
