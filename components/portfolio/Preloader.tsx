@@ -17,8 +17,8 @@ function GridSkeleton() {
             <div className="container">
                 {/* Section header */}
                 <div style={{ marginBottom: "2.5rem" }}>
-                    <div className="skeleton" style={{ width: "200px", height: "2.2rem", marginBottom: "0.75rem" }} />
-                    <div className="skeleton" style={{ width: "320px", height: "1rem" }} />
+                    <div className="skeleton" style={{ width: "200px", height: "2.2rem", marginBottom: "0.75rem", maxWidth: "100%" }} />
+                    <div className="skeleton" style={{ width: "320px", height: "1rem", maxWidth: "100%" }} />
                 </div>
                 {/* Cards grid */}
                 <div style={{
@@ -63,7 +63,7 @@ function TimelineSkeleton() {
         }}>
             <div className="container">
                 <div style={{ marginBottom: "2.5rem" }}>
-                    <div className="skeleton" style={{ width: "180px", height: "2.2rem" }} />
+                    <div className="skeleton" style={{ width: "180px", height: "2.2rem", maxWidth: "100%" }} />
                 </div>
                 <div style={{ borderLeft: "2px solid var(--border-color)", paddingLeft: "2rem" }}>
                     {[1, 2, 3, 4].map((i) => (
@@ -102,7 +102,7 @@ function SkillsSkeleton() {
         }}>
             <div className="container">
                 <div style={{ marginBottom: "2.5rem" }}>
-                    <div className="skeleton" style={{ width: "200px", height: "2.2rem" }} />
+                    <div className="skeleton" style={{ width: "200px", height: "2.2rem", maxWidth: "100%" }} />
                 </div>
                 {/* Category tabs skeleton */}
                 <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
@@ -131,8 +131,8 @@ function SocialSkeleton() {
         }}>
             <div className="container">
                 <div style={{ marginBottom: "2.5rem" }}>
-                    <div className="skeleton" style={{ width: "220px", height: "2.2rem", marginBottom: "0.75rem" }} />
-                    <div className="skeleton" style={{ width: "340px", height: "1rem" }} />
+                    <div className="skeleton" style={{ width: "220px", height: "2.2rem", marginBottom: "0.75rem", maxWidth: "100%" }} />
+                    <div className="skeleton" style={{ width: "340px", height: "1rem", maxWidth: "100%" }} />
                 </div>
                 <div style={{
                     display: "grid",
@@ -164,15 +164,24 @@ function HomeSkeleton() {
     return (
         <div className="site-loader" style={{ display: "block", paddingTop: "0" }}>
             {/* Navbar Skeleton */}
-            <div style={{ padding: "1.25rem 0", borderBottom: "1px solid var(--border-color)" }}>
-                <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div className="skeleton" style={{ width: "150px", height: "32px" }} />
-                    <div style={{ display: "flex", gap: "2rem" }}>
-                        {[1, 2, 3, 4, 5].map((i) => (
-                            <div key={i} className="skeleton" style={{ width: "60px", height: "18px" }} />
+            <div style={{ padding: "1.25rem 0", borderBottom: "1px solid var(--border-color)", background: "transparent" }}>
+                <div className="container nav-container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div className="skeleton" style={{ width: "150px", height: "32px", borderRadius: "4px" }} />
+                    <ul className="nav-menu" style={{ margin: 0, padding: 0 }}>
+                        {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                            <li key={i}>
+                                <div className="skeleton" style={{ width: "60px", height: "18px" }} />
+                            </li>
                         ))}
+                    </ul>
+                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                        <div className="skeleton" style={{ width: "68px", height: "32px", borderRadius: "4px" }} />
+                        <div className="nav-toggle" style={{ display: "flex", flexDirection: "column", gap: "5px", background: "none", cursor: "default" }}>
+                            <div className="skeleton" style={{ width: "24px", height: "2px" }} />
+                            <div className="skeleton" style={{ width: "24px", height: "2px" }} />
+                            <div className="skeleton" style={{ width: "24px", height: "2px" }} />
+                        </div>
                     </div>
-                    <div className="skeleton" style={{ width: "40px", height: "32px" }} />
                 </div>
             </div>
 
