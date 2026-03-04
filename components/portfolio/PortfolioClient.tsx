@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import type { PortfolioData, Project, Education as EducationType, Achievement } from "@/types/portfolio";
+import { supabase } from "@/lib/supabase";
 import Preloader from "./Preloader";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
@@ -17,7 +18,7 @@ import BackToTop from "./BackToTop";
 import DetailModal from "./DetailModal";
 
 interface Props {
-    data: PortfolioData;
+    data: PortfolioData; // build-time seed data
 }
 
 type DetailItem = {
@@ -25,15 +26,45 @@ type DetailItem = {
     type: "project" | "education" | "achievement";
 };
 
-/** Returns items to show on home page: starred ones first (max 3), falling back to first-3 */
+/** Returns starred items (max N), else falls back to first N */
 function getHomeItems<T extends { starred?: boolean }>(items: T[], max = 3): T[] {
-    const starred = items.filter((i) => i.starred);
+    const starred = items.filter((i) => i.starred === true);
     return (starred.length > 0 ? starred : items).slice(0, max);
 }
 
-export default function PortfolioClient({ data }: Props) {
+export default function PortfolioClient({ data: seedData }: Props) {
     const [loading, setLoading] = useState(true);
+    const [data, setData] = useState<PortfolioData>(seedData);
     const [detail, setDetail] = useState<DetailItem | null>(null);
+
+    // Fetch live data from Supabase on mount so starred changes take effect immediately
+    useEffect(() => {
+        async function fetchLive() {
+            try {
+                const [configRes, expRes, projRes, skillRes, achRes, eduRes] = await Promise.all([
+                    supabase.from("config").select("*").eq("key", "global").single(),
+                    supabase.from("experience").select("*").order("date", { ascending: false }),
+                    supabase.from("projects").select("*").order("created_at", { ascending: false }),
+                    supabase.from("skills").select("*"),
+                    supabase.from("achievements").select("*"),
+                    supabase.from("education").select("*").order("start_year", { ascending: false }),
+                ]);
+                setData({
+                    config: configRes.data?.value ?? seedData.config,
+                    experience: expRes.data ?? seedData.experience,
+                    projects: projRes.data ?? seedData.projects,
+                    skills: skillRes.data ?? seedData.skills,
+                    achievements: achRes.data ?? seedData.achievements,
+                    education: eduRes.data ?? seedData.education,
+                });
+            } catch {
+                // Keep seed data on error
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchLive();
+    }, [seedData]);
 
     // Apply theme from config
     useEffect(() => {
@@ -53,19 +84,13 @@ export default function PortfolioClient({ data }: Props) {
         }
     }, [data.config?.theme]);
 
-    // Apply cached theme immediately on mount
+    // Apply cached theme immediately on mount to prevent flash
     useEffect(() => {
         const cachedTheme = localStorage.getItem("site-theme");
         if (cachedTheme) {
             document.documentElement.setAttribute("data-theme", cachedTheme);
             if (cachedTheme === "titanium") document.body.classList.add("grid-bg");
         }
-    }, []);
-
-    // Hide preloader after data is ready
-    useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 800);
-        return () => clearTimeout(timer);
     }, []);
 
     // Handle browser back button to close overlay
@@ -107,7 +132,6 @@ export default function PortfolioClient({ data }: Props) {
     const homeExperience = getHomeItems(data.experience);
     const homeAchievements = getHomeItems(data.achievements);
     const homeSkills = getHomeItems(data.skills, 9);
-    // Social section: no starred logic — just cap at 6 (hardcoded links)
 
     return (
         <>
