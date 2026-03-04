@@ -185,14 +185,11 @@ function HomeSkeleton() {
                 </div>
             </div>
 
-            {/* Hero Skeleton */}
+            {/* Hero Skeleton — same DOM order as real Hero: content first, visual second.
+                On desktop (row): text=left, image=right.
+                On mobile (column-reverse): image shows on top, text below. */}
             <div className="container hero-container" style={{ paddingTop: "5rem", paddingBottom: "3rem" }}>
-                {/* Image side (Hero-visual in real component is usually after content, but hero-container handles order) */}
-                <div className="hero-visual" style={{ marginBottom: "0" }}>
-                    <div className="skeleton" style={{ width: "280px", height: "280px", borderRadius: "50%", maxWidth: "100%" }} />
-                </div>
-
-                {/* Text side */}
+                {/* Text side (left on desktop, bottom on mobile) */}
                 <div className="hero-content">
                     <div className="skeleton" style={{ width: "80%", height: "3.5rem", marginBottom: "1rem" }} />
                     <div className="skeleton" style={{ width: "60%", height: "3.5rem", marginBottom: "2rem" }} />
@@ -202,6 +199,13 @@ function HomeSkeleton() {
                     <div className="hero-cta" style={{ marginTop: "1rem" }}>
                         <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "8px" }} />
                         <div className="skeleton" style={{ width: "140px", height: "3rem", borderRadius: "8px" }} />
+                    </div>
+                </div>
+
+                {/* Image side (right on desktop, top on mobile via column-reverse) */}
+                <div className="hero-visual">
+                    <div className="hero-image-container">
+                        <div className="skeleton" style={{ width: "280px", height: "280px", borderRadius: "50%", maxWidth: "100%" }} />
                     </div>
                 </div>
             </div>
