@@ -28,8 +28,13 @@ type DetailItem = {
 
 /** Returns starred items (max N), else falls back to first N */
 function getHomeItems<T extends { starred?: boolean }>(items: T[], max = 3): T[] {
-    const starred = items.filter((i) => i.starred === true);
-    return (starred.length > 0 ? starred : items).slice(0, max);
+    const starred = items.filter((i) => Boolean(i.starred));
+    if (starred.length > 0) {
+        console.log(`[getHomeItems] ${starred.length} starred found, showing up to ${max}`);
+        return starred.slice(0, max);
+    }
+    console.log(`[getHomeItems] No starred items, falling back to first ${max}`);
+    return items.slice(0, max);
 }
 
 export default function PortfolioClient({ data: seedData }: Props) {
@@ -49,6 +54,11 @@ export default function PortfolioClient({ data: seedData }: Props) {
                     supabase.from("achievements").select("*"),
                     supabase.from("education").select("*").order("start_year", { ascending: false }),
                 ]);
+
+                // Log starred counts for debugging
+                const starredProjects = (projRes.data ?? []).filter((p) => Boolean(p.starred));
+                console.log(`[PortfolioClient] Live fetch: ${projRes.data?.length} projects, ${starredProjects.length} starred`);
+
                 setData({
                     config: configRes.data?.value ?? seedData.config,
                     experience: expRes.data ?? seedData.experience,
@@ -57,8 +67,9 @@ export default function PortfolioClient({ data: seedData }: Props) {
                     achievements: achRes.data ?? seedData.achievements,
                     education: eduRes.data ?? seedData.education,
                 });
-            } catch {
-                // Keep seed data on error
+            } catch (err) {
+                console.error("[PortfolioClient] Live fetch failed:", err);
+                // Keep seed data
             } finally {
                 setLoading(false);
             }
