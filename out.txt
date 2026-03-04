@@ -1,0 +1,37 @@
+﻿build	Build with Next.js	∩╗┐2026-03-03T21:59:41.0710347Z ##[group]Run npm run build
+build	Build with Next.js	2026-03-03T21:59:41.0710660Z [36;1mnpm run build[0m
+build	Build with Next.js	2026-03-03T21:59:41.0760093Z shell: /usr/bin/bash -e {0}
+build	Build with Next.js	2026-03-03T21:59:41.0760357Z env:
+build	Build with Next.js	2026-03-03T21:59:41.0760541Z   GITHUB_PAGES: true
+build	Build with Next.js	2026-03-03T21:59:41.0760822Z ##[endgroup]
+build	Build with Next.js	2026-03-03T21:59:41.1932769Z 
+build	Build with Next.js	2026-03-03T21:59:41.1933424Z > khandakersiamahmed-portfolio@0.1.0 build
+build	Build with Next.js	2026-03-03T21:59:41.1934043Z > next build
+build	Build with Next.js	2026-03-03T21:59:41.1934270Z 
+build	Build with Next.js	2026-03-03T21:59:41.8128100Z Γû▓ Next.js 16.1.6 (Turbopack)
+build	Build with Next.js	2026-03-03T21:59:41.8130926Z 
+build	Build with Next.js	2026-03-03T21:59:41.8752632Z   Creating an optimized production build ...
+build	Build with Next.js	2026-03-03T21:59:45.9425769Z Γ£ô Compiled successfully in 3.8s
+build	Build with Next.js	2026-03-03T21:59:45.9492103Z   Running TypeScript ...
+build	Build with Next.js	2026-03-03T21:59:49.3917385Z   Collecting page data using 3 workers ...
+build	Build with Next.js	2026-03-03T21:59:49.8167843Z Error: Failed to collect configuration for /
+build	Build with Next.js	2026-03-03T21:59:49.8168517Z     at ignore-listed frames {
+build	Build with Next.js	2026-03-03T21:59:49.8168876Z   [cause]: Error: supabaseUrl is required.
+build	Build with Next.js	2026-03-03T21:59:49.8169320Z       at <unknown> (.next/server/chunks/ssr/_56578cdb._.js:37:43440)
+build	Build with Next.js	2026-03-03T21:59:49.8169888Z       at new cf (.next/server/chunks/ssr/_56578cdb._.js:37:43691)
+build	Build with Next.js	2026-03-03T21:59:49.8170354Z       at module evaluation (.next/server/chunks/ssr/_56578cdb._.js:37:48029)
+build	Build with Next.js	2026-03-03T21:59:49.8170901Z       at instantiateModule (.next/server/chunks/ssr/[turbopack]_runtime.js:740:9)
+build	Build with Next.js	2026-03-03T21:59:49.8171828Z       at getOrInstantiateModuleFromParent (.next/server/chunks/ssr/[turbopack]_runtime.js:763:12)
+build	Build with Next.js	2026-03-03T21:59:49.8172903Z       at Context.esmImport [as i] (.next/server/chunks/ssr/[turbopack]_runtime.js:228:20)
+build	Build with Next.js	2026-03-03T21:59:49.8173454Z       at module evaluation (.next/server/chunks/ssr/_37435df3._.js:1:33)
+build	Build with Next.js	2026-03-03T21:59:49.8173978Z       at instantiateModule (.next/server/chunks/ssr/[turbopack]_runtime.js:740:9)
+build	Build with Next.js	2026-03-03T21:59:49.8175603Z       at getOrInstantiateModuleFromParent (.next/server/chunks/ssr/[turbopack]_runtime.js:763:12)
+build	Build with Next.js	2026-03-03T21:59:49.8177572Z       at Context.commonJsRequire [as r] (.next/server/chunks/ssr/[turbopack]_runtime.js:249:12)
+build	Build with Next.js	2026-03-03T21:59:49.8178298Z }
+build	Build with Next.js	2026-03-03T21:59:49.9403849Z 
+build	Build with Next.js	2026-03-03T21:59:49.9404626Z > Build error occurred
+build	Build with Next.js	2026-03-03T21:59:49.9445351Z Error: Failed to collect page data for /
+build	Build with Next.js	2026-03-03T21:59:49.9445796Z     at ignore-listed frames {
+build	Build with Next.js	2026-03-03T21:59:49.9446134Z   type: 'Error'
+build	Build with Next.js	2026-03-03T21:59:49.9446387Z }
+build	Build with Next.js	2026-03-03T21:59:49.9816734Z ##[error]Process completed with exit code 1.

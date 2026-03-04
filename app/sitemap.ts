@@ -4,7 +4,7 @@ export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const base = "https://khandakersiamahmed.github.io";
-    const now = new Date("2026-03-04");
+    const now = new Date();
 
     return [
         {
