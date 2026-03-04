@@ -8,9 +8,9 @@
     "theme_color": "#0a192f",
     "icons": [
         {
-            "src": "/assets/Khandaker Siam Ahmed.svg",
+            "src": "/assets/Logo.png",
             "sizes": "any",
-            "type": "image/svg+xml"
+            "type": "image/png"
         }
     ]
 }

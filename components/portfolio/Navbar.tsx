@@ -97,7 +97,7 @@ export default function Navbar({ config }: Props) {
                 >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src={profileImage || "/assets/Khandaker Siam Ahmed.svg"}
+                        src={profileImage || "/assets/Logo.png"}
                         alt={config?.heroName || "Profile"}
                         className="logo-img"
                     />

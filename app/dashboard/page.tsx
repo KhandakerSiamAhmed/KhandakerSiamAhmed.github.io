@@ -420,7 +420,7 @@ export default function DashboardPage() {
 
     // ===== RESET IMAGE =====
     const resetProfileImage = () => {
-        setProfileImageUrl("/assets/Khandaker Siam Ahmed.svg");
+        setProfileImageUrl("/assets/Logo.png");
         if (profileFileRef.current) profileFileRef.current.value = "";
         alert("Profile image set to default. Remember to click 'Save Changes' to apply!");
     };

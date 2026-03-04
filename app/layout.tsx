@@ -86,12 +86,12 @@ export const metadata: Metadata = {
         },
     },
     icons: {
-        icon: "/assets/Khandaker Siam Ahmed.svg",
-        shortcut: "/assets/Khandaker Siam Ahmed.svg",
-        apple: "/assets/Khandaker Siam Ahmed.svg",
+        icon: "/assets/Logo.png",
+        shortcut: "/assets/Logo.png",
+        apple: "/assets/Logo.png",
         other: {
             rel: "apple-touch-icon-precomposed",
-            url: "/assets/Khandaker Siam Ahmed.svg",
+            url: "/assets/Logo.png",
         },
     },
 };
@@ -134,7 +134,7 @@ export default function RootLayout({
                                 "@type": "Person",
                                 name: "Khandaker Siam Ahmed",
                                 url: "https://khandakersiamahmed.github.io/",
-                                image: "https://khandakersiamahmed.github.io/assets/Khandaker%20Siam%20Ahmed.svg",
+                                image: "https://khandakersiamahmed.github.io/assets/Logo.png",
                                 sameAs: [
                                     "https://www.linkedin.com/in/khandakersiamahmed/",
                                     "https://github.com/KhandakerSiamAhmed",

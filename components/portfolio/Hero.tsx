@@ -51,7 +51,7 @@ const imageVariants: Variants = {
 export default function Hero({ config }: Props) {
     const heroName = config?.heroName || "Khandaker Siam Ahmed";
     const heroSubtitle = config?.heroSubtitle || "Mechanical Engineer & Robotics Enthusiast";
-    const profileImage = config?.profileImage || "/assets/Khandaker Siam Ahmed.svg";
+    const profileImage = config?.profileImage || "/assets/Logo.png";
     const frameStyle = config?.heroPhotoStyle || "frame-soft";
     const resumeUrl = config?.resumeUrl || "/assets/cv.pdf";
 
