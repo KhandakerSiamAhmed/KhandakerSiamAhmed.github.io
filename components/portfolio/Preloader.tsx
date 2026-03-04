@@ -186,29 +186,22 @@ function HomeSkeleton() {
             </div>
 
             {/* Hero Skeleton */}
-            <div className="container" style={{ paddingTop: "5rem", paddingBottom: "3rem" }}>
-                <div style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "4rem",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                }}>
-                    {/* Text side */}
-                    <div style={{ flex: "1 1 300px" }}>
-                        <div className="skeleton" style={{ width: "80%", height: "3rem", marginBottom: "1rem" }} />
-                        <div className="skeleton" style={{ width: "60%", height: "3rem", marginBottom: "2rem" }} />
-                        <div className="skeleton" style={{ width: "95%", height: "1rem", marginBottom: "0.5rem" }} />
-                        <div className="skeleton" style={{ width: "80%", height: "1rem", marginBottom: "0.5rem" }} />
-                        <div className="skeleton" style={{ width: "70%", height: "1rem", marginBottom: "2rem" }} />
-                        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-                            <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "8px" }} />
-                            <div className="skeleton" style={{ width: "140px", height: "3rem", borderRadius: "8px" }} />
-                        </div>
-                    </div>
-                    {/* Image side */}
-                    <div style={{ flex: "0 0 auto" }}>
-                        <div className="skeleton" style={{ width: "280px", height: "280px", borderRadius: "50%", maxWidth: "100%" }} />
+            <div className="container hero-container" style={{ paddingTop: "5rem", paddingBottom: "3rem" }}>
+                {/* Image side (Hero-visual in real component is usually after content, but hero-container handles order) */}
+                <div className="hero-visual" style={{ marginBottom: "0" }}>
+                    <div className="skeleton" style={{ width: "280px", height: "280px", borderRadius: "50%", maxWidth: "100%" }} />
+                </div>
+
+                {/* Text side */}
+                <div className="hero-content">
+                    <div className="skeleton" style={{ width: "80%", height: "3.5rem", marginBottom: "1rem" }} />
+                    <div className="skeleton" style={{ width: "60%", height: "3.5rem", marginBottom: "2rem" }} />
+                    <div className="skeleton" style={{ width: "95%", height: "1.2rem", marginBottom: "0.5rem" }} />
+                    <div className="skeleton" style={{ width: "80%", height: "1.2rem", marginBottom: "0.5rem" }} />
+                    <div className="skeleton" style={{ width: "70%", height: "1.2rem", marginBottom: "2rem" }} />
+                    <div className="hero-cta" style={{ marginTop: "1rem" }}>
+                        <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "8px" }} />
+                        <div className="skeleton" style={{ width: "140px", height: "3rem", borderRadius: "8px" }} />
                     </div>
                 </div>
             </div>
