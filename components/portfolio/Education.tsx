@@ -2,10 +2,14 @@
 
 import { motion, Variants } from "framer-motion";
 import type { Education as EducationType } from "@/types/portfolio";
+import ViewMoreButton from "./ViewMoreButton";
 
 interface Props {
     items: EducationType[];
     onItemClick?: (item: EducationType) => void;
+    limit?: number;
+    viewAllHref?: string;
+    totalCount?: number;
 }
 
 const containerVariants: Variants = {
@@ -31,8 +35,10 @@ const cardVariants: Variants = {
     },
 };
 
-export default function Education({ items, onItemClick }: Props) {
+export default function Education({ items, onItemClick, limit, viewAllHref, totalCount }: Props) {
     if (!items || items.length === 0) return null;
+
+    const displayed = limit ? items.slice(0, limit) : items;
 
     return (
         <div className="container">
@@ -52,7 +58,7 @@ export default function Education({ items, onItemClick }: Props) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
             >
-                {items.map((item) => (
+                {displayed.map((item) => (
                     <motion.article
                         key={item.id}
                         variants={cardVariants}
@@ -96,6 +102,10 @@ export default function Education({ items, onItemClick }: Props) {
                     </motion.article>
                 ))}
             </motion.div>
+
+            {viewAllHref && (
+                <ViewMoreButton href={viewAllHref} label={`View All Education (${totalCount ?? items.length})`} />
+            )}
         </div>
     );
 }

@@ -75,6 +75,52 @@ async function uploadFile(file: File, folder: string): Promise<string | null> {
     return publicUrl;
 }
 
+/* ===== STAR BUTTON ===== */
+function StarButton({ starred, onClick, disabled }: { starred: boolean; onClick: () => void; disabled?: boolean }) {
+    return (
+        <button
+            onClick={onClick}
+            disabled={disabled}
+            title={starred ? "Unstar (remove from home preview)" : "Star (show on home page)"}
+            style={{
+                background: "none",
+                border: starred ? "1px solid #f5a623" : "1px solid #444",
+                borderRadius: "6px",
+                padding: "5px 10px",
+                cursor: disabled ? "not-allowed" : "pointer",
+                color: starred ? "#f5a623" : "#666",
+                fontSize: "1rem",
+                opacity: disabled && !starred ? 0.4 : 1,
+                transition: "all 0.2s",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+            }}
+        >
+            {starred ? "★" : "☆"}
+        </button>
+    );
+}
+
+/* ===== STARRED BANNER ===== */
+function StarredBanner({ count, max, label }: { count: number; max: number; label: string }) {
+    return (
+        <div style={{
+            padding: "0.6rem 1rem",
+            borderRadius: "8px",
+            marginBottom: "1rem",
+            background: count > 0 ? "rgba(245, 166, 35, 0.1)" : "transparent",
+            border: count > 0 ? "1px solid rgba(245, 166, 35, 0.3)" : "1px solid transparent",
+            fontSize: "0.85rem",
+            color: count > 0 ? "#f5a623" : "#888",
+        }}>
+            {count > 0
+                ? `⭐ ${count}/${max} ${label} starred — these show on the home page preview`
+                : `☆ No ${label} starred — home page will show the most recent ${max}`}
+        </div>
+    );
+}
+
 /* ===== MAIN COMPONENT ===== */
 export default function DashboardPage() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -103,6 +149,7 @@ export default function DashboardPage() {
     const [facebookUrl, setFacebookUrl] = useState("");
     const [grabcadUrl, setGrabcadUrl] = useState("");
     const [emailContact, setEmailContact] = useState("");
+    const [whatsappContact, setWhatsappContact] = useState("");
 
     // Collections
     const [experienceList, setExperienceList] = useState<Record<string, unknown>[]>([]);
@@ -128,9 +175,7 @@ export default function DashboardPage() {
 
     const checkUser = async () => {
         const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-            setLoggedIn(true);
-        }
+        if (session) setLoggedIn(true);
     };
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -138,11 +183,8 @@ export default function DashboardPage() {
         setLoginError("");
         try {
             const { error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) {
-                setLoginError(error.message);
-            } else {
-                setLoggedIn(true);
-            }
+            if (error) setLoginError(error.message);
+            else setLoggedIn(true);
         } catch (err) {
             setLoginError("Unexpected error: " + (err as Error).message);
         }
@@ -181,6 +223,7 @@ export default function DashboardPage() {
             setFacebookUrl(socials.facebook || "");
             setGrabcadUrl(socials.grabcad || "");
             setEmailContact(socials.email || "");
+            setWhatsappContact(socials.whatsapp || "");
         }
     };
 
@@ -196,6 +239,21 @@ export default function DashboardPage() {
     const loadSkills = async () => {
         const { data } = await supabase.from("skills").select("*");
         setSkillsList(data || []);
+    };
+
+    // ===== STAR TOGGLE =====
+    const toggleStar = async (table: string, id: string, currentStarred: boolean, list: Record<string, unknown>[], max: number) => {
+        if (!currentStarred) {
+            const starredCount = list.filter((i) => i.starred).length;
+            if (starredCount >= max) {
+                alert(`You can only star up to ${max} items in this section. Unstar one first.`);
+                return;
+            }
+        }
+        setLoading(true);
+        await supabase.from(table).update({ starred: !currentStarred }).eq("id", id);
+        await loadAllData();
+        setLoading(false);
     };
 
     // ===== SAVE GENERAL =====
@@ -221,7 +279,7 @@ export default function DashboardPage() {
             resumeUrl,
             profileImage: imageUrl,
             heroPhotoStyle: selectedPhotoStyle,
-            socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact },
+            socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact, whatsapp: whatsappContact },
         };
 
         const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
@@ -255,7 +313,7 @@ export default function DashboardPage() {
             profileImage: imageUrl,
             heroPhotoStyle: selectedPhotoStyle,
             theme: selectedTheme,
-            socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact },
+            socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact, whatsapp: whatsappContact },
         };
 
         const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
@@ -483,6 +541,18 @@ export default function DashboardPage() {
                             <div className="admin-form-group"><label>Facebook URL</label><input type="text" value={facebookUrl} onChange={(e) => setFacebookUrl(e.target.value)} /></div>
                             <div className="admin-form-group"><label>GrabCAD URL</label><input type="text" value={grabcadUrl} onChange={(e) => setGrabcadUrl(e.target.value)} /></div>
                             <div className="admin-form-group"><label>Email Address</label><input type="text" value={emailContact} onChange={(e) => setEmailContact(e.target.value)} /></div>
+                            <div className="admin-form-group">
+                                <label>WhatsApp Number</label>
+                                <input
+                                    type="text"
+                                    value={whatsappContact}
+                                    onChange={(e) => setWhatsappContact(e.target.value)}
+                                    placeholder="e.g. +8801XXXXXXXXX (with country code)"
+                                />
+                                <div style={{ fontSize: "0.75rem", color: "#888", marginTop: "4px" }}>
+                                    Include country code. Used for the "Get In Touch" footer button.
+                                </div>
+                            </div>
                             <div style={{ display: "flex", gap: "1rem" }}>
                                 <button type="submit" className="admin-btn-primary">Save Changes</button>
                                 <button type="button" onClick={loadGeneral} className="admin-btn-secondary">Reset All</button>
@@ -526,11 +596,19 @@ export default function DashboardPage() {
                 {activeTab === "experience" && (
                     <div>
                         <h1>Experience</h1>
+                        <StarredBanner count={experienceList.filter((i) => i.starred).length} max={3} label="experience entries" />
                         <button onClick={() => openEditModal("experience")} className="admin-btn-primary" style={{ marginBottom: "1rem" }}>Add New Experience</button>
                         <div className="admin-item-list">
                             {experienceList.map((item) => (
                                 <div key={item.id as string} className="admin-list-item">
-                                    <div><strong>{item.role as string}</strong> at {item.company as string}</div>
+                                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                                        <StarButton
+                                            starred={!!item.starred}
+                                            onClick={() => toggleStar("experience", item.id as string, !!item.starred, experienceList, 3)}
+                                            disabled={!item.starred && experienceList.filter((i) => i.starred).length >= 3}
+                                        />
+                                        <div><strong>{item.role as string}</strong> at {item.company as string}</div>
+                                    </div>
                                     <div className="admin-actions">
                                         <button className="admin-btn-edit" onClick={() => openEditModal("experience", item.id as string)}>Edit</button>
                                         <button className="admin-btn-delete" onClick={() => deleteItem("experience", item.id as string)}>Delete</button>
@@ -545,11 +623,17 @@ export default function DashboardPage() {
                 {activeTab === "projects" && (
                     <div>
                         <h1>Projects</h1>
+                        <StarredBanner count={projectsList.filter((i) => i.starred).length} max={3} label="projects" />
                         <button onClick={() => openEditModal("project")} className="admin-btn-primary" style={{ marginBottom: "1rem" }}>Add New Project</button>
                         <div className="admin-item-list">
                             {projectsList.map((item) => (
                                 <div key={item.id as string} className="admin-list-item">
                                     <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                                        <StarButton
+                                            starred={!!item.starred}
+                                            onClick={() => toggleStar("projects", item.id as string, !!item.starred, projectsList, 3)}
+                                            disabled={!item.starred && projectsList.filter((i) => i.starred).length >= 3}
+                                        />
                                         {item.imageurl ? (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img src={item.imageurl as string} alt="" style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "4px" }} />
@@ -572,11 +656,17 @@ export default function DashboardPage() {
                 {activeTab === "education" && (
                     <div>
                         <h1>Education</h1>
+                        <StarredBanner count={educationList.filter((i) => i.starred).length} max={3} label="education entries" />
                         <button onClick={() => openEditModal("education")} className="admin-btn-primary" style={{ marginBottom: "1rem" }}>Add New Education</button>
                         <div className="admin-item-list">
                             {educationList.map((item) => (
                                 <div key={item.id as string} className="admin-list-item">
                                     <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                                        <StarButton
+                                            starred={!!item.starred}
+                                            onClick={() => toggleStar("education", item.id as string, !!item.starred, educationList, 3)}
+                                            disabled={!item.starred && educationList.filter((i) => i.starred).length >= 3}
+                                        />
                                         {item.imageurl ? (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img src={item.imageurl as string} alt="" style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "4px" }} />
@@ -605,6 +695,7 @@ export default function DashboardPage() {
                 {activeTab === "skills" && (
                     <div>
                         <h1>Skills</h1>
+                        <StarredBanner count={skillsList.filter((i) => i.starred).length} max={9} label="skills" />
                         <div className="admin-form-group">
                             <label>Add Skill</label>
                             <input type="text" value={newSkillInput} onChange={(e) => setNewSkillInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSkill())} />
@@ -612,7 +703,26 @@ export default function DashboardPage() {
                         </div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "20px" }}>
                             {skillsList.map((item) => (
-                                <div key={item.id as string} style={{ background: "#e9ecef", padding: "5px 10px", borderRadius: "15px", display: "flex", alignItems: "center", gap: "5px", color: "#333" }}>
+                                <div
+                                    key={item.id as string}
+                                    style={{
+                                        background: item.starred ? "rgba(245,166,35,0.15)" : "#e9ecef",
+                                        border: item.starred ? "1px solid #f5a623" : "1px solid transparent",
+                                        padding: "5px 10px",
+                                        borderRadius: "15px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "5px",
+                                        color: "#333",
+                                    }}
+                                >
+                                    <span
+                                        onClick={() => toggleStar("skills", item.id as string, !!item.starred, skillsList, 9)}
+                                        title={item.starred ? "Unstar" : "Star (show on home)"}
+                                        style={{ cursor: "pointer", color: item.starred ? "#f5a623" : "#aaa", fontSize: "0.9rem" }}
+                                    >
+                                        {item.starred ? "★" : "☆"}
+                                    </span>
                                     {item.name as string}
                                     <span onClick={() => deleteItem("skills", item.id as string)} style={{ cursor: "pointer", color: "red", fontWeight: "bold" }}>&times;</span>
                                 </div>
@@ -625,11 +735,17 @@ export default function DashboardPage() {
                 {activeTab === "achievements" && (
                     <div>
                         <h1>Achievements</h1>
+                        <StarredBanner count={achievementsList.filter((i) => i.starred).length} max={3} label="achievements" />
                         <button onClick={() => openEditModal("achievement")} className="admin-btn-primary" style={{ marginBottom: "1rem" }}>Add New Achievement</button>
                         <div className="admin-item-list">
                             {achievementsList.map((item) => (
                                 <div key={item.id as string} className="admin-list-item">
                                     <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                                        <StarButton
+                                            starred={!!item.starred}
+                                            onClick={() => toggleStar("achievements", item.id as string, !!item.starred, achievementsList, 3)}
+                                            disabled={!item.starred && achievementsList.filter((i) => i.starred).length >= 3}
+                                        />
                                         {item.imageurl ? (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img src={item.imageurl as string} alt="" style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "4px" }} />

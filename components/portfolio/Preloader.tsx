@@ -1,49 +1,216 @@
 "use client";
 
-export default function Preloader() {
+type Variant = "home" | "grid" | "timeline" | "skills" | "social";
+
+interface Props {
+    variant?: Variant;
+}
+
+/* ── Grid skeleton: 3 cards ── */
+function GridSkeleton() {
+    return (
+        <div style={{
+            minHeight: "100vh",
+            background: "var(--bg-primary)",
+            padding: "calc(80px + 2rem) 1rem 4rem",
+        }}>
+            <div className="container">
+                {/* Section header */}
+                <div style={{ marginBottom: "2.5rem" }}>
+                    <div className="skeleton" style={{ width: "200px", height: "2.2rem", marginBottom: "0.75rem" }} />
+                    <div className="skeleton" style={{ width: "320px", height: "1rem" }} />
+                </div>
+                {/* Cards grid */}
+                <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))",
+                    gap: "2rem",
+                }}>
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <div key={i} style={{
+                            background: "var(--bg-card)",
+                            border: "1px solid var(--border-color)",
+                            borderRadius: "12px",
+                            overflow: "hidden",
+                        }}>
+                            <div className="skeleton" style={{ width: "100%", aspectRatio: "1/1", maxHeight: "200px" }} />
+                            <div style={{ padding: "1.5rem" }}>
+                                <div className="skeleton" style={{ width: "80px", height: "1.2rem", marginBottom: "0.75rem", borderRadius: "20px" }} />
+                                <div className="skeleton" style={{ width: "100%", height: "1.4rem", marginBottom: "0.5rem" }} />
+                                <div className="skeleton" style={{ width: "75%", height: "1rem", marginBottom: "0.5rem" }} />
+                                <div className="skeleton" style={{ width: "60%", height: "1rem", marginBottom: "1rem" }} />
+                                <div style={{ display: "flex", gap: "0.5rem" }}>
+                                    <div className="skeleton" style={{ width: "60px", height: "1.6rem", borderRadius: "20px" }} />
+                                    <div className="skeleton" style={{ width: "50px", height: "1.6rem", borderRadius: "20px" }} />
+                                    <div className="skeleton" style={{ width: "70px", height: "1.6rem", borderRadius: "20px" }} />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ── Timeline skeleton ── */
+function TimelineSkeleton() {
+    return (
+        <div style={{
+            minHeight: "100vh",
+            background: "var(--bg-primary)",
+            padding: "calc(80px + 2rem) 1rem 4rem",
+        }}>
+            <div className="container">
+                <div style={{ marginBottom: "2.5rem" }}>
+                    <div className="skeleton" style={{ width: "180px", height: "2.2rem" }} />
+                </div>
+                <div style={{ borderLeft: "2px solid var(--border-color)", paddingLeft: "2rem" }}>
+                    {[1, 2, 3, 4].map((i) => (
+                        <div key={i} style={{ marginBottom: "3rem", position: "relative" }}>
+                            <div style={{
+                                position: "absolute",
+                                left: "-2.4rem",
+                                top: "4px",
+                                width: "12px",
+                                height: "12px",
+                                background: "var(--bg-secondary)",
+                                border: "2px solid var(--border-color)",
+                                borderRadius: "50%",
+                            }} />
+                            <div className="skeleton" style={{ width: "100px", height: "0.85rem", marginBottom: "0.6rem" }} />
+                            <div className="skeleton" style={{ width: "60%", height: "1.25rem", marginBottom: "0.4rem" }} />
+                            <div className="skeleton" style={{ width: "40%", height: "1rem", marginBottom: "0.8rem" }} />
+                            <div className="skeleton" style={{ width: "100%", height: "0.9rem", marginBottom: "0.3rem" }} />
+                            <div className="skeleton" style={{ width: "90%", height: "0.9rem" }} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ── Skills pill skeleton ── */
+function SkillsSkeleton() {
+    const widths = [80, 110, 90, 130, 70, 100, 85, 120, 75, 95, 115, 65, 105];
+    return (
+        <div style={{
+            minHeight: "100vh",
+            background: "var(--bg-primary)",
+            padding: "calc(80px + 2rem) 1rem 4rem",
+        }}>
+            <div className="container">
+                <div style={{ marginBottom: "2.5rem" }}>
+                    <div className="skeleton" style={{ width: "200px", height: "2.2rem" }} />
+                </div>
+                {/* Category tabs skeleton */}
+                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
+                    {[90, 60, 110, 75, 85].map((w, i) => (
+                        <div key={i} className="skeleton" style={{ width: `${w}px`, height: "2rem", borderRadius: "6px" }} />
+                    ))}
+                </div>
+                {/* Pill cloud */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+                    {widths.map((w, i) => (
+                        <div key={i} className="skeleton" style={{ width: `${w}px`, height: "2.2rem", borderRadius: "6px" }} />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ── Social cards skeleton ── */
+function SocialSkeleton() {
+    return (
+        <div style={{
+            minHeight: "100vh",
+            background: "var(--bg-primary)",
+            padding: "calc(80px + 2rem) 1rem 4rem",
+        }}>
+            <div className="container">
+                <div style={{ marginBottom: "2.5rem" }}>
+                    <div className="skeleton" style={{ width: "220px", height: "2.2rem", marginBottom: "0.75rem" }} />
+                    <div className="skeleton" style={{ width: "340px", height: "1rem" }} />
+                </div>
+                <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 260px), 1fr))",
+                    gap: "1rem",
+                }}>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                        <div key={i} style={{
+                            background: "var(--bg-card)",
+                            border: "1px solid var(--border-color)",
+                            borderRadius: "12px",
+                            padding: "1.2rem 1.5rem",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "1rem",
+                        }}>
+                            <div className="skeleton" style={{ width: "28px", height: "28px", borderRadius: "50%", flexShrink: 0 }} />
+                            <div className="skeleton" style={{ flex: 1, height: "1.1rem" }} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ── Home skeleton (original hero skeleton) ── */
+function HomeSkeleton() {
     return (
         <div className="site-loader" style={{ display: "block", paddingTop: "0" }}>
             {/* Navbar Skeleton */}
-            <div style={{ padding: "2rem 0", borderBottom: "1px solid var(--border-color)" }}>
+            <div style={{ padding: "1.25rem 0", borderBottom: "1px solid var(--border-color)" }}>
                 <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    {/* Logo */}
-                    <div className="skeleton" style={{ width: "150px", height: "32px" }}></div>
-                    {/* Links - Hidden on smaller screens but okay for general skeleton */}
-                    <div className="hidden md:flex" style={{ gap: "3rem" }}>
-                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
-                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
-                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
-                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
-                        <div className="skeleton" style={{ width: "60px", height: "20px" }}></div>
+                    <div className="skeleton" style={{ width: "150px", height: "32px" }} />
+                    <div style={{ display: "flex", gap: "2rem" }}>
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="skeleton" style={{ width: "60px", height: "18px" }} />
+                        ))}
                     </div>
+                    <div className="skeleton" style={{ width: "40px", height: "32px" }} />
                 </div>
             </div>
 
             {/* Hero Skeleton */}
-            <div className="container" style={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "4rem",
-                gap: "4rem",
-                alignItems: "center",
-                textAlign: "center"
-            }}>
-                <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-                    <div className="skeleton" style={{ width: "100%", maxWidth: "300px", aspectRatio: "1/1", borderRadius: "50%" }}></div>
-                </div>
-
-                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <div className="skeleton" style={{ width: "80%", maxWidth: "500px", height: "3.5rem", marginBottom: "1rem" }}></div>
-                    <div className="skeleton" style={{ width: "60%", maxWidth: "400px", height: "3.5rem", marginBottom: "2.5rem" }}></div>
-                    <div className="skeleton" style={{ width: "90%", maxWidth: "600px", height: "1.2rem", marginBottom: "0.8rem" }}></div>
-                    <div className="skeleton" style={{ width: "70%", maxWidth: "400px", height: "1.2rem", marginBottom: "2rem" }}></div>
-
-                    <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center" }}>
-                        <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "100px" }}></div>
-                        <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "100px" }}></div>
+            <div className="container" style={{ paddingTop: "5rem", paddingBottom: "3rem" }}>
+                <div style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "4rem",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}>
+                    {/* Text side */}
+                    <div style={{ flex: "1 1 300px" }}>
+                        <div className="skeleton" style={{ width: "80%", height: "3rem", marginBottom: "1rem" }} />
+                        <div className="skeleton" style={{ width: "60%", height: "3rem", marginBottom: "2rem" }} />
+                        <div className="skeleton" style={{ width: "95%", height: "1rem", marginBottom: "0.5rem" }} />
+                        <div className="skeleton" style={{ width: "80%", height: "1rem", marginBottom: "0.5rem" }} />
+                        <div className="skeleton" style={{ width: "70%", height: "1rem", marginBottom: "2rem" }} />
+                        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                            <div className="skeleton" style={{ width: "150px", height: "3rem", borderRadius: "8px" }} />
+                            <div className="skeleton" style={{ width: "140px", height: "3rem", borderRadius: "8px" }} />
+                        </div>
+                    </div>
+                    {/* Image side */}
+                    <div style={{ flex: "0 0 auto" }}>
+                        <div className="skeleton" style={{ width: "280px", height: "280px", borderRadius: "50%", maxWidth: "100%" }} />
                     </div>
                 </div>
             </div>
         </div>
     );
+}
+
+export default function Preloader({ variant = "home" }: Props) {
+    if (variant === "grid") return <GridSkeleton />;
+    if (variant === "timeline") return <TimelineSkeleton />;
+    if (variant === "skills") return <SkillsSkeleton />;
+    if (variant === "social") return <SocialSkeleton />;
+    return <HomeSkeleton />;
 }

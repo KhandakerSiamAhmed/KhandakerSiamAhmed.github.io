@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import type { Project } from "@/types/portfolio";
+import ViewMoreButton from "./ViewMoreButton";
 
 interface Props {
     items: Project[];
     onItemClick?: (item: Project) => void;
+    limit?: number;
+    viewAllHref?: string;
+    totalCount?: number;
 }
 
 const containerVariants: Variants = {
@@ -32,13 +36,14 @@ const cardVariants: Variants = {
     },
 };
 
-export default function Projects({ items, onItemClick }: Props) {
+export default function Projects({ items, onItemClick, limit, viewAllHref, totalCount }: Props) {
     const [activeFilter, setActiveFilter] = useState("All");
 
     if (!items || items.length === 0) return null;
 
     const categories = ["All", ...Array.from(new Set(items.map((i) => i.category).filter(Boolean) as string[]))];
     const filtered = activeFilter === "All" ? items : items.filter((i) => i.category === activeFilter);
+    const displayed = limit ? filtered.slice(0, limit) : filtered;
 
     return (
         <div className="container" id="projects">
@@ -53,7 +58,7 @@ export default function Projects({ items, onItemClick }: Props) {
                 <p className="section-subtitle">Spanning robotics, CAD design, embedded systems, and more.</p>
             </motion.div>
 
-            {categories.length > 2 && (
+            {!limit && categories.length > 2 && (
                 <motion.div
                     className="section-tabs"
                     initial={{ opacity: 0 }}
@@ -79,7 +84,7 @@ export default function Projects({ items, onItemClick }: Props) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
             >
-                {filtered.map((item) => {
+                {displayed.map((item) => {
                     const techstack = Array.isArray(item.techstack)
                         ? item.techstack
                         : item.techstack
@@ -138,6 +143,10 @@ export default function Projects({ items, onItemClick }: Props) {
                     );
                 })}
             </motion.div>
+
+            {viewAllHref && (
+                <ViewMoreButton href={viewAllHref} label={`View All Projects (${totalCount ?? items.length})`} />
+            )}
         </div>
     );
 }

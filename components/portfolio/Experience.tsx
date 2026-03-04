@@ -2,9 +2,13 @@
 
 import { motion, Variants } from "framer-motion";
 import type { Experience as ExperienceType } from "@/types/portfolio";
+import ViewMoreButton from "./ViewMoreButton";
 
 interface Props {
     items: ExperienceType[];
+    limit?: number;
+    viewAllHref?: string;
+    totalCount?: number;
 }
 
 const containerVariants: Variants = {
@@ -30,8 +34,10 @@ const itemVariants: Variants = {
     },
 };
 
-export default function Experience({ items }: Props) {
+export default function Experience({ items, limit, viewAllHref, totalCount }: Props) {
     if (!items || items.length === 0) return null;
+
+    const displayed = limit ? items.slice(0, limit) : items;
 
     return (
         <div className="container">
@@ -51,7 +57,7 @@ export default function Experience({ items }: Props) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
             >
-                {items.map((item) => (
+                {displayed.map((item) => (
                     <motion.div
                         key={item.id}
                         className="timeline-item active"
@@ -64,6 +70,10 @@ export default function Experience({ items }: Props) {
                     </motion.div>
                 ))}
             </motion.div>
+
+            {viewAllHref && (
+                <ViewMoreButton href={viewAllHref} label={`View All Experience (${totalCount ?? items.length})`} />
+            )}
         </div>
     );
 }

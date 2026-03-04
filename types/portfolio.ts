@@ -6,6 +6,7 @@ export interface SocialLinks {
     facebook?: string;
     grabcad?: string;
     email?: string;
+    whatsapp?: string;
 }
 
 export interface ProfileCrop {
@@ -33,6 +34,7 @@ export interface Experience {
     company: string;
     date: string;
     description: string;
+    starred?: boolean;
     created_at?: string;
 }
 
@@ -47,12 +49,14 @@ export interface Project {
     bannerurl?: string;
     youtubeurl?: string;
     link?: string;
+    starred?: boolean;
     created_at?: string;
 }
 
 export interface Skill {
     id: string;
     name: string;
+    starred?: boolean;
 }
 
 export interface Achievement {
@@ -65,6 +69,7 @@ export interface Achievement {
     imageurl?: string;
     bannerurl?: string;
     link?: string;
+    starred?: boolean;
 }
 
 export interface Education {
@@ -77,6 +82,7 @@ export interface Education {
     description?: string;
     imageurl?: string;
     bannerurl?: string;
+    starred?: boolean;
 }
 
 export interface PortfolioData {

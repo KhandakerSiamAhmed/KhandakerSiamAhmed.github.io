@@ -14,7 +14,6 @@ import Achievements from "./Achievements";
 import Footer from "./Footer";
 import SocialSection from "./SocialSection";
 import BackToTop from "./BackToTop";
-import ScrollReveal from "./ScrollReveal";
 import DetailModal from "./DetailModal";
 
 interface Props {
@@ -25,6 +24,12 @@ type DetailItem = {
     item: Project | EducationType | Achievement;
     type: "project" | "education" | "achievement";
 };
+
+/** Returns items to show on home page: starred ones first (max 3), falling back to first-3 */
+function getHomeItems<T extends { starred?: boolean }>(items: T[], max = 3): T[] {
+    const starred = items.filter((i) => i.starred);
+    return (starred.length > 0 ? starred : items).slice(0, max);
+}
 
 export default function PortfolioClient({ data }: Props) {
     const [loading, setLoading] = useState(true);
@@ -96,9 +101,17 @@ export default function PortfolioClient({ data }: Props) {
         }
     }, [detail]);
 
+    // Compute home-page preview items (starred → fallback to first-3)
+    const homeProjects = getHomeItems(data.projects);
+    const homeEducation = getHomeItems(data.education);
+    const homeExperience = getHomeItems(data.experience);
+    const homeAchievements = getHomeItems(data.achievements);
+    const homeSkills = getHomeItems(data.skills, 9);
+    // Social section: no starred logic — just cap at 6 (hardcoded links)
+
     return (
         <>
-            {loading && <Preloader />}
+            {loading && <Preloader variant="home" />}
             <Navbar config={data.config} />
 
             <section className="hero" id="hero">
@@ -110,27 +123,50 @@ export default function PortfolioClient({ data }: Props) {
             </section>
 
             <section className="section projects" id="projects">
-                <Projects items={data.projects} onItemClick={(item) => openDetail(item, "project")} />
+                <Projects
+                    items={homeProjects}
+                    onItemClick={(item) => openDetail(item, "project")}
+                    viewAllHref={data.projects.length > 3 ? "/projects" : undefined}
+                    totalCount={data.projects.length}
+                />
             </section>
 
             <section className="section education" id="education">
-                <Education items={data.education} onItemClick={(item) => openDetail(item, "education")} />
+                <Education
+                    items={homeEducation}
+                    onItemClick={(item) => openDetail(item, "education")}
+                    viewAllHref={data.education.length > 3 ? "/education" : undefined}
+                    totalCount={data.education.length}
+                />
             </section>
 
             <section className="section experience" id="experience">
-                <Experience items={data.experience} />
+                <Experience
+                    items={homeExperience}
+                    viewAllHref={data.experience.length > 3 ? "/experience" : undefined}
+                    totalCount={data.experience.length}
+                />
             </section>
 
             <section className="section skills" id="skills">
-                <Skills items={data.skills} />
+                <Skills
+                    items={homeSkills}
+                    viewAllHref={data.skills.length > 9 ? "/skills" : undefined}
+                    totalCount={data.skills.length}
+                />
             </section>
 
             <section className="section achievements" id="achievements">
-                <Achievements items={data.achievements} onItemClick={(item) => openDetail(item, "achievement")} />
+                <Achievements
+                    items={homeAchievements}
+                    onItemClick={(item) => openDetail(item, "achievement")}
+                    viewAllHref={data.achievements.length > 3 ? "/achievements" : undefined}
+                    totalCount={data.achievements.length}
+                />
             </section>
 
             <section className="section social" id="social-links">
-                <SocialSection />
+                <SocialSection limit={6} viewAllHref="/social" />
             </section>
 
             <Footer config={data.config} />

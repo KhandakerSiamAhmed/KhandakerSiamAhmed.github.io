@@ -2,10 +2,14 @@
 
 import { motion, Variants } from "framer-motion";
 import type { Achievement } from "@/types/portfolio";
+import ViewMoreButton from "./ViewMoreButton";
 
 interface Props {
     items: Achievement[];
     onItemClick?: (item: Achievement) => void;
+    limit?: number;
+    viewAllHref?: string;
+    totalCount?: number;
 }
 
 const containerVariants: Variants = {
@@ -31,8 +35,10 @@ const cardVariants: Variants = {
     },
 };
 
-export default function Achievements({ items, onItemClick }: Props) {
+export default function Achievements({ items, onItemClick, limit, viewAllHref, totalCount }: Props) {
     if (!items || items.length === 0) return null;
+
+    const displayed = limit ? items.slice(0, limit) : items;
 
     return (
         <div className="container">
@@ -52,7 +58,7 @@ export default function Achievements({ items, onItemClick }: Props) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
             >
-                {items.map((item) => (
+                {displayed.map((item) => (
                     <motion.div
                         key={item.id}
                         variants={cardVariants}
@@ -92,6 +98,10 @@ export default function Achievements({ items, onItemClick }: Props) {
                     </motion.div>
                 ))}
             </motion.div>
+
+            {viewAllHref && (
+                <ViewMoreButton href={viewAllHref} label={`View All Achievements (${totalCount ?? items.length})`} />
+            )}
         </div>
     );
 }

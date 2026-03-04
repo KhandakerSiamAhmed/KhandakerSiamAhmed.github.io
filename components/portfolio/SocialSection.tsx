@@ -107,7 +107,15 @@ const cardVariants: Variants = {
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 20 } },
 };
 
-export default function SocialSection() {
+import ViewMoreButton from "./ViewMoreButton";
+
+interface Props {
+    limit?: number;
+    viewAllHref?: string;
+}
+
+export default function SocialSection({ limit, viewAllHref }: Props) {
+    const displayed = limit ? SOCIAL_LINKS.slice(0, limit) : SOCIAL_LINKS;
     return (
         <div className="container">
             <motion.div
@@ -117,7 +125,7 @@ export default function SocialSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
             >
-                <h2 className="section-title">Connect &amp; Follow</h2>
+                <h2 className="section-title">Find Me Online</h2>
                 <p className="section-subtitle">
                     Find me across the web — from professional networks and academic research to open-source code and maker communities.
                 </p>
@@ -131,7 +139,7 @@ export default function SocialSection() {
                 viewport={{ once: true, amount: 0.15 }}
             >
                 <ul className="social-grid" role="list">
-                    {SOCIAL_LINKS.map((link) => (
+                    {displayed.map((link) => (
                         <motion.li key={link.name} variants={cardVariants}>
                             <motion.a
                                 href={link.url}
@@ -159,6 +167,10 @@ export default function SocialSection() {
                     ))}
                 </ul>
             </motion.nav>
+
+            {viewAllHref && SOCIAL_LINKS.length > (limit ?? 0) && (
+                <ViewMoreButton href={viewAllHref} label={`View All Socials (${SOCIAL_LINKS.length})`} />
+            )}
         </div>
     );
 }

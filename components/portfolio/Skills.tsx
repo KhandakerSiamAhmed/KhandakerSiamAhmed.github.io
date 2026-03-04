@@ -3,9 +3,13 @@
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import type { Skill } from "@/types/portfolio";
+import ViewMoreButton from "./ViewMoreButton";
 
 interface Props {
     items: Skill[];
+    limit?: number;
+    viewAllHref?: string;
+    totalCount?: number;
 }
 
 interface ParsedSkill {
@@ -37,7 +41,7 @@ const itemVariants: Variants = {
     },
 };
 
-export default function Skills({ items }: Props) {
+export default function Skills({ items, limit, viewAllHref, totalCount }: Props) {
     const [activeTab, setActiveTab] = useState("All");
 
     if (!items || items.length === 0) return null;
@@ -55,10 +59,12 @@ export default function Skills({ items }: Props) {
     const hasCategories = grouped.size > 1 || !grouped.has("General");
     const categories = ["All", ...Array.from(grouped.keys())];
 
-    const visibleSkills: ParsedSkill[] =
+    const allSkills: ParsedSkill[] =
         activeTab === "All"
             ? Array.from(grouped.values()).flat()
             : grouped.get(activeTab) ?? [];
+
+    const visibleSkills = limit ? allSkills.slice(0, limit) : allSkills;
 
     return (
         <div className="container">
@@ -72,7 +78,7 @@ export default function Skills({ items }: Props) {
                 <h2 className="section-title">Technical Skills</h2>
             </motion.div>
 
-            {hasCategories && (
+            {!limit && hasCategories && (
                 <motion.div
                     className="section-tabs"
                     initial={{ opacity: 0 }}
@@ -110,6 +116,10 @@ export default function Skills({ items }: Props) {
                     </motion.span>
                 ))}
             </motion.div>
+
+            {viewAllHref && (
+                <ViewMoreButton href={viewAllHref} label={`View All Skills (${totalCount ?? items.length})`} />
+            )}
         </div>
     );
 }
