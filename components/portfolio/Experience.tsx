@@ -66,7 +66,13 @@ export default function Experience({ items, limit, viewAllHref, totalCount }: Pr
                         <span className="timeline-date">{item.date}</span>
                         <h3 className="timeline-title">{item.role}</h3>
                         <span className="timeline-org">{item.company}</span>
-                        <p>{item.description}</p>
+                        <div className="timeline-desc" style={{ marginTop: "0.5rem" }}>
+                            {item.description?.split('\n').filter(Boolean).map((line, i) => (
+                                <p key={i} style={{ marginBottom: line.trim() === '' ? '0' : '0.5rem' }}>
+                                    {line}
+                                </p>
+                            ))}
+                        </div>
                     </motion.div>
                 ))}
             </motion.div>
