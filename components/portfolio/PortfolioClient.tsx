@@ -147,10 +147,24 @@ export default function PortfolioClient({ data: seedData }: Props) {
     return (
         <>
             {loading && <Preloader variant="home" />}
-            <Navbar config={data.config} />
+            <Navbar
+                config={{
+                    ...data.config,
+                    profileImage: (loading || data.config?.profileImage?.endsWith('.svg'))
+                        ? "/assets/Logo.png"
+                        : (data.config?.profileImage || "/assets/Logo.png")
+                }}
+            />
 
             <section className="hero" id="hero">
-                <Hero config={data.config} />
+                <Hero
+                    config={{
+                        ...data.config,
+                        profileImage: (loading || data.config?.profileImage?.endsWith('.svg'))
+                            ? "/assets/Logo.png"
+                            : (data.config?.profileImage || "/assets/Logo.png")
+                    }}
+                />
             </section>
 
             <section className="section about" id="about">
