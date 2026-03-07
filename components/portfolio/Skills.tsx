@@ -1,7 +1,5 @@
-"use client";
-
-import { useState } from "react";
 import { motion, Variants } from "framer-motion";
+import { Box, Code, Cpu, Lightbulb, CheckCircle2 } from "lucide-react";
 import type { Skill } from "@/types/portfolio";
 import ViewMoreButton from "./ViewMoreButton";
 
@@ -12,26 +10,20 @@ interface Props {
     totalCount?: number;
 }
 
-interface ParsedSkill {
-    id: string;
-    name: string;
-}
-
 const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.05,
+            staggerChildren: 0.1,
         },
     },
 };
 
-const itemVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.8, y: 10 },
+const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
     visible: {
         opacity: 1,
-        scale: 1,
         y: 0,
         transition: {
             type: "spring",
@@ -41,79 +33,92 @@ const itemVariants: Variants = {
     },
 };
 
-export default function Skills({ items, limit, viewAllHref, totalCount }: Props) {
-    const [activeTab, setActiveTab] = useState("All");
+const categories = [
+    {
+        title: "CAD & Simulation",
+        icon: <Box size={24} className="text-[var(--primary-color)]" />,
+        skills: ["SolidWorks (CSWA)", "Blender", "FEA"]
+    },
+    {
+        title: "Languages & Web",
+        icon: <Code size={24} className="text-[var(--primary-color)]" />,
+        skills: ["C/C++", "Python", "JavaScript", "HTML/CSS"]
+    },
+    {
+        title: "Hardware & Microcontrollers",
+        icon: <Cpu size={24} className="text-[var(--primary-color)]" />,
+        skills: ["ESP32", "Arduino"]
+    },
+    {
+        title: "Core Disciplines",
+        icon: <Lightbulb size={24} className="text-[var(--primary-color)]" />,
+        skills: ["Control Theory", "Kinematics"]
+    }
+];
 
-    if (!items || items.length === 0) return null;
-
-    // Parse "Category: Skill Name" convention
-    const grouped = new Map<string, ParsedSkill[]>();
-    items.forEach((item) => {
-        const colonIdx = item.name.indexOf(":");
-        const cat = colonIdx > -1 ? item.name.slice(0, colonIdx).trim() : "General";
-        const name = colonIdx > -1 ? item.name.slice(colonIdx + 1).trim() : item.name;
-        if (!grouped.has(cat)) grouped.set(cat, []);
-        grouped.get(cat)!.push({ id: item.id, name });
-    });
-
-    const hasCategories = grouped.size > 1 || !grouped.has("General");
-    const categories = ["All", ...Array.from(grouped.keys())];
-
-    const allSkills: ParsedSkill[] =
-        activeTab === "All"
-            ? Array.from(grouped.values()).flat()
-            : grouped.get(activeTab) ?? [];
-
-    const visibleSkills = limit ? allSkills.slice(0, limit) : allSkills;
+export default function Skills({ limit, viewAllHref, totalCount, items }: Props) {
+    // If you want to use limit effectively without slicing categories:
+    const displayCategories = limit ? categories.slice(0, 4) : categories;
 
     return (
-        <div className="container">
+        <div className="container" style={{ padding: "0 1rem" }}>
             <motion.div
-                className="section-header"
+                className="section-header text-center"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
+                style={{ textAlign: "center", marginBottom: "3rem" }}
             >
-                <h2 className="section-title">Technical Skills</h2>
+                <h2 className="section-title" style={{ display: "inline-block" }}>Technical Skills</h2>
             </motion.div>
 
-            {!limit && hasCategories && (
-                <motion.div
-                    className="section-tabs"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                >
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            className={`section-tab ${activeTab === cat ? "active" : ""}`}
-                            onClick={() => setActiveTab(cat)}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </motion.div>
-            )}
-
             <motion.div
-                className="skill-items"
-                style={{ justifyContent: "center", gap: "1rem" }}
+                className="skills-grid"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-100px" }}
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                    gap: "2rem",
+                    marginBottom: "3rem"
+                }}
             >
-                {visibleSkills.map((item) => (
-                    <motion.span
-                        key={item.id}
-                        className="skill-pill"
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.1, backgroundColor: "var(--primary-color)", color: "var(--bg-primary)" }}
+                {displayCategories.map((group, idx) => (
+                    <motion.div
+                        key={idx}
+                        className="skill-card bg-[var(--bg-secondary)] border border-[var(--border-color)]"
+                        variants={cardVariants}
+                        whileHover={{ y: -5, boxShadow: "0 10px 30px -15px var(--primary-color)" }}
+                        style={{
+                            padding: "2rem",
+                            borderRadius: "1rem",
+                            backgroundColor: "var(--bg-secondary)",
+                            border: "1px solid var(--border-color)",
+                            transition: "all 0.3s ease"
+                        }}
                     >
-                        {item.name}
-                    </motion.span>
+                        <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
+                            <div style={{
+                                padding: "0.75rem",
+                                borderRadius: "0.5rem",
+                                backgroundColor: "rgba(var(--primary-color-rgb, 0, 255, 150), 0.1)"
+                            }}>
+                                {group.icon}
+                            </div>
+                            <h3 style={{ fontSize: "1.25rem", margin: 0, fontWeight: 600 }}>{group.title}</h3>
+                        </div>
+                        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                            {group.skills.map((skill, sIdx) => (
+                                <li key={sIdx} style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                                    <CheckCircle2 size={16} style={{ color: "var(--primary-color)" }} />
+                                    <span style={{ color: "var(--text-secondary)" }}>{skill}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </motion.div>
                 ))}
             </motion.div>
 
