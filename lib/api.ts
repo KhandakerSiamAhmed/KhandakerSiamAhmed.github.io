@@ -33,8 +33,14 @@ export async function fetchPortfolioData(): Promise<PortfolioData> {
         return exp;
     }) ?? [];
 
+    const configData = configRes.data?.value ? {
+        ...configRes.data.value,
+        heroSubtitle: "Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems",
+        aboutText: `<p>I am a <strong>Mechanical Engineer</strong> specializing in robotics, mechatronics, and intelligent control systems. Currently completing my degree at IUT, I build autonomous systems and mechanical solutions that bridge the gap between physical hardware and intelligent software.</p><p>My work is driven by a passion for <strong>Robotics</strong>, <strong>Control Theory</strong>, and <strong>innovative engineering</strong>.</p>`
+    } : null;
+
     return {
-        config: configRes.data?.value ?? null,
+        config: configData,
         experience: experienceData,
         projects: projRes.data ?? [],
         skills: skillRes.data ?? [],

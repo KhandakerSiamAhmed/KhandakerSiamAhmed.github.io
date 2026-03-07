@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         template: "%s | Khandaker Siam Ahmed",
     },
     description:
-        "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+        "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems. Expert in CAD design, mechatronics, and innovative engineering solutions.",
     applicationName: "Khandaker Siam Ahmed Portfolio",
     authors: [{ name: "Khandaker Siam Ahmed", url: "https://khandakersiamahmed.github.io" }],
     generator: "Next.js",
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
         "Khandaker Siam Ahmed",
         "Khandaker Siam Ahmed Portfolio",
         "Mechanical Engineer",
-        "Robotics Enthusiast",
         "Robotics Engineer",
-        "Mechatronics",
+        "Mechatronics Specialist",
+        "Intelligent Control Systems",
         "CAD Designer",
         "SolidWorks Expert",
         "Arduino Projects",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Khandaker Siam Ahmed | Mechanical Engineer & Robotics Portfolio",
         description:
-            "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+            "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems. Expert in CAD design, mechatronics, and innovative engineering solutions.",
         url: "https://khandakersiamahmed.github.io/",
         siteName: "Khandaker Siam Ahmed Portfolio",
         images: [
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Khandaker Siam Ahmed | Mechanical Engineer & Robotics Portfolio",
         description:
-            "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+            "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems. Expert in CAD design, mechatronics, and innovative engineering solutions.",
         images: ["/assets/social-preview.svg"],
     },
     robots: {
@@ -123,7 +123,7 @@ export default function RootLayout({
                                 "@type": "WebSite",
                                 name: "Khandaker Siam Ahmed Portfolio",
                                 url: "https://khandakersiamahmed.github.io/",
-                                description: "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast.",
+                                description: "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer specializing in Robotics and Intelligent Control Systems.",
                                 publisher: {
                                     "@type": "Person",
                                     name: "Khandaker Siam Ahmed"
@@ -145,12 +145,12 @@ export default function RootLayout({
                                     "https://grabcad.com/khandaker.siam.ahmed-2",
                                     "https://www.facebook.com/khandaker.siam.ahmed.mahin",
                                 ],
-                                jobTitle: "Mechanical Engineer & Robotics Enthusiast",
+                                jobTitle: "Mechanical Engineer & Robotics Specialist",
                                 worksFor: {
                                     "@type": "Organization",
                                     name: "Freelance",
                                 },
-                                description: "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer and Robotics Enthusiast specializing in CAD design, mechatronics, and innovative engineering solutions.",
+                                description: "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems.",
                                 knowsAbout: [
                                     "Mechanical Engineering",
                                     "Robotics",
