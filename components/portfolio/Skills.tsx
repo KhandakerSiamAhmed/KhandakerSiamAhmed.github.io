@@ -33,32 +33,38 @@ const cardVariants: Variants = {
     },
 };
 
-const categories = [
-    {
-        title: "CAD & Simulation",
-        icon: <Box size={24} className="text-[var(--primary-color)]" />,
-        skills: ["SolidWorks (CSWA)", "Blender", "FEA"]
-    },
-    {
-        title: "Languages & Web",
-        icon: <Code size={24} className="text-[var(--primary-color)]" />,
-        skills: ["C/C++", "Python", "JavaScript", "HTML/CSS"]
-    },
-    {
-        title: "Hardware & Microcontrollers",
-        icon: <Cpu size={24} className="text-[var(--primary-color)]" />,
-        skills: ["ESP32", "Arduino"]
-    },
-    {
-        title: "Core Disciplines",
-        icon: <Lightbulb size={24} className="text-[var(--primary-color)]" />,
-        skills: ["Control Theory", "Kinematics"]
-    }
-];
+const categoryIcons: Record<string, React.ReactNode> = {
+    "CAD & Simulation": <Box size={24} className="text-[var(--primary-color)]" />,
+    "Languages & Web": <Code size={24} className="text-[var(--primary-color)]" />,
+    "Hardware & Microcontrollers": <Cpu size={24} className="text-[var(--primary-color)]" />,
+    "Core Disciplines": <Lightbulb size={24} className="text-[var(--primary-color)]" />,
+};
+
+interface ParsedSkill {
+    id: string;
+    name: string;
+}
 
 export default function Skills({ limit, viewAllHref, totalCount, items }: Props) {
-    // If you want to use limit effectively without slicing categories:
-    const displayCategories = limit ? categories.slice(0, 4) : categories;
+    if (!items || items.length === 0) return null;
+
+    // Parse "Category: Skill Name" convention
+    const grouped = new Map<string, ParsedSkill[]>();
+    items.forEach((item) => {
+        const colonIdx = item.name.indexOf(":");
+        const cat = colonIdx > -1 ? item.name.slice(0, colonIdx).trim() : "General";
+        const name = colonIdx > -1 ? item.name.slice(colonIdx + 1).trim() : item.name;
+        if (!grouped.has(cat)) grouped.set(cat, []);
+        grouped.get(cat)!.push({ id: item.id, name });
+    });
+
+    const displayCategories = Array.from(grouped.entries()).map(([title, parsedSkills]) => ({
+        title,
+        icon: categoryIcons[title] || <CheckCircle2 size={24} className="text-[var(--primary-color)]" />,
+        skills: parsedSkills.map(s => s.name)
+    }));
+
+    const finalCategories = limit ? displayCategories.slice(0, 4) : displayCategories;
 
     return (
         <div className="container" style={{ padding: "0 1rem" }}>
@@ -86,7 +92,7 @@ export default function Skills({ limit, viewAllHref, totalCount, items }: Props)
                     marginBottom: "3rem"
                 }}
             >
-                {displayCategories.map((group, idx) => (
+                {finalCategories.map((group, idx) => (
                     <motion.div
                         key={idx}
                         className="skill-card bg-[var(--bg-secondary)] border border-[var(--border-color)]"
