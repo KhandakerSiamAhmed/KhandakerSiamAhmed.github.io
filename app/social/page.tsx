@@ -21,5 +21,37 @@ export const metadata: Metadata = {
 };
 
 export default function SocialPage() {
-    return <SocialContent />;
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "ProfilePage",
+                        "dateCreated": "2023-01-01T12:00:00+00:00",
+                        "dateModified": new Date().toISOString(),
+                        "mainEntity": {
+                            "@type": "Person",
+                            "name": "Khandaker Siam Ahmed",
+                            "alternateName": "Mahin",
+                            "description": "Mechanical Engineer & Robotics Specialist",
+                            "image": "https://khandakersiamahmed.github.io/assets/Logo.png",
+                            "sameAs": [
+                                "https://www.linkedin.com/in/khandakersiamahmed/",
+                                "https://github.com/KhandakerSiamAhmed",
+                                "https://www.researchgate.net/profile/Khandaker-Ahmed-9",
+                                "https://orcid.org/0009-0002-6427-2956",
+                                "https://www.instructables.com/member/khandakersiamahmed/",
+                                "https://hackaday.io/khandakersiamahmed",
+                                "https://grabcad.com/khandaker.siam.ahmed-2",
+                                "https://www.facebook.com/khandaker.siam.ahmed.mahin"
+                            ]
+                        }
+                    })
+                }}
+            />
+            <SocialContent />
+        </>
+    );
 }

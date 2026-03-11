@@ -25,6 +25,22 @@ export const metadata: Metadata = {
 export default function AchievementsPage() {
     return (
         <Suspense fallback={<Preloader variant="grid" />}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        "name": "Achievements | Khandaker Siam Ahmed",
+                        "description": "Awards, competitions, publications, and achievements by Khandaker Siam Ahmed in engineering, robotics, and academic research.",
+                        "url": "https://khandakersiamahmed.github.io/achievements",
+                        "creator": {
+                            "@type": "Person",
+                            "name": "Khandaker Siam Ahmed"
+                        }
+                    })
+                }}
+            />
             <AchievementsContent />
         </Suspense>
     );

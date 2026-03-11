@@ -48,6 +48,9 @@ export const metadata: Metadata = {
     },
     verification: {
         google: "DQvo7WOvqO52Tp9gVPZLT7YcOadgT5V5DZ0YAyhPQQk",
+        other: {
+            "msvalidate.01": "YOUR_BING_VERIFICATION_CODE_HERE",
+        },
     },
     openGraph: {
         title: "Khandaker Siam Ahmed | Mechanical Engineer & Robotics Portfolio",
@@ -163,7 +166,7 @@ export default function RootLayout({
                                 ],
                                 alumniOf: {
                                     "@type": "CollegeOrUniversity",
-                                    name: "Rajshahi University of Engineering & Technology (RUET)"
+                                    name: "Islamic University of Technology (IUT)"
                                 }
                             }
                         ]),

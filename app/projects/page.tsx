@@ -25,6 +25,22 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
     return (
         <Suspense fallback={<Preloader variant="grid" />}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        "name": "Projects | Khandaker Siam Ahmed",
+                        "description": "Explore all engineering projects by Khandaker Siam Ahmed — robotics, CAD, mechatronics, embedded systems, and innovative hardware builds.",
+                        "url": "https://khandakersiamahmed.github.io/projects",
+                        "creator": {
+                            "@type": "Person",
+                            "name": "Khandaker Siam Ahmed"
+                        }
+                    })
+                }}
+            />
             <ProjectsContent />
         </Suspense>
     );

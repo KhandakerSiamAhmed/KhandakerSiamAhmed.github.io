@@ -5,10 +5,10 @@ import EducationContent from "./content";
 
 export const metadata: Metadata = {
     title: "Education | Khandaker Siam Ahmed",
-    description: "Academic background and educational qualifications of Khandaker Siam Ahmed — Mechanical Engineering at RUET and beyond.",
+    description: "Academic background and educational qualifications of Khandaker Siam Ahmed — Mechanical Engineering at IUT and beyond.",
     openGraph: {
         title: "Education | Khandaker Siam Ahmed",
-        description: "Mechanical Engineering at RUET — academic journey of Khandaker Siam Ahmed.",
+        description: "Mechanical Engineering at IUT — academic journey of Khandaker Siam Ahmed.",
         url: "https://khandakersiamahmed.github.io/education",
         siteName: "Khandaker Siam Ahmed",
         type: "website",
@@ -16,15 +16,32 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary",
         title: "Education | Khandaker Siam Ahmed",
-        description: "Mechanical Engineering at RUET — academic journey.",
+        description: "Mechanical Engineering at IUT — academic journey.",
     },
     alternates: { canonical: "https://khandakersiamahmed.github.io/education" },
-    keywords: ["education", "RUET", "Mechanical Engineering", "degree", "university"],
+    keywords: ["education", "IUT", "Mechanical Engineering", "degree", "university"],
 };
 
 export default function EducationPage() {
     return (
         <Suspense fallback={<Preloader variant="grid" />}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "ProfilePage",
+                        "mainEntity": {
+                            "@type": "Person",
+                            "name": "Khandaker Siam Ahmed",
+                            "alumniOf": {
+                                "@type": "CollegeOrUniversity",
+                                "name": "Islamic University of Technology (IUT)"
+                            }
+                        }
+                    })
+                }}
+            />
             <EducationContent />
         </Suspense>
     );
