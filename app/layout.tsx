@@ -89,8 +89,11 @@ export const metadata: Metadata = {
         },
     },
     icons: {
-        icon: "/assets/Logo.png",
-        shortcut: "/assets/Logo.png",
+        icon: [
+            { url: "/favicon.ico", sizes: "any" },
+            { url: "/assets/Logo.png", type: "image/png" },
+        ],
+        shortcut: "/favicon.ico",
         apple: "/assets/Logo.png",
         other: {
             rel: "apple-touch-icon-precomposed",
@@ -107,6 +110,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                <link rel="icon" href="/favicon.ico" sizes="any" />
+                <link rel="icon" href="/assets/Logo.png" type="image/png" />
+                <link rel="apple-touch-icon" href="/assets/Logo.png" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link
                     rel="preconnect"
