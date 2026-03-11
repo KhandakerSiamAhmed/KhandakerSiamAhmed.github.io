@@ -161,6 +161,8 @@ export default function DashboardPage() {
     const [newSkillCategory, setNewSkillCategory] = useState("General");
     const [skillCategories, setSkillCategories] = useState<string[]>([]);
     const [newCategoryInput, setNewCategoryInput] = useState("");
+    const [editingCategory, setEditingCategory] = useState<string | null>(null);
+    const [editCategoryInput, setEditCategoryInput] = useState("");
 
     // Edit modal state
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -369,6 +371,42 @@ export default function DashboardPage() {
         setSkillCategories(updatedCats);
         if (newSkillCategory === cat && updatedCats.length > 0) setNewSkillCategory(updatedCats[0]);
         else if (updatedCats.length === 0) setNewSkillCategory("General");
+        setLoading(false);
+    };
+
+    const renameSkillCategory = async (oldCat: string) => {
+        const newVal = editCategoryInput.trim();
+        if (!newVal || newVal === oldCat || skillCategories.includes(newVal)) {
+            setEditingCategory(null);
+            return;
+        }
+        setLoading(true);
+        
+        // Update the list of categories in config
+        const updatedCats = skillCategories.map(c => c === oldCat ? newVal : c);
+        const updatedConfig = { ...config, skillCategories: updatedCats };
+        await supabase.from("config").upsert({ key: "global", value: updatedConfig });
+        setConfig(updatedConfig);
+        setSkillCategories(updatedCats);
+
+        // Update all skills that use this category
+        const skillsToUpdate = skillsList.filter(s => (s.name as string).startsWith(`${oldCat}: `));
+        for (const skill of skillsToUpdate) {
+            const skillName = (skill.name as string).split(": ")[1];
+            await supabase.from("skills").update({ name: `${newVal}: ${skillName}` }).eq("id", skill.id);
+        }
+
+        await loadSkills();
+        setEditingCategory(null);
+        setLoading(false);
+    };
+
+    const updateSkillCategory = async (skillId: string, oldName: string, newCat: string) => {
+        setLoading(true);
+        const skillPureName = oldName.includes(": ") ? oldName.split(": ")[1] : oldName;
+        const newFullName = `${newCat}: ${skillPureName}`;
+        await supabase.from("skills").update({ name: newFullName }).eq("id", skillId);
+        await loadSkills();
         setLoading(false);
     };
 
@@ -735,8 +773,23 @@ export default function DashboardPage() {
                             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: "1rem" }}>
                                 {skillCategories.map(cat => (
                                     <span key={cat} style={{ background: "#444", color: "white", padding: "4px 10px", borderRadius: "15px", fontSize: "0.85rem", display: "flex", alignItems: "center", gap: "8px" }}>
-                                        {cat}
-                                        <button onClick={() => deleteSkillCategory(cat)} style={{ background: "none", border: "none", color: "#ff6b6b", cursor: "pointer", fontSize: "1.1rem", padding: "0" }}>&times;</button>
+                                        {editingCategory === cat ? (
+                                            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                                                <input 
+                                                    autoFocus
+                                                    value={editCategoryInput} 
+                                                    onChange={(e) => setEditCategoryInput(e.target.value)} 
+                                                    onKeyDown={(e) => e.key === "Enter" && renameSkillCategory(cat)}
+                                                    onBlur={() => setEditingCategory(null)}
+                                                    style={{ background: "#222", color: "white", border: "1px solid #666", padding: "2px 5px", borderRadius: "4px", fontSize: "0.8rem", width: "100px" }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <span onClick={() => { setEditingCategory(cat); setEditCategoryInput(cat); }} style={{ cursor: "pointer" }} title="Click to rename">{cat}</span>
+                                                <button onClick={() => deleteSkillCategory(cat)} style={{ background: "none", border: "none", color: "#ff6b6b", cursor: "pointer", fontSize: "1.1rem", padding: "0" }}>&times;</button>
+                                            </>
+                                        )}
                                     </span>
                                 ))}
                             </div>
@@ -764,7 +817,7 @@ export default function DashboardPage() {
                             <button onClick={addSkill} className="admin-btn-primary" style={{ width: "auto" }}>Add Skill</button>
                         </div>
 
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "20px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
                             {skillsList.map((item) => {
                                 const nameStr = item.name as string;
                                 const colonIdx = nameStr.indexOf(":");
@@ -776,24 +829,43 @@ export default function DashboardPage() {
                                         key={item.id as string}
                                         style={{
                                             background: item.starred ? "rgba(245,166,35,0.15)" : "var(--bg-secondary, #1a1a1a)",
-                                            border: item.starred ? "1px solid #f5a623" : "1px solid transparent",
-                                            padding: "6px 12px",
-                                            borderRadius: "15px",
+                                            border: item.starred ? "1px solid #f5a623" : "1px solid #333",
+                                            padding: "8px 15px",
+                                            borderRadius: "8px",
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: "8px",
+                                            justifyContent: "space-between",
+                                            gap: "15px",
                                             color: "inherit",
                                         }}
                                     >
-                                        <span
-                                            onClick={() => toggleStar("skills", item.id as string, !!item.starred, skillsList, 9)}
-                                            title={item.starred ? "Unstar" : "Star (show on home)"}
-                                            style={{ cursor: "pointer", color: item.starred ? "#f5a623" : "#888", fontSize: "1rem" }}
+                                        <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
+                                            <span
+                                                onClick={() => toggleStar("skills", item.id as string, !!item.starred, skillsList, 9)}
+                                                title={item.starred ? "Unstar" : "Star (show on home)"}
+                                                style={{ cursor: "pointer", color: item.starred ? "#f5a623" : "#888", fontSize: "1.2rem" }}
+                                            >
+                                                {item.starred ? "★" : "☆"}
+                                            </span>
+                                            
+                                            <select 
+                                                value={cat} 
+                                                onChange={(e) => updateSkillCategory(item.id as string, nameStr, e.target.value)}
+                                                style={{ padding: "2px 5px", fontSize: "0.75rem", background: "#333", color: "white", border: "none", borderRadius: "4px" }}
+                                            >
+                                                {skillCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                                            </select>
+
+                                            <span style={{ fontWeight: 500 }}>{name}</span>
+                                        </div>
+
+                                        <button 
+                                            onClick={() => deleteItem("skills", item.id as string)} 
+                                            style={{ color: "#ff6b6b", background: "none", border: "none", cursor: "pointer", fontSize: "1.2rem", padding: "0 5px" }}
+                                            title="Delete skill"
                                         >
-                                            {item.starred ? "★" : "☆"}
-                                        </span>
-                                        <span style={{ fontSize: "0.80rem", color: "var(--primary-color)", fontWeight: "bold", opacity: 0.8 }}>[{cat}]</span> {name}
-                                        <span onClick={() => deleteItem("skills", item.id as string)} style={{ cursor: "pointer", color: "#ff6b6b", fontWeight: "bold", marginLeft: "4px" }}>&times;</span>
+                                            &times;
+                                        </button>
                                     </div>
                                 );
                             })}
