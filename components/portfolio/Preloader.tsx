@@ -9,10 +9,14 @@ interface Props {
 /* ── Grid skeleton: 3 cards ── */
 function GridSkeleton() {
     return (
-        <div style={{
+        <div className="site-loader" style={{
             minHeight: "100vh",
             background: "var(--bg-primary)",
             padding: "calc(80px + 2rem) 1rem 4rem",
+            display: "block",
+            position: "fixed",
+            inset: 0,
+            overflowY: "auto"
         }}>
             <div className="container">
                 {/* Section header */}
@@ -56,10 +60,14 @@ function GridSkeleton() {
 /* ── Timeline skeleton ── */
 function TimelineSkeleton() {
     return (
-        <div style={{
+        <div className="site-loader" style={{
             minHeight: "100vh",
             background: "var(--bg-primary)",
             padding: "calc(80px + 2rem) 1rem 4rem",
+            display: "block",
+            position: "fixed",
+            inset: 0,
+            overflowY: "auto"
         }}>
             <div className="container">
                 <div style={{ marginBottom: "2.5rem" }}>
@@ -95,10 +103,14 @@ function TimelineSkeleton() {
 function SkillsSkeleton() {
     const widths = [80, 110, 90, 130, 70, 100, 85, 120, 75, 95, 115, 65, 105];
     return (
-        <div style={{
+        <div className="site-loader" style={{
             minHeight: "100vh",
             background: "var(--bg-primary)",
             padding: "calc(80px + 2rem) 1rem 4rem",
+            display: "block",
+            position: "fixed",
+            inset: 0,
+            overflowY: "auto"
         }}>
             <div className="container">
                 <div style={{ marginBottom: "2.5rem" }}>
@@ -124,10 +136,14 @@ function SkillsSkeleton() {
 /* ── Social cards skeleton ── */
 function SocialSkeleton() {
     return (
-        <div style={{
+        <div className="site-loader" style={{
             minHeight: "100vh",
             background: "var(--bg-primary)",
             padding: "calc(80px + 2rem) 1rem 4rem",
+            display: "block",
+            position: "fixed",
+            inset: 0,
+            overflowY: "auto"
         }}>
             <div className="container">
                 <div style={{ marginBottom: "2.5rem" }}>

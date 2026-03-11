@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const viewport: Viewport = {
-    themeColor: "#0a192f",
+    themeColor: "#050505",
     colorScheme: "dark",
 };
 
@@ -179,6 +179,20 @@ export default function RootLayout({
                                 var theme = localStorage.getItem("site-theme");
                                 if (theme && theme !== "default") {
                                     document.documentElement.setAttribute("data-theme", theme);
+                                    // Update theme-color meta tag dynamically if it exists
+                                    var meta = document.querySelector('meta[name="theme-color"]');
+                                    if (meta) {
+                                        var colors = {
+                                            titanium: "#0e0e0e",
+                                            blueprint: "#0a192f",
+                                            light: "#ffffff",
+                                            forest: "#0d1a0f",
+                                            sunset: "#1a0a08",
+                                            aurora: "#0d0a1f",
+                                            ocean: "#020e1a"
+                                        };
+                                        if (colors[theme]) meta.setAttribute("content", colors[theme]);
+                                    }
                                 } else {
                                     document.documentElement.removeAttribute("data-theme");
                                 }

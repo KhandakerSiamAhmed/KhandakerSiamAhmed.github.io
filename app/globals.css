@@ -251,6 +251,31 @@ svg {
     background-size: 30px 30px;
 }
 
+[data-theme="forest"] .site-loader {
+    background-image: radial-gradient(rgba(0, 200, 83, 0.05) 1px, transparent 1px);
+    background-size: 25px 25px;
+}
+
+[data-theme="sunset"] .site-loader {
+    background-image: linear-gradient(45deg, rgba(255, 82, 82, 0.02) 25%, transparent 25%, transparent 50%, rgba(255, 82, 82, 0.02) 50%, rgba(255, 82, 82, 0.02) 75%, transparent 75%, transparent);
+    background-size: 40px 40px;
+}
+
+[data-theme="aurora"] .site-loader {
+    background-image: radial-gradient(circle at 2px 2px, rgba(124, 58, 237, 0.08) 1px, transparent 0);
+    background-size: 32px 32px;
+}
+
+[data-theme="ocean"] .site-loader {
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0, 180, 216, 0.03) 39px, rgba(0, 180, 216, 0.03) 40px);
+}
+
+[data-theme="light"] .site-loader {
+    background-color: #ffffff;
+    background-image: radial-gradient(#e0e0e0 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+}
+
 .loader-gears {
     position: relative;
     width: 60px;
