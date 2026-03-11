@@ -73,10 +73,12 @@ export default function SocialLinks({ socials, socialPriority }: Props) {
     // Filter to only platforms that have a URL provided
     const activePlatforms = platforms.filter(p => !!socials[p.key as keyof SocialLinksType]);
 
-    // Sort by priority. Nulls go to the end.
+    // Sort by priority. Nulls and empties go to the end.
     activePlatforms.sort((a, b) => {
-        const pA = socialPriority && socialPriority[a.key] ? Number(socialPriority[a.key]) : Infinity;
-        const pB = socialPriority && socialPriority[b.key] ? Number(socialPriority[b.key]) : Infinity;
+        const valA = socialPriority && socialPriority[a.key];
+        const valB = socialPriority && socialPriority[b.key];
+        const pA = (valA !== undefined && valA !== null && valA !== "") ? Number(valA) : Infinity;
+        const pB = (valB !== undefined && valB !== null && valB !== "") ? Number(valB) : Infinity;
         return pA - pB;
     });
 

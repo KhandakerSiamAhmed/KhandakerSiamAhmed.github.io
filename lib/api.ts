@@ -33,40 +33,11 @@ export async function fetchPortfolioData(): Promise<PortfolioData> {
         return exp;
     }) ?? [];
 
-    const defaultSocials = {
-        linkedin: "https://www.linkedin.com/in/khandakersiamahmed/",
-        facebook: "https://www.facebook.com/khandaker.siam.ahmed.mahin",
-        github: "https://github.com/KhandakerSiamAhmed",
-        grabcad: "https://grabcad.com/khandaker.siam.ahmed-2",
-        researchgate: "https://www.researchgate.net/profile/Khandaker-Ahmed-9?ev=hdr_xprf",
-        orcid: "https://orcid.org/my-orcid?orcid=0009-0002-6427-2956",
-        instructables: "https://www.instructables.com/member/khandakersiamahmed/",
-        hackaday: "https://hackaday.io/khandakersiamahmed"
-    };
-
-    const processConfig = (val: any) => {
-        if (!val) return null;
-        
-        // Use user-defined values or fall back to defaults where appropriate.
-        // If a user *explicitly* saved an empty string, it will override the default and hide the link.
-        const mergedSocials = { ...defaultSocials };
-        if (val.socials) {
-            for (const key of Object.keys(mergedSocials)) {
-                if (val.socials[key] !== undefined) {
-                    (mergedSocials as any)[key] = val.socials[key];
-                }
-            }
-        }
-        
-        return {
-            ...val,
-            heroSubtitle: "Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems",
-            aboutText: `<p>I am a <strong>Mechanical Engineer</strong> specializing in robotics, mechatronics, and intelligent control systems. Currently completing my degree at IUT, I build autonomous systems and mechanical solutions that bridge the gap between physical hardware and intelligent software.</p><p>My work is driven by a passion for <strong>Robotics</strong>, <strong>Control Theory</strong>, and <strong>innovative engineering</strong>.</p>`,
-            socials: mergedSocials
-        };
-    };
-
-    const configData = processConfig(configRes.data?.value);
+    const configData = configRes.data?.value ? {
+        ...configRes.data.value,
+        heroSubtitle: "Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems",
+        aboutText: `<p>I am a <strong>Mechanical Engineer</strong> specializing in robotics, mechatronics, and intelligent control systems. Currently completing my degree at IUT, I build autonomous systems and mechanical solutions that bridge the gap between physical hardware and intelligent software.</p><p>My work is driven by a passion for <strong>Robotics</strong>, <strong>Control Theory</strong>, and <strong>innovative engineering</strong>.</p>`,
+    } : null;
 
     return {
         config: configData,

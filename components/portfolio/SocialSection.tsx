@@ -135,8 +135,10 @@ export default function SocialSection({ limit, viewAllHref, config }: Props) {
             active.sort((a, b) => {
                 const keyA = a.name.toLowerCase();
                 const keyB = b.name.toLowerCase();
-                const pA = (config.socialPriority as any)[keyA] ? Number((config.socialPriority as any)[keyA]) : Infinity;
-                const pB = (config.socialPriority as any)[keyB] ? Number((config.socialPriority as any)[keyB]) : Infinity;
+                const valA = (config.socialPriority as any)[keyA];
+                const valB = (config.socialPriority as any)[keyB];
+                const pA = (valA !== undefined && valA !== null && valA !== "") ? Number(valA) : Infinity;
+                const pB = (valB !== undefined && valB !== null && valB !== "") ? Number(valB) : Infinity;
                 return pA - pB;
             });
         }

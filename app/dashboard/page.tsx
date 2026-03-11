@@ -147,10 +147,10 @@ export default function DashboardPage() {
     const [aboutText, setAboutText] = useState("");
     const [resumeUrl, setResumeUrl] = useState("");
     const [profileImageUrl, setProfileImageUrl] = useState("");
-    const [linkedinUrl, setLinkedinUrl] = useState("https://www.linkedin.com/in/khandakersiamahmed/");
-    const [githubUrl, setGithubUrl] = useState("https://github.com/KhandakerSiamAhmed");
-    const [facebookUrl, setFacebookUrl] = useState("https://www.facebook.com/khandaker.siam.ahmed.mahin");
-    const [grabcadUrl, setGrabcadUrl] = useState("https://grabcad.com/khandaker.siam.ahmed-2");
+    const [linkedinUrl, setLinkedinUrl] = useState("");
+    const [githubUrl, setGithubUrl] = useState("");
+    const [facebookUrl, setFacebookUrl] = useState("");
+    const [grabcadUrl, setGrabcadUrl] = useState("");
     const [emailContact, setEmailContact] = useState("");
     const [whatsappContact, setWhatsappContact] = useState("");
     
@@ -161,13 +161,13 @@ export default function DashboardPage() {
     const [grabcadPriority, setGrabcadPriority] = useState("");
     const [emailPriority, setEmailPriority] = useState("");
     const [whatsappPriority, setWhatsappPriority] = useState("");
-    const [researchgateUrl, setResearchgateUrl] = useState("https://www.researchgate.net/profile/Khandaker-Ahmed-9?ev=hdr_xprf");
+    const [researchgateUrl, setResearchgateUrl] = useState("");
     const [researchgatePriority, setResearchgatePriority] = useState("");
-    const [orcidUrl, setOrcidUrl] = useState("https://orcid.org/my-orcid?orcid=0009-0002-6427-2956");
+    const [orcidUrl, setOrcidUrl] = useState("");
     const [orcidPriority, setOrcidPriority] = useState("");
-    const [instructablesUrl, setInstructablesUrl] = useState("https://www.instructables.com/member/khandakersiamahmed/");
+    const [instructablesUrl, setInstructablesUrl] = useState("");
     const [instructablesPriority, setInstructablesPriority] = useState("");
-    const [hackadayUrl, setHackadayUrl] = useState("https://hackaday.io/khandakersiamahmed");
+    const [hackadayUrl, setHackadayUrl] = useState("");
     const [hackadayPriority, setHackadayPriority] = useState("");
 
     // Collections
@@ -246,12 +246,12 @@ export default function DashboardPage() {
             setSkillCategories(cats);
             if (cats.length > 0) setNewSkillCategory(cats[0]);
             const socials = (val.socials || {}) as Record<string, string>;
-            setLinkedinUrl(socials.linkedin ?? "https://www.linkedin.com/in/khandakersiamahmed/");
-            setGithubUrl(socials.github ?? "https://github.com/KhandakerSiamAhmed");
-            setFacebookUrl(socials.facebook ?? "https://www.facebook.com/khandaker.siam.ahmed.mahin");
-            setGrabcadUrl(socials.grabcad ?? "https://grabcad.com/khandaker.siam.ahmed-2");
-            setEmailContact(socials.email ?? "");
-            setWhatsappContact(socials.whatsapp ?? "");
+            setLinkedinUrl(socials.linkedin || "");
+            setGithubUrl(socials.github || "");
+            setFacebookUrl(socials.facebook || "");
+            setGrabcadUrl(socials.grabcad || "");
+            setEmailContact(socials.email || "");
+            setWhatsappContact(socials.whatsapp || "");
 
             const socialPriority = (val.socialPriority || {}) as Record<string, string>;
             setLinkedinPriority(socialPriority.linkedin || "");
@@ -261,13 +261,13 @@ export default function DashboardPage() {
             setEmailPriority(socialPriority.email || "");
             setWhatsappPriority(socialPriority.whatsapp || "");
             
-            setResearchgateUrl(socials.researchgate ?? "https://www.researchgate.net/profile/Khandaker-Ahmed-9?ev=hdr_xprf");
+            setResearchgateUrl(socials.researchgate || "");
             setResearchgatePriority(socialPriority.researchgate || "");
-            setOrcidUrl(socials.orcid ?? "https://orcid.org/my-orcid?orcid=0009-0002-6427-2956");
+            setOrcidUrl(socials.orcid || "");
             setOrcidPriority(socialPriority.orcid || "");
-            setInstructablesUrl(socials.instructables ?? "https://www.instructables.com/member/khandakersiamahmed/");
+            setInstructablesUrl(socials.instructables || "");
             setInstructablesPriority(socialPriority.instructables || "");
-            setHackadayUrl(socials.hackaday ?? "https://hackaday.io/khandakersiamahmed");
+            setHackadayUrl(socials.hackaday || "");
             setHackadayPriority(socialPriority.hackaday || "");
         }
     };
@@ -299,6 +299,27 @@ export default function DashboardPage() {
         await supabase.from(table).update({ starred: !currentStarred }).eq("id", id);
         await loadAllData();
         setLoading(false);
+    };
+
+    const loadSocialDefaults = () => {
+        setLinkedinUrl("https://www.linkedin.com/in/khandakersiamahmed/");
+        setGithubUrl("https://github.com/KhandakerSiamAhmed");
+        setFacebookUrl("https://www.facebook.com/khandaker.siam.ahmed.mahin");
+        setGrabcadUrl("https://grabcad.com/khandaker.siam.ahmed-2");
+        setResearchgateUrl("https://www.researchgate.net/profile/Khandaker-Ahmed-9?ev=hdr_xprf");
+        setOrcidUrl("https://orcid.org/my-orcid?orcid=0009-0002-6427-2956");
+        setInstructablesUrl("https://www.instructables.com/member/khandakersiamahmed/");
+        setHackadayUrl("https://hackaday.io/khandakersiamahmed");
+        
+        // Also set default priorities
+        setLinkedinPriority("1");
+        setGithubPriority("2");
+        setFacebookPriority("3");
+        setGrabcadPriority("4");
+        setResearchgatePriority("5");
+        setOrcidPriority("6");
+        setInstructablesPriority("7");
+        setHackadayPriority("8");
     };
 
     // ===== SAVE GENERAL =====
@@ -816,6 +837,7 @@ export default function DashboardPage() {
 
                             <div style={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
                                 <button type="submit" className="admin-btn-primary">Save Social Links</button>
+                                <button type="button" onClick={loadSocialDefaults} className="admin-btn-primary" style={{ background: "var(--bg-secondary)" }}>Load Defaults</button>
                                 <button type="button" onClick={loadGeneral} className="admin-btn-secondary">Reset</button>
                             </div>
                         </form>
