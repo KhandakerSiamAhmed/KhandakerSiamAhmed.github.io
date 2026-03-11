@@ -172,6 +172,20 @@ export default function RootLayout({
                         ]),
                     }}
                 />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            try {
+                                var theme = localStorage.getItem("site-theme");
+                                if (theme && theme !== "default") {
+                                    document.documentElement.setAttribute("data-theme", theme);
+                                } else {
+                                    document.documentElement.removeAttribute("data-theme");
+                                }
+                            } catch (e) {}
+                        `,
+                    }}
+                />
             </head>
             <body>
                 <a href="#about" className="skip-link">Skip to content</a>
