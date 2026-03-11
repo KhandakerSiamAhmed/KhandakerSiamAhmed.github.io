@@ -94,7 +94,7 @@ export default function Hero({ config }: Props) {
                         Download CV
                     </a>
                     <div className="hero-socials">
-                        <SocialLinks socials={config?.socials} />
+                        <SocialLinks socials={config?.socials} socialPriority={config?.socialPriority as Record<string, string | number>} />
                     </div>
                 </motion.div>
             </div>

@@ -25,6 +25,7 @@ export interface PortfolioConfig {
     aboutText?: string;
     resumeUrl?: string;
     socials?: SocialLinks;
+    socialPriority?: Record<string, string | number>;
     theme?: string;
 }
 
@@ -51,12 +52,14 @@ export interface Project {
     link?: string;
     starred?: boolean;
     created_at?: string;
+    priority?: number;
 }
 
 export interface Skill {
     id: string;
     name: string;
     starred?: boolean;
+    priority?: number;
 }
 
 export interface Achievement {
@@ -70,6 +73,7 @@ export interface Achievement {
     bannerurl?: string;
     link?: string;
     starred?: boolean;
+    priority?: number;
 }
 
 export interface Education {
@@ -83,6 +87,7 @@ export interface Education {
     imageurl?: string;
     bannerurl?: string;
     starred?: boolean;
+    priority?: number;
 }
 
 export interface PortfolioData {

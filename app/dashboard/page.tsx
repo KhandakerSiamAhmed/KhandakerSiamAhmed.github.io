@@ -23,6 +23,7 @@ const schemas: Record<string, { name: string; label: string; type: string }[]> =
         { name: "youtubeurl", label: "YouTube Video URL (Optional)", type: "text" },
         { name: "imageurl", label: "Thumbnail (Square Logo)", type: "file" },
         { name: "bannerurl", label: "Detail Banner (Free Size)", type: "file" },
+        { name: "priority", label: "Priority (Sort Order)", type: "number" },
     ],
     achievements: [
         { name: "title", label: "Title", type: "text" },
@@ -31,6 +32,7 @@ const schemas: Record<string, { name: string; label: string; type: string }[]> =
         { name: "icon", label: "Icon (SVG String)", type: "textarea" },
         { name: "imageurl", label: "Thumbnail (Square)", type: "file" },
         { name: "bannerurl", label: "Detail Banner (Free Size)", type: "file" },
+        { name: "priority", label: "Priority (Sort Order)", type: "number" },
     ],
     education: [
         { name: "school", label: "School / University", type: "text" },
@@ -41,6 +43,7 @@ const schemas: Record<string, { name: string; label: string; type: string }[]> =
         { name: "youtubeurl", label: "YouTube Video URL (Optional)", type: "text" },
         { name: "imageurl", label: "Logo (Square)", type: "file" },
         { name: "bannerurl", label: "Campus/Detail Image (Free Size)", type: "file" },
+        { name: "priority", label: "Priority (Sort Order)", type: "number" },
     ],
 };
 
@@ -150,6 +153,14 @@ export default function DashboardPage() {
     const [grabcadUrl, setGrabcadUrl] = useState("");
     const [emailContact, setEmailContact] = useState("");
     const [whatsappContact, setWhatsappContact] = useState("");
+    
+    // Social Priority
+    const [linkedinPriority, setLinkedinPriority] = useState("");
+    const [githubPriority, setGithubPriority] = useState("");
+    const [facebookPriority, setFacebookPriority] = useState("");
+    const [grabcadPriority, setGrabcadPriority] = useState("");
+    const [emailPriority, setEmailPriority] = useState("");
+    const [whatsappPriority, setWhatsappPriority] = useState("");
 
     // Collections
     const [experienceList, setExperienceList] = useState<Record<string, unknown>[]>([]);
@@ -158,6 +169,7 @@ export default function DashboardPage() {
     const [achievementsList, setAchievementsList] = useState<Record<string, unknown>[]>([]);
     const [skillsList, setSkillsList] = useState<Record<string, unknown>[]>([]);
     const [newSkillInput, setNewSkillInput] = useState("");
+    const [newSkillPriorityInput, setNewSkillPriorityInput] = useState("");
     const [newSkillCategory, setNewSkillCategory] = useState("General");
     const [skillCategories, setSkillCategories] = useState<string[]>([]);
     const [newCategoryInput, setNewCategoryInput] = useState("");
@@ -232,6 +244,14 @@ export default function DashboardPage() {
             setGrabcadUrl(socials.grabcad || "");
             setEmailContact(socials.email || "");
             setWhatsappContact(socials.whatsapp || "");
+
+            const socialPriority = (val.socialPriority || {}) as Record<string, string>;
+            setLinkedinPriority(socialPriority.linkedin || "");
+            setGithubPriority(socialPriority.github || "");
+            setFacebookPriority(socialPriority.facebook || "");
+            setGrabcadPriority(socialPriority.grabcad || "");
+            setEmailPriority(socialPriority.email || "");
+            setWhatsappPriority(socialPriority.whatsapp || "");
         }
     };
 
@@ -288,6 +308,7 @@ export default function DashboardPage() {
             profileImage: imageUrl,
             heroPhotoStyle: selectedPhotoStyle,
             socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact, whatsapp: whatsappContact },
+            socialPriority: { linkedin: linkedinPriority, github: githubPriority, facebook: facebookPriority, grabcad: grabcadPriority, email: emailPriority, whatsapp: whatsappPriority },
         };
 
         const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
@@ -322,6 +343,7 @@ export default function DashboardPage() {
             heroPhotoStyle: selectedPhotoStyle,
             theme: selectedTheme,
             socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact, whatsapp: whatsappContact },
+            socialPriority: { linkedin: linkedinPriority, github: githubPriority, facebook: facebookPriority, grabcad: grabcadPriority, email: emailPriority, whatsapp: whatsappPriority },
         };
 
         const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
@@ -410,13 +432,23 @@ export default function DashboardPage() {
         setLoading(false);
     };
 
+    const updateSkillPriority = async (skillId: string, priorityValue: string) => {
+        setLoading(true);
+        const priority = priorityValue === "" ? null : Number(priorityValue);
+        await supabase.from("skills").update({ priority }).eq("id", skillId);
+        await loadSkills();
+        setLoading(false);
+    };
+
     const addSkill = async () => {
         const val = newSkillInput.trim();
         if (!val) return;
         setLoading(true);
         const fullName = `${newSkillCategory}: ${val}`;
-        await supabase.from("skills").insert({ name: fullName });
+        const priority = newSkillPriorityInput.trim() === "" ? null : Number(newSkillPriorityInput);
+        await supabase.from("skills").insert({ name: fullName, priority });
         setNewSkillInput("");
+        setNewSkillPriorityInput("");
         await loadSkills();
         setLoading(false);
     };
@@ -627,6 +659,7 @@ export default function DashboardPage() {
                                 <div style={{ display: "flex", gap: "10px" }}>
                                     <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>in</span>
                                     <input type="text" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} placeholder="https://linkedin.com/in/..." style={{ flex: 1 }} />
+                                    <input type="number" value={linkedinPriority} onChange={(e) => setLinkedinPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
                                 </div>
                             </div>
 
@@ -635,6 +668,7 @@ export default function DashboardPage() {
                                 <div style={{ display: "flex", gap: "10px" }}>
                                     <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>git</span>
                                     <input type="text" value={githubUrl} onChange={(e) => setGithubUrl(e.target.value)} placeholder="https://github.com/..." style={{ flex: 1 }} />
+                                    <input type="number" value={githubPriority} onChange={(e) => setGithubPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
                                 </div>
                             </div>
 
@@ -643,6 +677,7 @@ export default function DashboardPage() {
                                 <div style={{ display: "flex", gap: "10px" }}>
                                     <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>fb</span>
                                     <input type="text" value={facebookUrl} onChange={(e) => setFacebookUrl(e.target.value)} placeholder="https://facebook.com/..." style={{ flex: 1 }} />
+                                    <input type="number" value={facebookPriority} onChange={(e) => setFacebookPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
                                 </div>
                             </div>
 
@@ -651,6 +686,7 @@ export default function DashboardPage() {
                                 <div style={{ display: "flex", gap: "10px" }}>
                                     <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>GC</span>
                                     <input type="text" value={grabcadUrl} onChange={(e) => setGrabcadUrl(e.target.value)} placeholder="https://grabcad.com/..." style={{ flex: 1 }} />
+                                    <input type="number" value={grabcadPriority} onChange={(e) => setGrabcadPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
                                 </div>
                             </div>
 
@@ -659,6 +695,7 @@ export default function DashboardPage() {
                                 <div style={{ display: "flex", gap: "10px" }}>
                                     <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>@</span>
                                     <input type="text" value={emailContact} onChange={(e) => setEmailContact(e.target.value)} placeholder="yourname@example.com" style={{ flex: 1 }} />
+                                    <input type="number" value={emailPriority} onChange={(e) => setEmailPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
                                 </div>
                             </div>
 
@@ -673,6 +710,7 @@ export default function DashboardPage() {
                                         placeholder="e.g. +8801XXXXXXXXX"
                                         style={{ flex: 1 }}
                                     />
+                                    <input type="number" value={whatsappPriority} onChange={(e) => setWhatsappPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
                                 </div>
                                 <div style={{ fontSize: "0.75rem", color: "#888", marginTop: "4px" }}>
                                     Include country code. Used for the "Get In Touch" button.
@@ -868,6 +906,10 @@ export default function DashboardPage() {
                                 <label>Skill Name</label>
                                 <input type="text" value={newSkillInput} onChange={(e) => setNewSkillInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSkill())} style={{ width: "100%" }} />
                             </div>
+                            <div style={{ flex: 1 }}>
+                                <label>Priority</label>
+                                <input type="number" value={newSkillPriorityInput} onChange={(e) => setNewSkillPriorityInput(e.target.value)} placeholder="0" style={{ width: "100%" }} />
+                            </div>
                             <button onClick={addSkill} className="admin-btn-primary" style={{ width: "auto" }}>Add Skill</button>
                         </div>
 
@@ -912,14 +954,24 @@ export default function DashboardPage() {
 
                                             <span style={{ fontWeight: 500 }}>{name}</span>
                                         </div>
-
-                                        <button 
-                                            onClick={() => deleteItem("skills", item.id as string)} 
-                                            style={{ color: "#ff6b6b", background: "none", border: "none", cursor: "pointer", fontSize: "1.2rem", padding: "0 5px" }}
-                                            title="Delete skill"
-                                        >
-                                            &times;
-                                        </button>
+                                        
+                                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                            <input 
+                                                type="number" 
+                                                value={item.priority === null || item.priority === undefined ? "" : String(item.priority)} 
+                                                onChange={(e) => updateSkillPriority(item.id as string, e.target.value)}
+                                                style={{ width: "60px", padding: "4px", fontSize: "0.8rem", background: "#222", color: "white", border: "1px solid #444", borderRadius: "4px", textAlign: "center" }}
+                                                placeholder="Pri..."
+                                                title="Priority (Sort Order)"
+                                            />
+                                            <button 
+                                                onClick={() => deleteItem("skills", item.id as string)} 
+                                                style={{ color: "#ff6b6b", background: "none", border: "none", cursor: "pointer", fontSize: "1.2rem", padding: "0 5px" }}
+                                                title="Delete skill"
+                                            >
+                                                &times;
+                                            </button>
+                                        </div>
                                     </div>
                                 );
                             })}
