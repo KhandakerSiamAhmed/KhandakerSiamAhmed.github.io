@@ -83,32 +83,29 @@ export default function PortfolioClient({ data: seedData }: Props) {
         fetchLive();
     }, [seedData]);
 
-    // Apply theme from config
+    // Apply theme — localStorage user preference always wins.
+    // The Supabase config theme is only used as an initial default
+    // if the user has never set a preference before.
     useEffect(() => {
-        const theme = data.config?.theme;
-        if (theme) {
-            document.documentElement.setAttribute("data-theme", theme);
-            localStorage.setItem("site-theme", theme);
-            if (theme === "titanium") {
+        const configTheme = data.config?.theme;
+        const savedTheme = localStorage.getItem("site-theme");
+
+        // Determine which theme to actually use:
+        // user's saved preference > config default
+        const activeTheme = savedTheme || configTheme || null;
+
+        if (activeTheme && activeTheme !== "default") {
+            document.documentElement.setAttribute("data-theme", activeTheme);
+            if (activeTheme === "titanium") {
                 document.body.classList.add("grid-bg");
             } else {
                 document.body.classList.remove("grid-bg");
             }
         } else {
             document.documentElement.removeAttribute("data-theme");
-            localStorage.removeItem("site-theme");
             document.body.classList.remove("grid-bg");
         }
     }, [data.config?.theme]);
-
-    // Apply cached theme immediately on mount to prevent flash
-    useEffect(() => {
-        const cachedTheme = localStorage.getItem("site-theme");
-        if (cachedTheme) {
-            document.documentElement.setAttribute("data-theme", cachedTheme);
-            if (cachedTheme === "titanium") document.body.classList.add("grid-bg");
-        }
-    }, []);
 
     // Handle browser back button to close overlay
     useEffect(() => {

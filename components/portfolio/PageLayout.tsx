@@ -30,25 +30,22 @@ export default function PageLayout({ children, data: initialData }: Props) {
         }
     }, [initialData]);
 
-    // Apply theme
+    // Apply theme — localStorage user preference always wins.
+    // Supabase config theme is only the fallback default.
     useEffect(() => {
-        const theme = data?.config?.theme;
-        if (theme) {
-            document.documentElement.setAttribute("data-theme", theme);
-            localStorage.setItem("site-theme", theme);
-            if (theme === "titanium") document.body.classList.add("grid-bg");
+        const configTheme = data?.config?.theme;
+        const savedTheme = localStorage.getItem("site-theme");
+        const activeTheme = savedTheme || configTheme || null;
+
+        if (activeTheme && activeTheme !== "default") {
+            document.documentElement.setAttribute("data-theme", activeTheme);
+            if (activeTheme === "titanium") document.body.classList.add("grid-bg");
             else document.body.classList.remove("grid-bg");
+        } else {
+            document.documentElement.removeAttribute("data-theme");
+            document.body.classList.remove("grid-bg");
         }
     }, [data?.config?.theme]);
-
-    // Apply cached theme immediately
-    useEffect(() => {
-        const cachedTheme = localStorage.getItem("site-theme");
-        if (cachedTheme) {
-            document.documentElement.setAttribute("data-theme", cachedTheme);
-            if (cachedTheme === "titanium") document.body.classList.add("grid-bg");
-        }
-    }, []);
 
     return (
         <>
