@@ -4,7 +4,7 @@ import type { PortfolioData } from '@/types/portfolio';
 export async function fetchPortfolioData(): Promise<PortfolioData> {
     const [configRes, expRes, projRes, skillRes, achRes, eduRes] = await Promise.all([
         supabase.from('config').select('*').eq('key', 'global').single(),
-        supabase.from('experience').select('*').order('order', { ascending: true, nullsFirst: true }).order('date', { ascending: false }),
+        supabase.from('experience').select('*').order('priority', { ascending: true, nullsFirst: true }).order('date', { ascending: false }),
         supabase.from('projects').select('*').order('priority', { ascending: true, nullsFirst: true }).order('created_at', { ascending: false }),
         supabase.from('skills').select('*').order('priority', { ascending: true, nullsFirst: true }),
         supabase.from('achievements').select('*').order('priority', { ascending: true, nullsFirst: true }),

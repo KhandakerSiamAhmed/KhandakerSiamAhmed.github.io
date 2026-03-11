@@ -7,6 +7,10 @@ export interface SocialLinks {
     grabcad?: string;
     email?: string;
     whatsapp?: string;
+    researchgate?: string;
+    orcid?: string;
+    instructables?: string;
+    hackaday?: string;
 }
 
 export interface ProfileCrop {

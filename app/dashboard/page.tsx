@@ -11,7 +11,7 @@ const schemas: Record<string, { name: string; label: string; type: string }[]> =
         { name: "company", label: "Company", type: "text" },
         { name: "date", label: "Date Range", type: "text" },
         { name: "description", label: "Description", type: "textarea" },
-        { name: "order", label: "Order", type: "number" },
+        { name: "priority", label: "Priority", type: "number" },
     ],
     projects: [
         { name: "title", label: "Title", type: "text" },
@@ -161,6 +161,14 @@ export default function DashboardPage() {
     const [grabcadPriority, setGrabcadPriority] = useState("");
     const [emailPriority, setEmailPriority] = useState("");
     const [whatsappPriority, setWhatsappPriority] = useState("");
+    const [researchgateUrl, setResearchgateUrl] = useState("");
+    const [researchgatePriority, setResearchgatePriority] = useState("");
+    const [orcidUrl, setOrcidUrl] = useState("");
+    const [orcidPriority, setOrcidPriority] = useState("");
+    const [instructablesUrl, setInstructablesUrl] = useState("");
+    const [instructablesPriority, setInstructablesPriority] = useState("");
+    const [hackadayUrl, setHackadayUrl] = useState("");
+    const [hackadayPriority, setHackadayPriority] = useState("");
 
     // Collections
     const [experienceList, setExperienceList] = useState<Record<string, unknown>[]>([]);
@@ -252,6 +260,15 @@ export default function DashboardPage() {
             setGrabcadPriority(socialPriority.grabcad || "");
             setEmailPriority(socialPriority.email || "");
             setWhatsappPriority(socialPriority.whatsapp || "");
+            
+            setResearchgateUrl(socials.researchgate || "");
+            setResearchgatePriority(socialPriority.researchgate || "");
+            setOrcidUrl(socials.orcid || "");
+            setOrcidPriority(socialPriority.orcid || "");
+            setInstructablesUrl(socials.instructables || "");
+            setInstructablesPriority(socialPriority.instructables || "");
+            setHackadayUrl(socials.hackaday || "");
+            setHackadayPriority(socialPriority.hackaday || "");
         }
     };
 
@@ -307,8 +324,30 @@ export default function DashboardPage() {
             resumeUrl,
             profileImage: imageUrl,
             heroPhotoStyle: selectedPhotoStyle,
-            socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact, whatsapp: whatsappContact },
-            socialPriority: { linkedin: linkedinPriority, github: githubPriority, facebook: facebookPriority, grabcad: grabcadPriority, email: emailPriority, whatsapp: whatsappPriority },
+            socials: { 
+                linkedin: linkedinUrl, 
+                github: githubUrl, 
+                facebook: facebookUrl, 
+                grabcad: grabcadUrl, 
+                email: emailContact, 
+                whatsapp: whatsappContact,
+                researchgate: researchgateUrl,
+                orcid: orcidUrl,
+                instructables: instructablesUrl,
+                hackaday: hackadayUrl
+            },
+            socialPriority: { 
+                linkedin: linkedinPriority, 
+                github: githubPriority, 
+                facebook: facebookPriority, 
+                grabcad: grabcadPriority, 
+                email: emailPriority, 
+                whatsapp: whatsappPriority,
+                researchgate: researchgatePriority,
+                orcid: orcidPriority,
+                instructables: instructablesPriority,
+                hackaday: hackadayPriority
+            },
         };
 
         const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
@@ -342,8 +381,30 @@ export default function DashboardPage() {
             profileImage: imageUrl,
             heroPhotoStyle: selectedPhotoStyle,
             theme: selectedTheme,
-            socials: { linkedin: linkedinUrl, github: githubUrl, facebook: facebookUrl, grabcad: grabcadUrl, email: emailContact, whatsapp: whatsappContact },
-            socialPriority: { linkedin: linkedinPriority, github: githubPriority, facebook: facebookPriority, grabcad: grabcadPriority, email: emailPriority, whatsapp: whatsappPriority },
+            socials: { 
+                linkedin: linkedinUrl, 
+                github: githubUrl, 
+                facebook: facebookUrl, 
+                grabcad: grabcadUrl, 
+                email: emailContact, 
+                whatsapp: whatsappContact,
+                researchgate: researchgateUrl,
+                orcid: orcidUrl,
+                instructables: instructablesUrl,
+                hackaday: hackadayUrl
+            },
+            socialPriority: { 
+                linkedin: linkedinPriority, 
+                github: githubPriority, 
+                facebook: facebookPriority, 
+                grabcad: grabcadPriority, 
+                email: emailPriority, 
+                whatsapp: whatsappPriority,
+                researchgate: researchgatePriority,
+                orcid: orcidPriority,
+                instructables: instructablesPriority,
+                hackaday: hackadayPriority
+            },
         };
 
         const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
@@ -687,6 +748,42 @@ export default function DashboardPage() {
                                     <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>GC</span>
                                     <input type="text" value={grabcadUrl} onChange={(e) => setGrabcadUrl(e.target.value)} placeholder="https://grabcad.com/..." style={{ flex: 1 }} />
                                     <input type="number" value={grabcadPriority} onChange={(e) => setGrabcadPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>ResearchGate URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>RG</span>
+                                    <input type="text" value={researchgateUrl} onChange={(e) => setResearchgateUrl(e.target.value)} placeholder="https://researchgate.net/profile/..." style={{ flex: 1 }} />
+                                    <input type="number" value={researchgatePriority} onChange={(e) => setResearchgatePriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>ORCID URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>ID</span>
+                                    <input type="text" value={orcidUrl} onChange={(e) => setOrcidUrl(e.target.value)} placeholder="https://orcid.org/..." style={{ flex: 1 }} />
+                                    <input type="number" value={orcidPriority} onChange={(e) => setOrcidPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Instructables URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>IS</span>
+                                    <input type="text" value={instructablesUrl} onChange={(e) => setInstructablesUrl(e.target.value)} placeholder="https://instructables.com/member/..." style={{ flex: 1 }} />
+                                    <input type="number" value={instructablesPriority} onChange={(e) => setInstructablesPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Hackaday URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>HD</span>
+                                    <input type="text" value={hackadayUrl} onChange={(e) => setHackadayUrl(e.target.value)} placeholder="https://hackaday.io/..." style={{ flex: 1 }} />
+                                    <input type="number" value={hackadayPriority} onChange={(e) => setHackadayPriority(e.target.value)} placeholder="Priority" style={{ width: "80px" }} title="Priority (Sort Order)" />
                                 </div>
                             </div>
 

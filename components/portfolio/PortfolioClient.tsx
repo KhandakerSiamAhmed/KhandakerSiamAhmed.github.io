@@ -27,14 +27,20 @@ type DetailItem = {
 };
 
 /** Returns starred items (max N), else falls back to first N */
-function getHomeItems<T extends { starred?: boolean }>(items: T[], max = 3): T[] {
-    const starred = items.filter((i) => Boolean(i.starred));
+function getHomeItems<T extends { starred?: boolean; priority?: number; order?: number }>(items: T[], max = 3): T[] {
+    const sorted = [...items].sort((a, b) => {
+        const pA = (a.priority ?? a.order) ?? Infinity;
+        const pB = (b.priority ?? b.order) ?? Infinity;
+        return pA - pB;
+    });
+
+    const starred = sorted.filter((i) => Boolean(i.starred));
     if (starred.length > 0) {
         console.log(`[getHomeItems] ${starred.length} starred found, showing up to ${max}`);
         return starred.slice(0, max);
     }
     console.log(`[getHomeItems] No starred items, falling back to first ${max}`);
-    return items.slice(0, max);
+    return sorted.slice(0, max);
 }
 
 export default function PortfolioClient({ data: seedData }: Props) {
@@ -48,11 +54,11 @@ export default function PortfolioClient({ data: seedData }: Props) {
             try {
                 const [configRes, expRes, projRes, skillRes, achRes, eduRes] = await Promise.all([
                     supabase.from("config").select("*").eq("key", "global").single(),
-                    supabase.from("experience").select("*").order("date", { ascending: false }),
-                    supabase.from("projects").select("*").order("created_at", { ascending: false }),
-                    supabase.from("skills").select("*"),
-                    supabase.from("achievements").select("*"),
-                    supabase.from("education").select("*").order("start_year", { ascending: false }),
+                    supabase.from("experience").select("*").order("priority", { ascending: true, nullsFirst: true }).order("date", { ascending: false }),
+                    supabase.from("projects").select("*").order("priority", { ascending: true, nullsFirst: true }).order("created_at", { ascending: false }),
+                    supabase.from("skills").select("*").order("priority", { ascending: true, nullsFirst: true }),
+                    supabase.from("achievements").select("*").order("priority", { ascending: true, nullsFirst: true }),
+                    supabase.from("education").select("*").order("priority", { ascending: true, nullsFirst: true }).order("start_year", { ascending: false }),
                 ]);
 
                 // Log starred counts for debugging
@@ -215,7 +221,7 @@ export default function PortfolioClient({ data: seedData }: Props) {
             </section>
 
             <section className="section social" id="social-links">
-                <SocialSection limit={6} viewAllHref="/social" />
+                <SocialSection limit={6} viewAllHref="/social" config={data.config} />
             </section>
 
             <Footer config={data.config} />

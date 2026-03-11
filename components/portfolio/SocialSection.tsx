@@ -107,15 +107,44 @@ const cardVariants: Variants = {
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 20 } },
 };
 
+import type { PortfolioConfig } from "@/types/portfolio";
 import ViewMoreButton from "./ViewMoreButton";
 
 interface Props {
     limit?: number;
     viewAllHref?: string;
+    config?: PortfolioConfig | null;
 }
 
-export default function SocialSection({ limit, viewAllHref }: Props) {
-    const displayed = limit ? SOCIAL_LINKS.slice(0, limit) : SOCIAL_LINKS;
+export default function SocialSection({ limit, viewAllHref, config }: Props) {
+    // If we have dynamic config, use it. Otherwise fallback to hardcoded list (or empty array)
+    let dynamicLinks = SOCIAL_LINKS;
+    
+    if (config?.socials) {
+        // Filter out links that don't exist in config, or update their URLs
+        const active = SOCIAL_LINKS.filter(l => {
+            const key = l.name.toLowerCase();
+            return !!(config.socials as any)[key];
+        }).map(l => {
+            const key = l.name.toLowerCase();
+            return { ...l, url: (config.socials as any)[key] };
+        });
+
+        // Use priorities if available
+        if (config.socialPriority) {
+            active.sort((a, b) => {
+                const keyA = a.name.toLowerCase();
+                const keyB = b.name.toLowerCase();
+                const pA = (config.socialPriority as any)[keyA] ? Number((config.socialPriority as any)[keyA]) : Infinity;
+                const pB = (config.socialPriority as any)[keyB] ? Number((config.socialPriority as any)[keyB]) : Infinity;
+                return pA - pB;
+            });
+        }
+        dynamicLinks = active;
+    }
+
+    const displayed = limit ? dynamicLinks.slice(0, limit) : dynamicLinks;
+    
     return (
         <div className="container">
             <motion.div
@@ -168,8 +197,8 @@ export default function SocialSection({ limit, viewAllHref }: Props) {
                 </ul>
             </motion.nav>
 
-            {viewAllHref && SOCIAL_LINKS.length > (limit ?? 0) && (
-                <ViewMoreButton href={viewAllHref} label={`View All Socials (${SOCIAL_LINKS.length})`} />
+            {viewAllHref && dynamicLinks.length > (limit ?? 0) && (
+                <ViewMoreButton href={viewAllHref} label={`View All Socials (${dynamicLinks.length})`} />
             )}
         </div>
     );
