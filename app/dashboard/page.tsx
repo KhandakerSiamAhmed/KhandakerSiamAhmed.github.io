@@ -536,13 +536,13 @@ export default function DashboardPage() {
             <aside className={`admin-sidebar ${sidebarOpen ? "active" : ""}`}>
                 <h2>CMS Dashboard</h2>
                 <nav className="admin-nav">
-                    {["general", "experience", "projects", "education", "skills", "achievements", "themes"].map((tab) => (
+                    {["general", "social", "experience", "projects", "education", "skills", "achievements", "themes"].map((tab) => (
                         <button
                             key={tab}
                             className={activeTab === tab ? "active" : ""}
                             onClick={() => { setActiveTab(tab); setSidebarOpen(false); }}
                         >
-                            {tab === "general" ? "General & Hero" : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                            {tab === "general" ? "General & Hero" : tab === "social" ? "Social Links" : tab.charAt(0).toUpperCase() + tab.slice(1)}
                         </button>
                     ))}
                     <button className="admin-btn-save-all" onClick={saveAll}>Save All Changes</button>
@@ -607,27 +607,81 @@ export default function DashboardPage() {
                                 <label>Resume URL</label>
                                 <input type="text" value={resumeUrl} onChange={(e) => setResumeUrl(e.target.value)} />
                             </div>
-                            <h3>Social Links</h3>
-                            <div className="admin-form-group"><label>LinkedIn URL</label><input type="text" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} /></div>
-                            <div className="admin-form-group"><label>GitHub URL</label><input type="text" value={githubUrl} onChange={(e) => setGithubUrl(e.target.value)} /></div>
-                            <div className="admin-form-group"><label>Facebook URL</label><input type="text" value={facebookUrl} onChange={(e) => setFacebookUrl(e.target.value)} /></div>
-                            <div className="admin-form-group"><label>GrabCAD URL</label><input type="text" value={grabcadUrl} onChange={(e) => setGrabcadUrl(e.target.value)} /></div>
-                            <div className="admin-form-group"><label>Email Address</label><input type="text" value={emailContact} onChange={(e) => setEmailContact(e.target.value)} /></div>
-                            <div className="admin-form-group">
-                                <label>WhatsApp Number</label>
-                                <input
-                                    type="text"
-                                    value={whatsappContact}
-                                    onChange={(e) => setWhatsappContact(e.target.value)}
-                                    placeholder="e.g. +8801XXXXXXXXX (with country code)"
-                                />
-                                <div style={{ fontSize: "0.75rem", color: "#888", marginTop: "4px" }}>
-                                    Include country code. Used for the "Get In Touch" footer button.
-                                </div>
-                            </div>
                             <div style={{ display: "flex", gap: "1rem" }}>
                                 <button type="submit" className="admin-btn-primary">Save Changes</button>
                                 <button type="button" onClick={loadGeneral} className="admin-btn-secondary">Reset All</button>
+                            </div>
+                        </form>
+                    </div>
+                )}
+
+                {/* Social Tab */}
+                {activeTab === "social" && (
+                    <div>
+                        <h1>Social Links Management</h1>
+                        <p style={{ color: "#888", marginBottom: "2rem" }}>Manage your online presence across different platforms.</p>
+                        
+                        <form onSubmit={saveGeneral}>
+                            <div className="admin-form-group">
+                                <label>LinkedIn URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>in</span>
+                                    <input type="text" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} placeholder="https://linkedin.com/in/..." style={{ flex: 1 }} />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>GitHub URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>git</span>
+                                    <input type="text" value={githubUrl} onChange={(e) => setGithubUrl(e.target.value)} placeholder="https://github.com/..." style={{ flex: 1 }} />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Facebook URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>fb</span>
+                                    <input type="text" value={facebookUrl} onChange={(e) => setFacebookUrl(e.target.value)} placeholder="https://facebook.com/..." style={{ flex: 1 }} />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>GrabCAD URL</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>GC</span>
+                                    <input type="text" value={grabcadUrl} onChange={(e) => setGrabcadUrl(e.target.value)} placeholder="https://grabcad.com/..." style={{ flex: 1 }} />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Email Address</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>@</span>
+                                    <input type="text" value={emailContact} onChange={(e) => setEmailContact(e.target.value)} placeholder="yourname@example.com" style={{ flex: 1 }} />
+                                </div>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>WhatsApp Number</label>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <span style={{ padding: "10px", background: "#333", borderRadius: "4px", minWidth: "40px", textAlign: "center" }}>WA</span>
+                                    <input
+                                        type="text"
+                                        value={whatsappContact}
+                                        onChange={(e) => setWhatsappContact(e.target.value)}
+                                        placeholder="e.g. +8801XXXXXXXXX"
+                                        style={{ flex: 1 }}
+                                    />
+                                </div>
+                                <div style={{ fontSize: "0.75rem", color: "#888", marginTop: "4px" }}>
+                                    Include country code. Used for the "Get In Touch" button.
+                                </div>
+                            </div>
+
+                            <div style={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
+                                <button type="submit" className="admin-btn-primary">Save Social Links</button>
+                                <button type="button" onClick={loadGeneral} className="admin-btn-secondary">Reset</button>
                             </div>
                         </form>
                     </div>
