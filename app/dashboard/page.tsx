@@ -433,6 +433,12 @@ export default function DashboardPage() {
         if (error) alert("Error: " + error.message);
         else {
             setConfig(updated);
+            // Sync theme to localStorage so portfolio picks it up immediately
+            if (selectedTheme && selectedTheme !== "default") {
+                localStorage.setItem("site-theme", selectedTheme);
+            } else {
+                localStorage.removeItem("site-theme");
+            }
             alert("All changes saved successfully!");
         }
     };
@@ -446,6 +452,14 @@ export default function DashboardPage() {
         if (error) alert("Error: " + error.message);
         else {
             setConfig(updated);
+            // Also sync to localStorage so the portfolio page picks it up immediately.
+            // PortfolioClient gives localStorage priority over config, so without this
+            // a previously-set localStorage value would override the dashboard choice.
+            if (selectedTheme && selectedTheme !== "default") {
+                localStorage.setItem("site-theme", selectedTheme);
+            } else {
+                localStorage.removeItem("site-theme");
+            }
             alert("Theme Applied!");
         }
     };
