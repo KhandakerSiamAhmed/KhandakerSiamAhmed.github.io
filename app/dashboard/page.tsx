@@ -147,10 +147,10 @@ export default function DashboardPage() {
     const [aboutText, setAboutText] = useState("");
     const [resumeUrl, setResumeUrl] = useState("");
     const [profileImageUrl, setProfileImageUrl] = useState("");
-    const [linkedinUrl, setLinkedinUrl] = useState("");
-    const [githubUrl, setGithubUrl] = useState("");
-    const [facebookUrl, setFacebookUrl] = useState("");
-    const [grabcadUrl, setGrabcadUrl] = useState("");
+    const [linkedinUrl, setLinkedinUrl] = useState("https://www.linkedin.com/in/khandakersiamahmed/");
+    const [githubUrl, setGithubUrl] = useState("https://github.com/KhandakerSiamAhmed");
+    const [facebookUrl, setFacebookUrl] = useState("https://www.facebook.com/khandaker.siam.ahmed.mahin");
+    const [grabcadUrl, setGrabcadUrl] = useState("https://grabcad.com/khandaker.siam.ahmed-2");
     const [emailContact, setEmailContact] = useState("");
     const [whatsappContact, setWhatsappContact] = useState("");
     
@@ -161,13 +161,13 @@ export default function DashboardPage() {
     const [grabcadPriority, setGrabcadPriority] = useState("");
     const [emailPriority, setEmailPriority] = useState("");
     const [whatsappPriority, setWhatsappPriority] = useState("");
-    const [researchgateUrl, setResearchgateUrl] = useState("");
+    const [researchgateUrl, setResearchgateUrl] = useState("https://www.researchgate.net/profile/Khandaker-Ahmed-9?ev=hdr_xprf");
     const [researchgatePriority, setResearchgatePriority] = useState("");
-    const [orcidUrl, setOrcidUrl] = useState("");
+    const [orcidUrl, setOrcidUrl] = useState("https://orcid.org/my-orcid?orcid=0009-0002-6427-2956");
     const [orcidPriority, setOrcidPriority] = useState("");
-    const [instructablesUrl, setInstructablesUrl] = useState("");
+    const [instructablesUrl, setInstructablesUrl] = useState("https://www.instructables.com/member/khandakersiamahmed/");
     const [instructablesPriority, setInstructablesPriority] = useState("");
-    const [hackadayUrl, setHackadayUrl] = useState("");
+    const [hackadayUrl, setHackadayUrl] = useState("https://hackaday.io/khandakersiamahmed");
     const [hackadayPriority, setHackadayPriority] = useState("");
 
     // Collections
@@ -246,12 +246,12 @@ export default function DashboardPage() {
             setSkillCategories(cats);
             if (cats.length > 0) setNewSkillCategory(cats[0]);
             const socials = (val.socials || {}) as Record<string, string>;
-            setLinkedinUrl(socials.linkedin || "");
-            setGithubUrl(socials.github || "");
-            setFacebookUrl(socials.facebook || "");
-            setGrabcadUrl(socials.grabcad || "");
-            setEmailContact(socials.email || "");
-            setWhatsappContact(socials.whatsapp || "");
+            setLinkedinUrl(socials.linkedin ?? "https://www.linkedin.com/in/khandakersiamahmed/");
+            setGithubUrl(socials.github ?? "https://github.com/KhandakerSiamAhmed");
+            setFacebookUrl(socials.facebook ?? "https://www.facebook.com/khandaker.siam.ahmed.mahin");
+            setGrabcadUrl(socials.grabcad ?? "https://grabcad.com/khandaker.siam.ahmed-2");
+            setEmailContact(socials.email ?? "");
+            setWhatsappContact(socials.whatsapp ?? "");
 
             const socialPriority = (val.socialPriority || {}) as Record<string, string>;
             setLinkedinPriority(socialPriority.linkedin || "");
@@ -261,13 +261,13 @@ export default function DashboardPage() {
             setEmailPriority(socialPriority.email || "");
             setWhatsappPriority(socialPriority.whatsapp || "");
             
-            setResearchgateUrl(socials.researchgate || "");
+            setResearchgateUrl(socials.researchgate ?? "https://www.researchgate.net/profile/Khandaker-Ahmed-9?ev=hdr_xprf");
             setResearchgatePriority(socialPriority.researchgate || "");
-            setOrcidUrl(socials.orcid || "");
+            setOrcidUrl(socials.orcid ?? "https://orcid.org/my-orcid?orcid=0009-0002-6427-2956");
             setOrcidPriority(socialPriority.orcid || "");
-            setInstructablesUrl(socials.instructables || "");
+            setInstructablesUrl(socials.instructables ?? "https://www.instructables.com/member/khandakersiamahmed/");
             setInstructablesPriority(socialPriority.instructables || "");
-            setHackadayUrl(socials.hackaday || "");
+            setHackadayUrl(socials.hackaday ?? "https://hackaday.io/khandakersiamahmed");
             setHackadayPriority(socialPriority.hackaday || "");
         }
     };
