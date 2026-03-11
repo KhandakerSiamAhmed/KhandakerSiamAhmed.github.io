@@ -60,7 +60,7 @@ export const metadata: Metadata = {
         siteName: "Khandaker Siam Ahmed Portfolio",
         images: [
             {
-                url: "/assets/social-preview.svg",
+                url: "/assets/Logo.png",
                 width: 1200,
                 height: 630,
                 alt: "Khandaker Siam Ahmed Portfolio Preview",
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
         title: "Khandaker Siam Ahmed | Mechanical Engineer & Robotics Portfolio",
         description:
             "Official portfolio of Khandaker Siam Ahmed, a Mechanical Engineer specializing in Robotics, Mechatronics, and Intelligent Control Systems. Expert in CAD design, mechatronics, and innovative engineering solutions.",
-        images: ["/assets/social-preview.svg"],
+        images: ["/assets/Logo.png"],
     },
     robots: {
         index: true,
