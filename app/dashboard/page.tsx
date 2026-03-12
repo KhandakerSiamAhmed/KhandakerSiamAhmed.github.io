@@ -199,6 +199,11 @@ export default function DashboardPage() {
     }, []);
 
     const checkUser = async () => {
+        if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+            console.error("Dashboard: Supabase environment variables are missing!");
+            setLoginError("Fatal Error: Supabase connection settings are missing in the environment. Dashboard cannot function.");
+            return;
+        }
         const { data: { session } } = await supabase.auth.getSession();
         if (session) setLoggedIn(true);
     };
@@ -327,119 +332,135 @@ export default function DashboardPage() {
         e.preventDefault();
         setLoading(true);
 
-        let imageUrl = profileImageUrl;
-        const fileInput = profileFileRef.current;
-        if (fileInput?.files?.[0]) {
-            const url = await uploadFile(fileInput.files[0], "profile");
-            if (url) {
-                imageUrl = url;
-                setProfileImageUrl(url);
+        try {
+            let imageUrl = profileImageUrl;
+            const fileInput = profileFileRef.current;
+            if (fileInput?.files?.[0]) {
+                const url = await uploadFile(fileInput.files[0], "profile");
+                if (url) {
+                    imageUrl = url;
+                    setProfileImageUrl(url);
+                }
             }
-        }
 
-        const updated = {
-            ...config,
-            heroName,
-            heroSubtitle,
-            aboutText,
-            resumeUrl,
-            profileImage: imageUrl,
-            heroPhotoStyle: selectedPhotoStyle,
-            socials: { 
-                linkedin: linkedinUrl, 
-                github: githubUrl, 
-                facebook: facebookUrl, 
-                grabcad: grabcadUrl, 
-                email: emailContact, 
-                whatsapp: whatsappContact,
-                researchgate: researchgateUrl,
-                orcid: orcidUrl,
-                instructables: instructablesUrl,
-                hackaday: hackadayUrl
-            },
-            socialPriority: { 
-                linkedin: linkedinPriority, 
-                github: githubPriority, 
-                facebook: facebookPriority, 
-                grabcad: grabcadPriority, 
-                email: emailPriority, 
-                whatsapp: whatsappPriority,
-                researchgate: researchgatePriority,
-                orcid: orcidPriority,
-                instructables: instructablesPriority,
-                hackaday: hackadayPriority
-            },
-        };
+            const updated = {
+                ...config,
+                heroName,
+                heroSubtitle,
+                aboutText,
+                resumeUrl,
+                profileImage: imageUrl,
+                heroPhotoStyle: selectedPhotoStyle,
+                socials: { 
+                    linkedin: linkedinUrl, 
+                    github: githubUrl, 
+                    facebook: facebookUrl, 
+                    grabcad: grabcadUrl, 
+                    email: emailContact, 
+                    whatsapp: whatsappContact,
+                    researchgate: researchgateUrl,
+                    orcid: orcidUrl,
+                    instructables: instructablesUrl,
+                    hackaday: hackadayUrl
+                },
+                socialPriority: { 
+                    linkedin: linkedinPriority, 
+                    github: githubPriority, 
+                    facebook: facebookPriority, 
+                    grabcad: grabcadPriority, 
+                    email: emailPriority, 
+                    whatsapp: whatsappPriority,
+                    researchgate: researchgatePriority,
+                    orcid: orcidPriority,
+                    instructables: instructablesPriority,
+                    hackaday: hackadayPriority
+                },
+            };
 
-        const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
-        setLoading(false);
-        if (error) alert("Error: " + error.message);
-        else {
-            setConfig(updated);
-            alert("Saved!");
+            const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
+            if (error) {
+                console.error("Dashboard: Error saving general config:", error);
+                alert("Critical Error Saving: " + error.message + "\nCheck browser console for more details.");
+            } else {
+                setConfig(updated);
+                alert("General settings saved!");
+            }
+        } catch (err) {
+            console.error("Dashboard: Unexpected error in saveGeneral:", err);
+            alert("Unexpected error: " + (err as Error).message);
+        } finally {
+            setLoading(false);
         }
     };
 
     // ===== SAVE ALL =====
     const saveAll = async () => {
         setLoading(true);
-        let imageUrl = profileImageUrl;
-        const fileInput = profileFileRef.current;
-        if (fileInput?.files?.[0]) {
-            const url = await uploadFile(fileInput.files[0], "profile");
-            if (url) {
-                imageUrl = url;
-                setProfileImageUrl(url);
+        try {
+            let imageUrl = profileImageUrl;
+            const fileInput = profileFileRef.current;
+            if (fileInput?.files?.[0]) {
+                const url = await uploadFile(fileInput.files[0], "profile");
+                if (url) {
+                    imageUrl = url;
+                    setProfileImageUrl(url);
+                }
             }
-        }
 
-        const updated = {
-            ...config,
-            heroName,
-            heroSubtitle,
-            aboutText,
-            resumeUrl,
-            profileImage: imageUrl,
-            heroPhotoStyle: selectedPhotoStyle,
-            theme: selectedTheme,
-            socials: { 
-                linkedin: linkedinUrl, 
-                github: githubUrl, 
-                facebook: facebookUrl, 
-                grabcad: grabcadUrl, 
-                email: emailContact, 
-                whatsapp: whatsappContact,
-                researchgate: researchgateUrl,
-                orcid: orcidUrl,
-                instructables: instructablesUrl,
-                hackaday: hackadayUrl
-            },
-            socialPriority: { 
-                linkedin: linkedinPriority, 
-                github: githubPriority, 
-                facebook: facebookPriority, 
-                grabcad: grabcadPriority, 
-                email: emailPriority, 
-                whatsapp: whatsappPriority,
-                researchgate: researchgatePriority,
-                orcid: orcidPriority,
-                instructables: instructablesPriority,
-                hackaday: hackadayPriority
-            },
-        };
+            const updated = {
+                ...config,
+                heroName,
+                heroSubtitle,
+                aboutText,
+                resumeUrl,
+                profileImage: imageUrl,
+                heroPhotoStyle: selectedPhotoStyle,
+                theme: selectedTheme,
+                socials: { 
+                    linkedin: linkedinUrl, 
+                    github: githubUrl, 
+                    facebook: facebookUrl, 
+                    grabcad: grabcadUrl, 
+                    email: emailContact, 
+                    whatsapp: whatsappContact,
+                    researchgate: researchgateUrl,
+                    orcid: orcidUrl,
+                    instructables: instructablesUrl,
+                    hackaday: hackadayUrl
+                },
+                socialPriority: { 
+                    linkedin: linkedinPriority, 
+                    github: githubPriority, 
+                    facebook: facebookPriority, 
+                    grabcad: grabcadPriority, 
+                    email: emailPriority, 
+                    whatsapp: whatsappPriority,
+                    researchgate: researchgatePriority,
+                    orcid: orcidPriority,
+                    instructables: instructablesPriority,
+                    hackaday: hackadayPriority
+                },
+            };
 
-        const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
-        setLoading(false);
-        if (error) alert("Error: " + error.message);
-        else {
-            setConfig(updated);
-            // Sync theme to localStorage so portfolio picks it up immediately
-            if (selectedTheme && selectedTheme !== "default") {
-                localStorage.setItem("site-theme", selectedTheme);
+            const { error } = await supabase.from("config").upsert({ key: "global", value: updated });
+            if (error) {
+                console.error("Dashboard: Error in saveAll:", error);
+                alert("Fatal Persistence Error: " + error.message + "\nPlease check if Row Level Security (RLS) is correctly configured for the 'config' table.");
             } else {
-                localStorage.removeItem("site-theme");
+                setConfig(updated);
+                // Sync theme to localStorage so portfolio picks it up immediately
+                if (selectedTheme && selectedTheme !== "default") {
+                    localStorage.setItem("site-theme", selectedTheme);
+                } else {
+                    localStorage.removeItem("site-theme");
+                }
+                alert("All changes (including Theme) saved successfully!");
             }
-            alert("All changes saved successfully!");
+        } catch (err) {
+            console.error("Dashboard: Unexpected fatal error in saveAll:", err);
+            alert("Critical Failure: " + (err as Error).message);
+        } finally {
+            setLoading(false);
         }
     };
 

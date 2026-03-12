@@ -73,6 +73,7 @@ export default function PortfolioClient({ data: seedData }: Props) {
                     achievements: achRes.data ?? seedData.achievements,
                     education: eduRes.data ?? seedData.education,
                 });
+                console.log("[PortfolioClient] Live fetch successful. Data updated.");
             } catch (err) {
                 console.error("[PortfolioClient] Live fetch failed:", err);
                 // Keep seed data
