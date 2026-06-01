@@ -94,6 +94,20 @@ export interface Education {
     priority?: number;
 }
 
+export interface ResearchPaper {
+    id: string;
+    title: string;
+    abstract?: string;
+    doi?: string;
+    imageurl?: string;
+    authors?: string;
+    journal?: string;
+    year?: string;
+    starred?: boolean;
+    priority?: number;
+    created_at?: string;
+}
+
 export interface PortfolioData {
     config: PortfolioConfig | null;
     experience: Experience[];
@@ -101,4 +115,5 @@ export interface PortfolioData {
     skills: Skill[];
     achievements: Achievement[];
     education: Education[];
+    researchPapers: ResearchPaper[];
 }

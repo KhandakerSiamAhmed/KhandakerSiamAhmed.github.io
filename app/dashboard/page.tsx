@@ -45,6 +45,16 @@ const schemas: Record<string, { name: string; label: string; type: string }[]> =
         { name: "bannerurl", label: "Campus/Detail Image (Free Size)", type: "file" },
         { name: "priority", label: "Priority (Sort Order)", type: "number" },
     ],
+    research_papers: [
+        { name: "title", label: "Paper Title", type: "text" },
+        { name: "authors", label: "Authors", type: "text" },
+        { name: "journal", label: "Journal / Conference", type: "text" },
+        { name: "year", label: "Year", type: "text" },
+        { name: "abstract", label: "Abstract", type: "textarea" },
+        { name: "doi", label: "DOI (e.g. 10.1000/xyz123)", type: "text" },
+        { name: "imageurl", label: "Paper Thumbnail / Cover Image", type: "file" },
+        { name: "priority", label: "Priority (Sort Order)", type: "number" },
+    ],
 };
 
 const availableThemes = [
@@ -176,6 +186,7 @@ export default function DashboardPage() {
     const [educationList, setEducationList] = useState<Record<string, unknown>[]>([]);
     const [achievementsList, setAchievementsList] = useState<Record<string, unknown>[]>([]);
     const [skillsList, setSkillsList] = useState<Record<string, unknown>[]>([]);
+    const [researchPapersList, setResearchPapersList] = useState<Record<string, unknown>[]>([]);
     const [newSkillInput, setNewSkillInput] = useState("");
     const [newSkillPriorityInput, setNewSkillPriorityInput] = useState("");
     const [newSkillCategory, setNewSkillCategory] = useState("General");
@@ -228,7 +239,7 @@ export default function DashboardPage() {
 
     // ===== LOAD DATA =====
     const loadAllData = useCallback(async () => {
-        await Promise.all([loadGeneral(), loadExperience(), loadProjects(), loadEducation(), loadAchievements(), loadSkills()]);
+        await Promise.all([loadGeneral(), loadExperience(), loadProjects(), loadEducation(), loadAchievements(), loadSkills(), loadResearchPapers()]);
     }, []);
 
     useEffect(() => {
@@ -286,6 +297,7 @@ export default function DashboardPage() {
     const loadProjects = async () => setProjectsList(await loadCollection("projects"));
     const loadEducation = async () => setEducationList(await loadCollection("education"));
     const loadAchievements = async () => setAchievementsList(await loadCollection("achievements"));
+    const loadResearchPapers = async () => setResearchPapersList(await loadCollection("research_papers"));
     const loadSkills = async () => {
         const { data } = await supabase.from("skills").select("*");
         setSkillsList(data || []);
@@ -685,13 +697,13 @@ export default function DashboardPage() {
             <aside className={`admin-sidebar ${sidebarOpen ? "active" : ""}`}>
                 <h2>CMS Dashboard</h2>
                 <nav className="admin-nav">
-                    {["general", "social", "experience", "projects", "education", "skills", "achievements", "themes"].map((tab) => (
+                    {["general", "social", "experience", "projects", "education", "skills", "achievements", "research", "themes"].map((tab) => (
                         <button
                             key={tab}
                             className={activeTab === tab ? "active" : ""}
                             onClick={() => { setActiveTab(tab); setSidebarOpen(false); }}
                         >
-                            {tab === "general" ? "General & Hero" : tab === "social" ? "Social Links" : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                            {tab === "general" ? "General & Hero" : tab === "social" ? "Social Links" : tab === "research" ? "Research Papers" : tab.charAt(0).toUpperCase() + tab.slice(1)}
                         </button>
                     ))}
                     <button className="admin-btn-save-all" onClick={saveAll}>Save All Changes</button>
@@ -1129,6 +1141,50 @@ export default function DashboardPage() {
                                     </div>
                                 );
                             })}
+                        </div>
+                    </div>
+                )}
+
+                {/* Research Papers Tab */}
+                {activeTab === "research" && (
+                    <div>
+                        <h1>Research Papers</h1>
+                        <StarredBanner count={researchPapersList.filter((i) => i.starred).length} max={3} label="papers" />
+                        <button onClick={() => openEditModal("research_papers")} className="admin-btn-primary" style={{ marginBottom: "1rem" }}>Add New Paper</button>
+                        <div className="admin-item-list">
+                            {researchPapersList.map((item) => (
+                                <div key={item.id as string} className="admin-list-item">
+                                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                                        <StarButton
+                                            starred={!!item.starred}
+                                            onClick={() => toggleStar("research_papers", item.id as string, !!item.starred, researchPapersList, 3)}
+                                            disabled={!item.starred && researchPapersList.filter((i) => i.starred).length >= 3}
+                                        />
+                                        {item.imageurl ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img src={item.imageurl as string} alt="" style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "4px" }} />
+                                        ) : (
+                                            <div style={{ width: "50px", height: "50px", background: "#333", borderRadius: "4px", display: "flex", alignItems: "center", justifyContent: "center", color: "#555", fontSize: "0.75rem", textAlign: "center", padding: "4px" }}>No Img</div>
+                                        )}
+                                        <div>
+                                            <strong>{item.title as string}</strong>
+                                            {(item.authors as string) && (
+                                                <div style={{ fontSize: "0.8rem", color: "#888", marginTop: "2px" }}>{item.authors as string}</div>
+                                            )}
+                                            {((item.journal as string) || (item.year as string)) && (
+                                                <div style={{ fontSize: "0.78rem", color: "#666", marginTop: "2px" }}>
+                                                    {[item.journal as string, item.year as string].filter(Boolean).join(" · ")}
+                                                    {(item.doi as string) && <span style={{ marginLeft: "6px", color: "#4a9eff" }}>DOI: {item.doi as string}</span>}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="admin-actions">
+                                        <button className="admin-btn-edit" onClick={() => openEditModal("research_papers", item.id as string)}>Edit</button>
+                                        <button className="admin-btn-delete" onClick={() => deleteItem("research_papers", item.id as string)}>Delete</button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}

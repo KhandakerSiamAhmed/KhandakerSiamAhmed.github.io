@@ -12,6 +12,7 @@ import Education from "./Education";
 import Experience from "./Experience";
 import Skills from "./Skills";
 import Achievements from "./Achievements";
+import ResearchPapers from "./ResearchPapers";
 import Footer from "./Footer";
 import SocialSection from "./SocialSection";
 import BackToTop from "./BackToTop";
@@ -52,13 +53,14 @@ export default function PortfolioClient({ data: seedData }: Props) {
     useEffect(() => {
         async function fetchLive() {
             try {
-                const [configRes, expRes, projRes, skillRes, achRes, eduRes] = await Promise.all([
+                const [configRes, expRes, projRes, skillRes, achRes, eduRes, papersRes] = await Promise.all([
                     supabase.from("config").select("*").eq("key", "global").single(),
                     supabase.from("experience").select("*").order("priority", { ascending: true, nullsFirst: true }).order("date", { ascending: false }),
                     supabase.from("projects").select("*").order("priority", { ascending: true, nullsFirst: true }).order("created_at", { ascending: false }),
                     supabase.from("skills").select("*").order("priority", { ascending: true, nullsFirst: true }),
                     supabase.from("achievements").select("*").order("priority", { ascending: true, nullsFirst: true }),
                     supabase.from("education").select("*").order("priority", { ascending: true, nullsFirst: true }).order("start_year", { ascending: false }),
+                    supabase.from("research_papers").select("*").order("priority", { ascending: true, nullsFirst: true }).order("created_at", { ascending: false }),
                 ]);
 
                 // Log starred counts for debugging
@@ -72,6 +74,7 @@ export default function PortfolioClient({ data: seedData }: Props) {
                     skills: skillRes.data ?? seedData.skills,
                     achievements: achRes.data ?? seedData.achievements,
                     education: eduRes.data ?? seedData.education,
+                    researchPapers: papersRes.data ?? seedData.researchPapers,
                 });
                 console.log("[PortfolioClient] Live fetch successful. Data updated.");
             } catch (err) {
@@ -147,6 +150,7 @@ export default function PortfolioClient({ data: seedData }: Props) {
     const homeExperience = getHomeItems(data.experience);
     const homeAchievements = getHomeItems(data.achievements);
     const homeSkills = getHomeItems(data.skills, 9);
+    const homeResearchPapers = getHomeItems(data.researchPapers);
 
     return (
         <>
@@ -217,6 +221,16 @@ export default function PortfolioClient({ data: seedData }: Props) {
                     totalCount={data.achievements.length}
                 />
             </section>
+
+            {data.researchPapers.length > 0 && (
+                <section className="section research" id="research">
+                    <ResearchPapers
+                        items={homeResearchPapers}
+                        viewAllHref={data.researchPapers.length > 3 ? "/research" : undefined}
+                        totalCount={data.researchPapers.length}
+                    />
+                </section>
+            )}
 
             <section className="section social" id="social-links">
                 <SocialSection limit={6} viewAllHref="/social" config={data.config} />
