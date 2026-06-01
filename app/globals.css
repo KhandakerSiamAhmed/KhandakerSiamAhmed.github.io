@@ -1972,4 +1972,105 @@ a.nav-link {
     .research-title {
         font-size: 1.05rem;
     }
-}
+}
+
+/* Research Modal Styles */
+.research-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+}
+
+.research-modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); - handled by framer-motion if using initial/animate, but since we animate y and scale, framer-motion will overwrite transform. So we need to wrap the modal in a fixed container or use inset and flex center. */
+    /* Wait, I can just use flex center on the backdrop and render the content inside it. */
+    /* Let's adjust this. If I use top/left 50%, framer-motion overwrites the translate. Let's make the backdrop a flex container and center the modal content within it. */
+    
+    /* I'll use fixed inset-0 flex items-center justify-center for the backdrop, but wait, the modal content is a sibling of the backdrop in my JSX.
+       Let's fix the transform by using margin or left/top calc. Actually, framer-motion handles x and y transforms. If we set top: 50%, left: 50%, margin-top: -[half height], etc. Or we can just use `x: "-50%", y: "-50%"` in framer-motion and animate from there. Let's update globals.css to not rely on translate for centering if framer-motion is used, OR I'll modify the JSX to put the modal inside the backdrop.
+       Let's just change the CSS to position the modal-content using inset and margin auto if it has a fixed size, OR I can just use fixed position with a wrapper.
+       Wait, let's just make the backdrop a flex container and put the content inside it. I need to update the JSX. Let's stick with the current JSX and fix CSS: 
+       I will set modal content to inset: 0; margin: auto; and max-width.
+    */
+    inset: 0;
+    margin: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 800px;
+    height: fit-content;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 2001;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.research-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.research-modal-close:hover {
+    color: var(--primary-color);
+}
+
+.research-modal-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.research-modal-image {
+    width: 100%;
+    max-height: 300px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.research-modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.research-abstract-full {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.research-abstract-full h4 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.research-abstract-full p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
